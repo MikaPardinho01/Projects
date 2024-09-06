@@ -43,4 +43,4 @@ void loop()
 }
 
 
-// bom diaaaaaaaaaaaaaaaaaaaaaa, tudobem åå
+// bom diaaaaaaaaaaaaaaaaaaaaaa, tudobem ååddddddddddddd
