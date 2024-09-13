@@ -1,13 +1,21 @@
 #include <Arduino.h>
+#include <ArduinoJson.h>
+#include "iot.h"
+#include "tempo.h"
 
-void setup() 
+
+
+void setup()
 {
-  inicializa_servos();
-  inicializa_portao();
-  inicializa_dht();
+    Serial.begin(115200);
+    setup_wifi();
+    setup_time();
+    inicializa_mqtt();
+    json();
+
 }
 
-void loop ()
+void loop()
 {
-
+    atualiza_mqtt();
 }
