@@ -1,1 +1,1 @@
-void json();
+void inicializa_json();

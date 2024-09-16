@@ -11,8 +11,6 @@ void setup()
     setup_wifi();
     setup_time();
     inicializa_mqtt();
-    json();
-
 }
 
 void loop()
