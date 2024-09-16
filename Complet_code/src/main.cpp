@@ -3,8 +3,6 @@
 #include "iot.h"
 #include "tempo.h"
 
-
-
 void setup()
 {
     Serial.begin(115200);

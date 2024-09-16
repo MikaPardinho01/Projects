@@ -109,7 +109,7 @@ void inscricao_topicos()
 // Trata as mensagens recebidas
 void tratar_msg(char *topic, String msg)
 {
-// tendo acesso a luz ligada ou desligada atraves de senha 
+  // tendo acesso a luz ligada ou desligada atraves de senha
   // if (strcmp(topic, mqtt_topic2) == 0)
   // {
   //   JsonDocument doc;
@@ -128,5 +128,3 @@ void tratar_msg(char *topic, String msg)
   //   }
   // }
 }
-
-
