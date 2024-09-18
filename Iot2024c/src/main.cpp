@@ -25,7 +25,7 @@ void setup()
   setup_time();
   inicializa_entradas();
   inicializa_saidas();
-  inicializa_mqtt();
+  // inicializa_mqtt();
   inicializa_servos();
 }
 

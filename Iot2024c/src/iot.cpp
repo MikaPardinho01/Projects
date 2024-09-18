@@ -3,6 +3,7 @@
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
 #include <TimeLib.h>
+#include <WiFiClientSecure.h>
 #include "iot.h"
 #include "senhas.h"
 #include "saidas.h"
@@ -17,15 +18,15 @@ const String cliente_id = "ESP32Client" + String(random(0xffff), HEX);
 // Definicao para o token
 const int Tokens = 1803;
 
-// Definição dos dados de conexão
-WiFiClient espClient;
-PubSubClient client(espClient);
-
 // Protótipos das funções
 void tratar_msg(char *topic, String msg);
 void callback(char *topic, byte *payload, unsigned int length);
 void reconecta_mqtt();
 void inscricao_topicos();
+
+// Definição dos dados de conexão
+WiFiClientSecure espClient;
+PubSubClient client(AWS_IOT_ENDPOINT, mqtt_port, callback, espClient);
 
 // Inicia a conexão WiFi
 void setup_wifi()
@@ -42,14 +43,18 @@ void setup_wifi()
   Serial.println();
   Serial.print("Conectado ao WiFi com sucesso com IP: ");
   Serial.println(WiFi.localIP());
+
+  espClient.setCACert(AWS_CERT_CA);
+  espClient.setCertificate(AWS_CERT_CRT);
+  espClient.setPrivateKey(AWS_CERT_PRIVATE);
 }
 
-// Inicia a conexão MQTT
-void inicializa_mqtt()
-{
-  client.setServer(mqtt_server, mqtt_port);
-  client.setCallback(callback);
-}
+// // Inicia a conexão MQTT
+// void inicializa_mqtt()
+// {
+//   // client.setServer(mqtt_server, mqtt_port);
+//   // client.setCallback(callback);
+// }
 
 // Atualiza a conexão MQTT
 void atualiza_mqtt()
@@ -82,8 +87,8 @@ void reconecta_mqtt()
   while (!client.connected())
   {
     Serial.print("Tentando se conectar ao Broker MQTT: ");
-    Serial.println(mqtt_server);
-    if (client.connect(cliente_id.c_str()))
+    Serial.println(AWS_IOT_ENDPOINT);
+    if (client.connect(THINGNAME))
     {
       Serial.println("Conectado ao Broker MQTT");
       inscricao_topicos();
