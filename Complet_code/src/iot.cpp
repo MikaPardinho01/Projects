@@ -3,24 +3,30 @@
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
 #include <TimeLib.h>
+#include <WiFiClientSecure.h>
 #include "iot.h"
 #include "senhas.h"
+#include "saidas.h"
+#include "json.h"
 
 // Definição dos tópicos de inscrição
-#define mqtt_topic2 "projeto_auto_factory"
+#define mqtt_topic1 "projeto_auto_factory"
 
 // Definição do ID do cliente MQTT randomico
 const String cliente_id = "ESP32Client" + String(random(0xffff), HEX);
 
-// Definição dos dados de conexão
-WiFiClient espClient;
-PubSubClient client(espClient);
+// Definicao para o token
+const int Tokens = 1803;
 
 // Protótipos das funções
 void tratar_msg(char *topic, String msg);
 void callback(char *topic, byte *payload, unsigned int length);
 void reconecta_mqtt();
 void inscricao_topicos();
+
+// Definição dos dados de conexão
+WiFiClientSecure espClient;
+PubSubClient client(AWS_IOT_ENDPOINT, mqtt_port, callback, espClient);
 
 // Inicia a conexão WiFi
 void setup_wifi()
@@ -37,13 +43,10 @@ void setup_wifi()
   Serial.println();
   Serial.print("Conectado ao WiFi com sucesso com IP: ");
   Serial.println(WiFi.localIP());
-}
 
-// Inicia a conexão MQTT
-void inicializa_mqtt()
-{
-  client.setServer(mqtt_server, 1883);
-  client.setCallback(callback);
+  espClient.setCACert(AWS_CERT_CA);
+  espClient.setCertificate(AWS_CERT_CRT);
+  espClient.setPrivateKey(AWS_CERT_PRIVATE);
 }
 
 // Atualiza a conexão MQTT
@@ -77,8 +80,8 @@ void reconecta_mqtt()
   while (!client.connected())
   {
     Serial.print("Tentando se conectar ao Broker MQTT: ");
-    Serial.println(mqtt_server);
-    if (client.connect(cliente_id.c_str()))
+    Serial.println(AWS_IOT_ENDPOINT);
+    if (client.connect(THINGNAME))
     {
       Serial.println("Conectado ao Broker MQTT");
       inscricao_topicos();
@@ -102,29 +105,28 @@ void publica_mqtt(String topico, String msg)
 void inscricao_topicos()
 {
   // client.subscribe(mqtt_topic1); // LED 1
-  client.subscribe(mqtt_topic2); // LED 2
+  client.subscribe(mqtt_topic1); // LED 2
   // client.subscribe(mqtt_topic3); //Servo
 }
 
 // Trata as mensagens recebidas
 void tratar_msg(char *topic, String msg)
 {
-  // tendo acesso a luz ligada ou desligada atraves de senha
-  // if (strcmp(topic, mqtt_topic2) == 0)
-  // {
-  //   JsonDocument doc;
-  //   deserializeJson(doc, msg);
-  //   if (doc.containsKey("Token"))
-  //   {
-  //     int Insira_senha = doc["Token"];
-  //     if (Insira_senha == Tokens)
-  //     {
-  //       void tempoSenhaEstendido90();
-  //       if (doc.containsKey("LedState"))
-  //       {
-  //         LedBuiltInState = doc["LedState"];
-  //       }
-  //     }
-  //   }
-  // }
+
+  if (strcmp(topic, mqtt_topic1) == 0)
+  {
+    JsonDocument doc;
+    deserializeJson(doc, msg);
+    if (doc.containsKey("Token"))
+    {
+      int Insira_senha = doc["Token"];
+      if (Insira_senha == Tokens)
+      {
+        if (doc.containsKey("LedState"))
+        {
+          LuzCentral = doc["LedState"];
+        }
+      }
+    }
+  }
 }

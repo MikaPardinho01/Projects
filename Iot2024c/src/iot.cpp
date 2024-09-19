@@ -49,12 +49,6 @@ void setup_wifi()
   espClient.setPrivateKey(AWS_CERT_PRIVATE);
 }
 
-// // Inicia a conexão MQTT
-// void inicializa_mqtt()
-// {
-//   // client.setServer(mqtt_server, mqtt_port);
-//   // client.setCallback(callback);
-// }
 
 // Atualiza a conexão MQTT
 void atualiza_mqtt()

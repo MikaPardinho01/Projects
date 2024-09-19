@@ -70,6 +70,4 @@ void loop()
     publica_mqtt(mqtt_pub_topic1, json);
     mensagemEmFila = false;
   }
-
-
 }

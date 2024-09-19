@@ -22,3 +22,4 @@ void atualiza_saidas()
     digitalWrite(LedBuiltInPin, LedBuiltInState);
     digitalWrite(LedExterno, LedExternoState);
 }
+
