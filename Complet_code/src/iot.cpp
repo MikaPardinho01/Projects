@@ -68,9 +68,6 @@ void callback(char *topic, byte *payload, unsigned int length)
     msg += (char)payload[i];
   }
 
-  // Serial.printf("Mensagem recebida em [ %s ] \n\r", topic);
-  // Serial.printf(msg);
-
   tratar_msg(topic, msg);
 }
 
@@ -104,9 +101,7 @@ void publica_mqtt(String topico, String msg)
 // Inscreve nos tópicos MQTT
 void inscricao_topicos()
 {
-  // client.subscribe(mqtt_topic1); // LED 1
   client.subscribe(mqtt_topic1); // LED 2
-  // client.subscribe(mqtt_topic3); //Servo
 }
 
 // Trata as mensagens recebidas

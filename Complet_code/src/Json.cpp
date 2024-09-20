@@ -25,10 +25,8 @@ void inicializa_json()
         doc["Token"] = tokens;
         mensagemEmFila = true;
     }
-
     if (botao_externo_pressionado())
-    {
-        Serial.println("***********BOTAO PRESSIONADO");
+    {    
         LuzCentral = !LuzCentral;
         doc["LedState"] = LuzCentral;
         doc["BotaoState"] = true;
