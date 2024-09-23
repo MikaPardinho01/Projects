@@ -8,6 +8,7 @@
 #include "senhas.h"
 #include "saidas.h"
 #include "json.h"
+#include "atuadores.h"
 
 // Definição dos tópicos de inscrição
 #define mqtt_topic1 "projeto_auto_factory"
@@ -107,21 +108,18 @@ void inscricao_topicos()
 // Trata as mensagens recebidas
 void tratar_msg(char *topic, String msg)
 {
-
-  if (strcmp(topic, mqtt_topic1) == 0)
   {
-    JsonDocument doc;
-    deserializeJson(doc, msg);
-    if (doc.containsKey("Token"))
+    if (strcmp(topic, mqtt_topic1) == 0)
     {
-      int Insira_senha = doc["Token"];
-      if (Insira_senha == Tokens)
-      {
-        if (doc.containsKey("LedState"))
-        {
-          LuzCentral = doc["LedState"];
-        }
-      }
+      JsonDocument doc;
+      deserializeJson(doc, msg);
+      bool RotacaoMotor = doc["PortaoState"];
+
+      if (RotacaoMotor)
+        posiciona_servo(180);
+
+      else if (!RotacaoMotor)
+        posiciona_servo(0);
     }
   }
 }
