@@ -42,11 +42,17 @@ void inicializa_json()
         doc["timeStamp"] = timeStamp();
         mensagemEmFila = true;
     }
-    else if (posiciona_servo())
+    else if (botao_servo_pressionado())
     {
+        angulo = !angulo;
         doc["PortaoState"] = angulo;
-        serializeJson(doc, json);
-        publica_mqtt(mqtt_topic1, json);
+        doc["BotaoservoState"] = true;
+        mensagemEmFila = true;
+    }
+    else if (botao_servo_solto())
+    {
+        doc["BotaoservoState"] = false;
+        mensagemEmFila = true;
     }
 
     if (mensagemEmFila)

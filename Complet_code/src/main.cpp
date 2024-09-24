@@ -17,7 +17,6 @@ void setup()
     atualiza_totem();
     inicializa_entradas();
     inicializa_servos();
-    
 }
 
 void loop()
@@ -27,6 +26,6 @@ void loop()
     atualiza_sinilizacao();
     inicializa_json();
     atualiza_botoes();
-    posiciona_servo(int);
+    posiciona_servo();
     // inicializa_totem();
 }

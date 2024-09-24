@@ -116,10 +116,11 @@ void tratar_msg(char *topic, String msg)
       bool RotacaoMotor = doc["PortaoState"];
 
       if (RotacaoMotor)
-        posiciona_servo(180);
+        angulo_servo = 180;
 
       else if (!RotacaoMotor)
-        posiciona_servo(0);
+        angulo_servo = 0;
     }
   }
+  // posiciona_servo (angulo_servo);
 }

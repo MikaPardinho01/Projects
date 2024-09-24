@@ -17,3 +17,15 @@ bool botao_externo_pressionado();
 @return verdadeiro caso for solto
 */
 bool botao_externo_solto();
+
+/*
+@brief Indica se o botão do servo foi pressionado
+@return Verdadeiro caso for pressionado
+*/
+bool botao_servo_pressionado();
+
+/*
+@brief Indica se o botão do servo foi solto
+@return verdadeiro caso for solto
+*/
+bool botao_servo_solto();

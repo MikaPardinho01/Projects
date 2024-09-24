@@ -2,6 +2,7 @@
 #include "atuadores.h"
 
 #define SERVO_PIN 15
+int angulo_servo = 0;
 
 Servo servoMotor; 
 
@@ -10,7 +11,8 @@ void inicializa_servos()
     servoMotor.attach(SERVO_PIN, 500, 2500);
 }
 
-void posiciona_servo(int angulo=0)
+void posiciona_servo(int posicao)
 {
-    servoMotor.write(angulo);
+    angulo_servo = posicao;
+    servoMotor.write(angulo_servo);
 }

@@ -1,2 +1,3 @@
 void inicializa_servos();
-void posiciona_servo(int);
+void posiciona_servo();
+extern int angulo_servo;
