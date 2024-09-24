@@ -29,3 +29,5 @@ bool botao_servo_pressionado();
 @return verdadeiro caso for solto
 */
 bool botao_servo_solto();
+
+extern bool actionState;

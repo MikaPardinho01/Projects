@@ -9,10 +9,9 @@
 #include "atuadores.h"
 
 #define mqtt_topic1 "projeto_auto_factory"
-int angulo = map(analogRead(A0), 0, 4095, 0, 180);
 
 unsigned long tempo_anterior = 0;
-const unsigned long intervalo = 1000;
+const unsigned long intervalo = 10000;
 const int resposta = 0;
 
 void inicializa_json()
@@ -44,15 +43,15 @@ void inicializa_json()
     }
     else if (botao_servo_pressionado())
     {
-        angulo = !angulo;
-        doc["PortaoState"] = angulo;
-        doc["BotaoservoState"] = true;
+        // angulo = !angulo;
+        doc["PortaoState"] = angulo_servo;
+        doc["BotaoservoState"] = actionState;
         mensagemEmFila = true;
     }
     else if (botao_servo_solto())
     {
-        doc["BotaoservoState"] = false;
-        mensagemEmFila = true;
+        // doc["BotaoservoState"] = false;
+        // mensagemEmFila = true;
     }
 
     if (mensagemEmFila)

@@ -37,3 +37,12 @@ void loop()
     Serial.printf("Contagem: %d \n\r", contador);
   }
 }
+
+void incrementaContador()
+{
+  int posicao = 0;
+  unsigned int tempo = millis()/;
+  preferences.putInt(String(posicao), tempo);
+  contador++;
+  Serial.print(tempo);
+}

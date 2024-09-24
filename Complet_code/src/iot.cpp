@@ -9,6 +9,7 @@
 #include "saidas.h"
 #include "json.h"
 #include "atuadores.h"
+#include "entradas.h"
 
 // Definição dos tópicos de inscrição
 #define mqtt_topic1 "projeto_auto_factory"
@@ -113,14 +114,21 @@ void tratar_msg(char *topic, String msg)
     {
       JsonDocument doc;
       deserializeJson(doc, msg);
-      bool RotacaoMotor = doc["PortaoState"];
+      if (doc.containsKey("BotaoservoState")) {
+     actionState == doc["BotaoservoState"];
 
-      if (RotacaoMotor)
+      if (actionState)
+      {
         angulo_servo = 180;
+      }
 
-      else if (!RotacaoMotor)
+      else
+      {
         angulo_servo = 0;
+       
+      }
+      }
+      posiciona_servo(angulo_servo);
     }
   }
-  // posiciona_servo (angulo_servo);
 }
