@@ -33,7 +33,10 @@ void inicializa_rfid()
     SPI.begin();
     mfrc522.PCD_Init();
 }
-
+/*
+implementar um botao para gravar os dados lidos pelo RFID
+Deste modo fazendo o controle do estoque e realizando o banco de dados
+*/
 void atualiza_rfid()
 {
     if (millis() - tempo_definido >= intervalo)
