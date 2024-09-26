@@ -8,6 +8,8 @@
 #include "totem.h"
 #include "atuadores.h"
 #include "temperatura.h"
+#include "controle_rfid.h"
+#include "display.h"
 
 #define mqtt_topic1 "projeto_auto_factory"
 
@@ -53,11 +55,16 @@ void inicializa_json()
         doc["Temperatura"] = temperatura;
         mensagemEmFila = true;
     }
-        else if (lerUmidade())
+    else if (lerUmidade())
     {
         doc["Umidade"] = humidade;
         mensagemEmFila = true;
     }
+    // else if (lerRFID())
+    // {
+    //     doc["Produto"] = numericUID;
+    //     mensagemEmFila = true;
+    // }
 
     if (mensagemEmFila)
     {

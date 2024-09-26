@@ -8,6 +8,8 @@
 #include "totem.h"
 #include "atuadores.h"
 #include "temperatura.h"
+#include "controle_rfid.h"
+#include "display.h"
 
 void setup()
 {
@@ -19,6 +21,8 @@ void setup()
     inicializa_entradas();
     inicializa_servos();
     inicializa_temperatura();
+    inicializa_rfid();
+    inicializa_u8g2();
 }
 
 void loop()
@@ -30,4 +34,5 @@ void loop()
     atualiza_botoes(); 
     // inicializa_totem();
     setup_temperatura();
+    atualiza_rfid();
 }

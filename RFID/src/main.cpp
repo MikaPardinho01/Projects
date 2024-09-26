@@ -65,7 +65,7 @@ void loop()
       u8g2.clearBuffer();
       u8g2.drawRFrame(0, 0, 126, 62, 2); 
       u8g2.setFont(u8g2_font_efraneextracondensed_te);
-      u8g2.drawStr(15, 25, "Acesso liberado");
+      u8g2.drawStr(15, 25, "Produto cadastrado");
       u8g2.sendBuffer();
 
       servoMotor.write(servo, 90);
@@ -76,7 +76,7 @@ void loop()
       u8g2.clearBuffer();
       u8g2.drawRFrame(0, 0, 126, 62, 2); 
       u8g2.setFont(u8g2_font_efraneextracondensed_te);
-      u8g2.drawStr(15, 25, "Acesso liberado");
+      u8g2.drawStr(15, 25, "Produto cadastrado");
       u8g2.sendBuffer();
 
     servoMotor.write(servo, 0);
@@ -86,7 +86,7 @@ void loop()
       u8g2.clearBuffer();
       u8g2.drawRFrame(0, 0, 126, 62, 2); 
       u8g2.setFont(u8g2_font_efraneextracondensed_te);
-      u8g2.drawStr(15, 25, "cartão não cadastrado");
+      u8g2.drawStr(15, 25, "Produto não cadastrado");
       u8g2.sendBuffer();
       break;
     }
