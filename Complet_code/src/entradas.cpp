@@ -12,8 +12,6 @@
 Bounce botaoExterno = Bounce();
 Bounce botaoservo = Bounce();
 
-
-
 bool actionState = false;
 
 // Inicializa as entradas digitais
@@ -21,9 +19,7 @@ void inicializa_entradas()
 {
     botaoExterno.attach(BOTAO_EXTERNO_PIN, INPUT_PULLUP);
     botaoservo.attach(BOTAO_SERVO, INPUT_PULLUP);
-    
 }
-
 
 // Atualiza o estado dos botões
 void atualiza_botoes()
@@ -43,10 +39,10 @@ bool botao_externo_solto()
     return botaoExterno.rose();
 }
 
-// Retorna se o Botao do sero foi pressionado ou nao 
+// Retorna se o Botao do sero foi pressionado ou nao
 bool botao_servo_pressionado()
-{  
-    if(botaoservo.fell())
+{
+    if (botaoservo.fell())
     {
         actionState = !actionState;
     }

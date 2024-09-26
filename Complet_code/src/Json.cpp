@@ -7,6 +7,7 @@
 #include "entradas.h"
 #include "totem.h"
 #include "atuadores.h"
+#include "temperatura.h"
 
 #define mqtt_topic1 "projeto_auto_factory"
 
@@ -43,15 +44,19 @@ void inicializa_json()
     }
     else if (botao_servo_pressionado())
     {
-        // angulo = !angulo;
         doc["PortaoState"] = angulo_servo;
         doc["BotaoservoState"] = actionState;
         mensagemEmFila = true;
     }
-    else if (botao_servo_solto())
+    else if (lerTemperatura())
     {
-        // doc["BotaoservoState"] = false;
-        // mensagemEmFila = true;
+        doc["Temperatura"] = temperatura;
+        mensagemEmFila = true;
+    }
+        else if (lerUmidade())
+    {
+        doc["Umidade"] = humidade;
+        mensagemEmFila = true;
     }
 
     if (mensagemEmFila)

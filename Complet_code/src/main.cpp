@@ -7,6 +7,7 @@
 #include "entradas.h"
 #include "totem.h"
 #include "atuadores.h"
+#include "temperatura.h"
 
 void setup()
 {
@@ -17,6 +18,7 @@ void setup()
     // atualiza_totem();
     inicializa_entradas();
     inicializa_servos();
+    inicializa_temperatura();
 }
 
 void loop()
@@ -25,6 +27,7 @@ void loop()
     atualiza_saidas();
     atualiza_sinilizacao();
     inicializa_json();
-    atualiza_botoes();
+    atualiza_botoes(); 
     // inicializa_totem();
+    setup_temperatura();
 }
