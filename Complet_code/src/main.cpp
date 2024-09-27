@@ -5,7 +5,6 @@
 #include "saidas.h"
 #include "json.h"
 #include "entradas.h"
-#include "totem.h"
 #include "atuadores.h"
 #include "temperatura.h"
 #include "controle_rfid.h"
@@ -21,7 +20,7 @@ void setup()
     inicializa_entradas();
     inicializa_servos();
     inicializa_temperatura();
-    inicializa_rfid();
+    // inicializa_rfid();
     inicializa_u8g2();
 }
 
@@ -34,5 +33,5 @@ void loop()
     atualiza_botoes(); 
     // inicializa_totem();
     setup_temperatura();
-    atualiza_rfid();
+    // atualiza_rfid();
 }

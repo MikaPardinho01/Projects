@@ -12,6 +12,7 @@
 #include <MFRC522.h>
 #include <Servo.h>
 #include <U8g2lib.h>
+#include <Preferences.h> 
 
 //**Definições*/
 #define SS_PIN 5
@@ -20,25 +21,35 @@
 #define UID1 669071206
 #define UID3 3488487708
 
-#define servo 21
+int produto;
+
 
 //**Objetos*/
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE);
 MFRC522 mfrc522(SS_PIN, RST_PIN); // Criar instância do MFRC522
-Servo servoMotor = Servo();
+Preferences preferences;
 
 //*Prototipos**/
 unsigned long lerRFID(void);
 
-//**Configuração*/
+void configuracao()
+
+{
+  produto = 669071206;
+   preferences.putInt("Produto", produto);
+   Serial.printf("Configuração Padrão, produto %d\n", produto);
+}
+
 void setup()
 {
   u8g2.begin();
   Serial.begin(9600); // Iniciar comunicação serial
   SPI.begin();        // Iniciar SPI
   mfrc522.PCD_Init(); // Iniciar MFRC522
-  servoMotor.attach(servo); //Iniciar o Servo
+   preferences.begin("config", false);
+    produto = preferences.getInt("produto", 669071206);
 }
+
 
 void loop()
 {
@@ -55,32 +66,29 @@ void loop()
     }
   }
 
-  if (uid > 1){
+
+  if (produto == uid){
     Serial.print("UID: ");
     Serial.println(uid);
 
     switch (uid){
     case UID1:
-      Serial.println("Cartão 1");
+      Serial.println("Produto Cadastrado");
       u8g2.clearBuffer();
       u8g2.drawRFrame(0, 0, 126, 62, 2); 
       u8g2.setFont(u8g2_font_efraneextracondensed_te);
       u8g2.drawStr(15, 25, "Produto cadastrado");
       u8g2.sendBuffer();
-
-      servoMotor.write(servo, 90);
       break;
 
-    case UID3:
-      Serial.println("Cartão 3");
-      u8g2.clearBuffer();
-      u8g2.drawRFrame(0, 0, 126, 62, 2); 
-      u8g2.setFont(u8g2_font_efraneextracondensed_te);
-      u8g2.drawStr(15, 25, "Produto cadastrado");
-      u8g2.sendBuffer();
-
-    servoMotor.write(servo, 0);
-    break;
+    // case UID3:
+    //   Serial.println("Cartão 3");
+    //   u8g2.clearBuffer();
+    //   u8g2.drawRFrame(0, 0, 126, 62, 2); 
+    //   u8g2.setFont(u8g2_font_efraneextracondensed_te);
+    //   u8g2.drawStr(15, 25, "Produto cadastrado");
+    //   u8g2.sendBuffer();
+    // break;
 
     default:
       u8g2.clearBuffer();

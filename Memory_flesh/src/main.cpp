@@ -15,7 +15,7 @@ unsigned long tempoPressionado = 0; // Tempo Pressionado
 void ConfiguracaoPadrao() { // Confuguração inicial, tipo a do celular
   volume = 30; // Salva Volume, inicia em 30
   brilho = 30; // Salva Brilho, inicia em 30
-  preferences.putInt("Volume", volume); // Recupera o volume padrão (50)
+  preferences.putInt("Volume", volume); preferences.putInt("Volume", volume); // Recupera o volume padrão (50)
   preferences.putInt("Brilho", brilho); // Recupera o brilho padrão (50)
   Serial.printf("Configuração Padrão, Brilho: %d, Volume: %d\n", brilho, volume); // Imprime os dois
 }

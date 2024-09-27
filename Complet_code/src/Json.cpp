@@ -5,7 +5,6 @@
 #include "tempo.h"
 #include "saidas.h"
 #include "entradas.h"
-#include "totem.h"
 #include "atuadores.h"
 #include "temperatura.h"
 #include "controle_rfid.h"
