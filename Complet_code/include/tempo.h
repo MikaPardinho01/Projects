@@ -1,6 +1,5 @@
 #pragma once
 
-
 //Retorna a hora atual no formato hh:mm:ss
 void hora_certa();
 

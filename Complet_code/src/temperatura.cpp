@@ -1,42 +1,45 @@
-#include <Arduino.h>
-#include <DHT.h>
-#include <Adafruit_Sensor.h>
-#include "temperatura.h"
+// #include <Arduino.h>
+// #include <DHT.h>
+// #include <Adafruit_Sensor.h>
+// #include "temperatura.h"
+// #include "tempo.h"
 
-#define DHTTYPE DHT22
-#define DHTPIN 18
+// #define DHTTYPE DHT22
+// #define DHTPIN 18
 
-float temperatura;
-float humidade;
-unsigned long time_previous = 0;
-const unsigned long intervalo = 1000;
+// float temperatura;
+// float humidade;
 
-DHT dht(DHTPIN, DHTTYPE);
+// unsigned long tempo_anterior = 1000;
+// unsigned long tempo_intervalo = 0;
 
-void inicializa_temperatura()
-{
-    Serial.begin(9600);
-    dht.begin();
-}
 
-void setup_temperatura()
-{
-    if (millis() - time_previous >= intervalo)
-    {
-        Serial.println("Temperatura:" + String(lerTemperatura()) + "ºC");
-        Serial.println("Umidade:" + String(lerUmidade()) + "%");
-        time_previous = millis();
-    }
-}
+// DHT dht(DHTPIN, DHTTYPE);
 
-float lerTemperatura()
-{
-    temperatura = dht.readTemperature();
-    return temperatura;
-}
+// void inicializa_temperatura()
+// {
+//     Serial.begin(9600);
+//     dht.begin();
+// }
 
-float lerUmidade()
-{
-    humidade = dht.readHumidity();
-    return humidade;
-}
+// void setup_temperatura()
+// {
+//     if (millis() - tempo_anterior >= tempo_intervalo)
+//     {
+//         Serial.println("Temperatura:" + String(lerTemperatura()) + "ºC");
+//         Serial.println("Umidade:" + String(lerUmidade()) + "%");
+//         tempo_anterior = millis();
+//     }
+// }
+
+// float lerTemperatura()
+// {
+//     temperatura = dht.readTemperature();
+//     return temperatura;
+// }
+
+// float lerUmidade()
+// {
+//     humidade = dht.readHumidity();
+//     return humidade;
+// }

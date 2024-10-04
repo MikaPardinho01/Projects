@@ -61,19 +61,19 @@ void inicializa_u8g2()
     u8g2.begin();
 }
 
-void display_temperatura()
-{
-    u8g2.drawRFrame(3, 3, 122, 27, 5);
-    u8g2.drawRFrame(3, 34, 122, 27, 5);
-    u8g2.setFont(u8g2_font_unifont_t_weather);
-    u8g2.drawGlyph(5, 23, 0x31);
-    u8g2.drawGlyph(5, 53, 0x32);
-    u8g2.setFont(u8g2_font_lubBI12_te);
-    u8g2.drawStr(30, 23, String(lerTemperatura(), 1).c_str());
-    u8g2.drawStr(70, 23, "*C");
-    u8g2.drawStr(30, 53, String(lerUmidade(), 0).c_str());
-    u8g2.drawStr(60, 53, "%");
-}
+// void display_temperatura()
+// {
+//     u8g2.drawRFrame(3, 3, 122, 27, 5);
+//     u8g2.drawRFrame(3, 34, 122, 27, 5);
+//     u8g2.setFont(u8g2_font_unifont_t_weather);
+//     u8g2.drawGlyph(5, 23, 0x31);
+//     u8g2.drawGlyph(5, 53, 0x32);
+//     u8g2.setFont(u8g2_font_lubBI12_te);
+//     u8g2.drawStr(30, 23, String(lerTemperatura(), 1).c_str());
+//     u8g2.drawStr(70, 23, "*C");
+//     u8g2.drawStr(30, 53, String(lerUmidade(), 0).c_str());
+//     u8g2.drawStr(60, 53, "%");
+// }
 
 void display_controle_rfid()
 {

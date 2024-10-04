@@ -19,8 +19,8 @@ void setup()
     // atualiza_totem();
     inicializa_entradas();
     inicializa_servos();
-    inicializa_temperatura();
-    // inicializa_rfid();
+    // inicializa_temperatura();
+    inicializa_RFID();
     inicializa_u8g2();
 }
 
@@ -32,6 +32,6 @@ void loop()
     inicializa_json();
     atualiza_botoes(); 
     // inicializa_totem();
-    setup_temperatura();
-    // atualiza_rfid();
+    // setup_temperatura();
+    atualiza_RFID();
 }

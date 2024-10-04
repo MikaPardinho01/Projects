@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "saidas.h"
+#include "tempo.h"
 
 // #define Luz_central 2
 // #define vermelho_pin01 35
@@ -7,8 +8,9 @@
 // #define vermelho_pin02 15
 // #define amarelo_pin02 34
 
-unsigned long time_anterior = 0;
-unsigned long intervalo = 1000;
+unsigned long timer_anterior = 1000;
+unsigned long interval = 0;
+
 
 bool LuzCentral = LOW;
 bool vermelhoPin01 = LOW;
@@ -36,12 +38,12 @@ void atualiza_saidas()
 
 void atualiza_sinilizacao()
 {
-  if (millis() - time_anterior >= intervalo)
+  if (millis() - timer_anterior >= interval)
   {
     vermelhoPin01 = !vermelhoPin01;
     vermelhoPin02 = !vermelhoPin02;
     amareloPin01 = !amareloPin01;
     amareloPin02 = !amareloPin02;
-    time_anterior = millis();
+    timer_anterior = millis();
   }
 }

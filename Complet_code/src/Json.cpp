@@ -7,13 +7,15 @@
 #include "entradas.h"
 #include "atuadores.h"
 #include "temperatura.h"
-#include "controle_rfid.h"
 #include "display.h"
+#include "controle_rfid.h"
 
 #define mqtt_topic1 "projeto_auto_factory"
 
-unsigned long tempo_anterior = 0;
-const unsigned long intervalo = 10000;
+unsigned long time_anterior = 1000;
+unsigned long time_definido = 0;
+
+
 const int resposta = 0;
 
 void inicializa_json()
@@ -22,9 +24,9 @@ void inicializa_json()
     String json;
     bool mensagemEmFila = false;
 
-    if (millis() - tempo_anterior >= intervalo)
+    if (millis() - time_anterior >= time_definido)
     {
-        tempo_anterior = millis();
+        time_anterior = millis();
         doc["timeStamp"] = timeStamp();
         doc["Token"] = resposta;
         mensagemEmFila = true;
@@ -49,19 +51,19 @@ void inicializa_json()
         doc["BotaoservoState"] = actionState;
         mensagemEmFila = true;
     }
-    else if (lerTemperatura())
-    {
-        doc["Temperatura"] = temperatura;
-        mensagemEmFila = true;
-    }
-    else if (lerUmidade())
-    {
-        doc["Umidade"] = humidade;
-        mensagemEmFila = true;
-    }
+    // else if (lerTemperatura())
+    // {
+    //     doc["Temperatura"] = temperatura;
+    //     mensagemEmFila = true;
+    // }
+    // else if (lerUmidade())
+    // {
+    //     doc["Umidade"] = humidade;
+    //     mensagemEmFila = true;
+    // }
     // else if (lerRFID())
     // {
-    //     doc["Produto"] = numericUID;
+    //     doc["Produto"] = uids;
     //     mensagemEmFila = true;
     // }
 

@@ -1,4 +1,5 @@
-// void inicializa_rfid();
-// void atualiza_rfid();
-// unsigned long lerRFID(void);
-// void grava_produto(int numericUID);
+void inicializa_RFID();
+void atualiza_RFID();
+extern unsigned long lerRFID();
+
+extern float uids;
