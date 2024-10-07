@@ -9,12 +9,15 @@
 #define RST_PIN 2
 #define DEBUG false
 #define UID1 669071206
-#define UID3 3488487708
+#define UID2 3488487708
+#define UID3 4282771230
+#define UID4 340843683
+
+int UID5 = 0;
 
 unsigned long time_previous = 1000;
 unsigned long intervalo = 0;
 
-float uids;
 
 //**Objetos*/
 MFRC522 mfrc522(SS_PIN, RST_PIN); // Criar instância do MFRC522
@@ -55,24 +58,37 @@ void atualiza_RFID()
             {
             case UID1:
                 Serial.println("Produto Cadastrado");
-                // u8g2.clearBuffer();
-                // u8g2.drawRFrame(0, 0, 126, 62, 2);
-                // u8g2.setFont(u8g2_font_efraneextracondensed_te);
-                // u8g2.drawStr(15, 25, "Acesso liberado");
-                // u8g2.sendBuffer();
+                break;
+
+            case UID2:
+                Serial.println("Produto Cadastrado");
                 break;
 
             case UID3:
                 Serial.println("Produto Cadastrado");
-                // u8g2.clearBuffer();
-                // u8g2.drawRFrame(0, 0, 126, 62, 2);
-                // u8g2.setFont(u8g2_font_efraneextracondensed_te);
-                // u8g2.drawStr(15, 25, "Acesso liberado");
-                // u8g2.sendBuffer();
+                break;
+
+            case UID4:
+                Serial.println("Produto Cadastrado");
                 break;
             }
         }
-        time_previous = millis();
+        if (UID5 == UID1)
+        {
+            Serial.print("Produto duplicado");
+        }
+        else if (UID5 == UID2)
+        {
+            Serial.print("Produto duplicado");
+        }
+        else if (UID5 == UID3)
+        {
+            Serial.print("Produto duplicado");
+        }
+        else if (UID5 == UID4)
+        {
+            Serial.print("Produto duplicado");
+        }
     }
 }
 
