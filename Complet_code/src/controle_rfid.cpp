@@ -73,6 +73,7 @@ void atualiza_RFID()
                 break;
             }
         }
+        UID5 = uid;
         if (UID5 == UID1)
         {
             Serial.print("Produto duplicado");
