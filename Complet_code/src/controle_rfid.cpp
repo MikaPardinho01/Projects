@@ -9,17 +9,17 @@
 #define RST_PIN 2
 #define DEBUG false
 
-//colocar dentro de um vetor(array)
-#define UID1 669071206
-#define UID2 3488487708
-#define UID3 4282771230
-#define UID4 340843683
+// vetor(array) dos UIDS
+unsigned long UIDS[4] =
+    {
+        669071206, 3488487708, 4282771230, 340843683};
 
-int UID5 = 0;
+// vetor(array) de UIDS ja lidos
+unsigned long uidsLidos[10] = {0};
+int UIDS_lidos = 0;
 
 unsigned long time_previous = 1000;
 unsigned long intervalo = 0;
-
 
 //**Objetos*/
 MFRC522 mfrc522(SS_PIN, RST_PIN); // Criar instância do MFRC522
@@ -27,19 +27,33 @@ MFRC522 mfrc522(SS_PIN, RST_PIN); // Criar instância do MFRC522
 //**Configuração*/
 void inicializa_RFID()
 {
-    Serial.begin(9600);
     SPI.begin();
     mfrc522.PCD_Init();
 }
 
+//Verificação para UIDS duplicados
+bool verificarDuplicado(unsigned long uid)
+{
+    for (int i = 0; i < UIDS_lidos; i++)
+    {
+        if (uidsLidos[i] == uid)
+        {
+            Serial.println("UID Duplicado"); // retorna true
+            return true;
+        }
+    }
+    Serial.println("UID nao duplicado");
+    return false;
+}
+
 void atualiza_RFID()
 {
-    if (millis() - time_previous >= intervalo)
+    //Serial.println("funcao rfid");
+    if (true)//millis() - time_previous >= intervalo)
     {
         unsigned long uid = lerRFID();
-
-        if (DEBUG)
-        {
+        Serial.printf("UID = %d \n\r", uid);
+        if (DEBUG)        {
             Serial.println("Aproxime o cartão do leitor");
             if (uid == 0)
             {
@@ -56,32 +70,26 @@ void atualiza_RFID()
             Serial.print("UID: ");
             Serial.println(uid);
 
-            switch (uid) //for it... switch dentro do for it)
+            bool produtoEncontrado = false;
+
+            // Verificar se o UID lido está no array de UIDS
+            for (int i = 0; i < 4; i++)
             {
-            case UID1:
-                Serial.println("Produto Cadastrado");
-                break;
+                if (uid == UIDS[i])
+                {
+                    Serial.println("Produto Cadastrado");
+                    produtoEncontrado = true;
+                    break;
+                }
+            }
 
-            case UID2:
-                Serial.println("Produto Cadastrado");
-                break;
-
-            case UID3:
-                Serial.println("Produto Cadastrado");
-                break;
-
-            case UID4:
-                Serial.println("Produto Cadastrado");
-                break;
-
-             default: // caso contrario, duplicado
-                 //antes, criar uma função com a array para fazer a analise de duplicadas
-
-                    
+            // Se o produto nao foi encontrado
+            if (!produtoEncontrado)
+            {
+                Serial.println("Produto não cadastrado");
             }
         }
-        
-}
+    }
 }
 
 unsigned long lerRFID()

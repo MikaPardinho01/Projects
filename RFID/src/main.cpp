@@ -81,14 +81,14 @@ void loop()
       u8g2.sendBuffer();
       break;
 
-    // case UID3:
-    //   Serial.println("Cartão 3");
-    //   u8g2.clearBuffer();
-    //   u8g2.drawRFrame(0, 0, 126, 62, 2); 
-    //   u8g2.setFont(u8g2_font_efraneextracondensed_te);
-    //   u8g2.drawStr(15, 25, "Produto cadastrado");
-    //   u8g2.sendBuffer();
-    // break;
+    case UID3:
+      Serial.println("Cartão 3");
+      u8g2.clearBuffer();
+      u8g2.drawRFrame(0, 0, 126, 62, 2); 
+      u8g2.setFont(u8g2_font_efraneextracondensed_te);
+      u8g2.drawStr(15, 25, "Produto cadastrado");
+      u8g2.sendBuffer();
+    break;
 
     default:
       u8g2.clearBuffer();
