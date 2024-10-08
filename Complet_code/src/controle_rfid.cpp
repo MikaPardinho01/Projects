@@ -8,6 +8,8 @@
 #define SS_PIN 5
 #define RST_PIN 2
 #define DEBUG false
+
+//colocar dentro de um vetor(array)
 #define UID1 669071206
 #define UID2 3488487708
 #define UID3 4282771230
@@ -54,7 +56,7 @@ void atualiza_RFID()
             Serial.print("UID: ");
             Serial.println(uid);
 
-            switch (uid)
+            switch (uid) //for it... switch dentro do for it)
             {
             case UID1:
                 Serial.println("Produto Cadastrado");
@@ -71,26 +73,15 @@ void atualiza_RFID()
             case UID4:
                 Serial.println("Produto Cadastrado");
                 break;
+
+             default: // caso contrario, duplicado
+                 //antes, criar uma função com a array para fazer a analise de duplicadas
+
+                    
             }
         }
-        UID5 = uid;
-        if (UID5 == UID1)
-        {
-            Serial.print("Produto duplicado");
-        }
-        else if (UID5 == UID2)
-        {
-            Serial.print("Produto duplicado");
-        }
-        else if (UID5 == UID3)
-        {
-            Serial.print("Produto duplicado");
-        }
-        else if (UID5 == UID4)
-        {
-            Serial.print("Produto duplicado");
-        }
-    }
+        
+}
 }
 
 unsigned long lerRFID()
