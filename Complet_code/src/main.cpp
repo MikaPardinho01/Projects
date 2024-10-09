@@ -8,6 +8,7 @@
 #include "atuadores.h"
 #include "temperatura.h"
 #include "display.h"
+#include "nfc_rfid.h"
 
 void setup()
 {
@@ -20,6 +21,7 @@ void setup()
     inicializa_servos();
     // inicializa_temperatura();
     inicializa_u8g2();
+    inicializa_nfc();
 }
 
 void loop()
@@ -31,4 +33,5 @@ void loop()
     atualiza_botoes(); 
     // inicializa_totem();
     // setup_temperatura();
+    atualiza_nfc();
 }

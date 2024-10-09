@@ -10,6 +10,7 @@
 #include "json.h"
 #include "atuadores.h"
 #include "entradas.h"
+#include "nfc_rfid.h"
 
 // Definição dos tópicos de inscrição
 #define mqtt_topic1 "projeto_auto_factory"
@@ -114,21 +115,30 @@ void tratar_msg(char *topic, String msg)
     {
       JsonDocument doc;
       deserializeJson(doc, msg);
-      if (doc.containsKey("BotaoservoState")) {
-     actionState == doc["BotaoservoState"];
-
-      if (actionState)
+      if (doc.containsKey("BotaoservoState"))
       {
-        angulo_servo = 180;
-      }
+        actionState == doc["BotaoservoState"];
 
-      else
-      {
-        angulo_servo = 0;
-       
-      }
+        if (actionState)
+        {
+          angulo_servo = 180;
+        }
+
+        else
+        {
+          angulo_servo = 0;
+        }
       }
       posiciona_servo(angulo_servo);
     }
+    // if (strcmp(topic, mqtt_topic1) == 0)
+    // {
+    //   JsonDocument doc;
+    //   deserializeJson(doc, msg);
+    //   if (doc.containsKey(""))
+    //   {
+    //      == doc[""];
+    //   }
+    // }
   }
-}
+  }

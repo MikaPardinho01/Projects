@@ -8,6 +8,7 @@
 #include "atuadores.h"
 #include "temperatura.h"
 #include "display.h"
+#include "nfc_rfid.h"
 
 #define mqtt_topic1 "projeto_auto_factory"
 
@@ -60,9 +61,9 @@ void inicializa_json()
     //     doc["Umidade"] = humidade;
     //     mensagemEmFila = true;
     // }
-    // else if (lerRFID())
+    // else if (isDuplicateUID())
     // {
-    //     doc["Produto"] = uids;
+    //     doc["Produto"] = numericUID;
     //     mensagemEmFila = true;
     // }
 
