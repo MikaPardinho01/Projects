@@ -8,7 +8,6 @@
 #include "atuadores.h"
 #include "temperatura.h"
 #include "display.h"
-#include "controle_rfid.h"
 
 #define mqtt_topic1 "projeto_auto_factory"
 
