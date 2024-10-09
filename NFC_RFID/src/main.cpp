@@ -1,6 +1,6 @@
 #include <Wire.h>
 #include <Adafruit_PN532.h>
-#include <Preferences.h>  // Biblioteca para a memória flash
+#include <Preferences.h>  
 
 #define SDA_PIN 21
 #define SCL_PIN 22
