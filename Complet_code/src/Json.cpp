@@ -15,7 +15,7 @@
 unsigned long time_anterior = 1000;
 unsigned long time_definido = 0;
 
-
+const char Palavra[4] = "Nao";
 const int resposta = 0;
 
 void inicializa_json()
@@ -59,11 +59,6 @@ void inicializa_json()
     // else if (lerUmidade())
     // {
     //     doc["Umidade"] = humidade;
-    //     mensagemEmFila = true;
-    // }
-    // else if (isDuplicateUID())
-    // {
-    //     doc["Produto"] = numericUID;
     //     mensagemEmFila = true;
     // }
 

@@ -4,6 +4,7 @@
 #include <ArduinoJson.h>
 #include <TimeLib.h>
 #include <WiFiClientSecure.h>
+#include <Preferences.h>
 #include "iot.h"
 #include "senhas.h"
 #include "saidas.h"
@@ -20,6 +21,7 @@ const String cliente_id = "ESP32Client" + String(random(0xffff), HEX);
 
 // Definicao para o token
 const int Tokens = 1803;
+String resposta = "Sim";
 
 // Protótipos das funções
 void tratar_msg(char *topic, String msg);
@@ -28,6 +30,7 @@ void reconecta_mqtt();
 void inscricao_topicos();
 
 // Definição dos dados de conexão
+Preferences preferences;
 WiFiClientSecure espClient;
 PubSubClient client(AWS_IOT_ENDPOINT, mqtt_port, callback, espClient);
 
@@ -131,14 +134,16 @@ void tratar_msg(char *topic, String msg)
       }
       posiciona_servo(angulo_servo);
     }
-    // if (strcmp(topic, mqtt_topic1) == 0)
-    // {
-    //   JsonDocument doc;
-    //   deserializeJson(doc, msg);
-    //   if (doc.containsKey(""))
-    //   {
-    //      == doc[""];
-    //   }
-    // }
+    else if (strcmp(topic, mqtt_topic1) == 0)
+    {
+      if (doc.containKey("Clear_Resposta"))
+      {
+        if (doc["Clear_Resposta"] == resposta)
+        {
+          preferences.clear();
+          preferences.end();
+        }
+      }
+    }
   }
-  }
+}

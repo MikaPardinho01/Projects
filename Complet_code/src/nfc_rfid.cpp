@@ -50,6 +50,7 @@ void clearMemoryIfAllowed()
 
     while (!Serial.available())
     {
+        
     }
 
     String resposta = Serial.readStringUntil('\n');
