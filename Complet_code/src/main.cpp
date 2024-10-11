@@ -9,6 +9,7 @@
 #include "temperatura.h"
 #include "display.h"
 #include "nfc_rfid.h"
+#include "memory_flahs.h"
 
 void setup()
 {
@@ -22,6 +23,7 @@ void setup()
     // inicializa_temperatura();
     inicializa_u8g2();
     inicializa_nfc();
+    inicializa_biblioteca();
 }
 
 void loop()

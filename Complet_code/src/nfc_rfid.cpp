@@ -1,12 +1,11 @@
 #include <Wire.h>
 #include <Adafruit_PN532.h>
-#include <Preferences.h>
+#include "memory_flash.h"
 
 #define SDA_PIN 21
 #define SCL_PIN 22
 
 Adafruit_PN532 nfc(SDA_PIN, SCL_PIN);
-Preferences preferences;
 
 const int maxUIDs = 10;
 
@@ -27,15 +26,13 @@ void inicializa_nfc()
 
     nfc.SAMConfig();
     Serial.println("Esperando um cartão NFC...");
-
-    preferences.begin("UIDs", false);
 }
 
 bool isDuplicateUID(unsigned long newUID)
 {
     for (int i = 0; i < maxUIDs; i++)
     {
-        unsigned long storedUID = preferences.getULong(String(i).c_str(), 0);
+        unsigned long storedUID = save;
         if (storedUID == newUID)
         {
             return true;
@@ -59,9 +56,9 @@ void clearMemoryIfAllowed()
     if (resposta.equalsIgnoreCase("sim"))
     {
         Serial.println("Limpando a memória...");
-        preferences.clear();
-        preferences.end();
-        preferences.begin("UIDs", false);
+        clear();
+        end();
+        inicializa_biblioteca;
         Serial.println("Memória foi limpa.");
     }
     else
@@ -76,10 +73,10 @@ void armazana_nvs(unsigned long newUID)
 
     for (int i = 0; i < maxUIDs; i++)
     {
-        unsigned long storedUID = preferences.getULong(String(i).c_str(), 0);
+        unsigned long storedUID = save();
         if (storedUID == 0)
         {
-            preferences.putULong(String(i).c_str(), newUID);
+            atualiza_nvs;
             Serial.print("UID armazenado na posição ");
             Serial.println(i);
             memoriaCheia = false;

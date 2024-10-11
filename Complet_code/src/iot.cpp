@@ -4,7 +4,6 @@
 #include <ArduinoJson.h>
 #include <TimeLib.h>
 #include <WiFiClientSecure.h>
-#include <Preferences.h>
 #include "iot.h"
 #include "senhas.h"
 #include "saidas.h"
@@ -12,6 +11,7 @@
 #include "atuadores.h"
 #include "entradas.h"
 #include "nfc_rfid.h"
+#include "memory_flash.h"
 
 // Definição dos tópicos de inscrição
 #define mqtt_topic1 "projeto_auto_factory"
@@ -30,7 +30,7 @@ void reconecta_mqtt();
 void inscricao_topicos();
 
 // Definição dos dados de conexão
-Preferences preferences;
+
 WiFiClientSecure espClient;
 PubSubClient client(AWS_IOT_ENDPOINT, mqtt_port, callback, espClient);
 
@@ -136,12 +136,14 @@ void tratar_msg(char *topic, String msg)
     }
     else if (strcmp(topic, mqtt_topic1) == 0)
     {
-      if (doc.containKey("Clear_Resposta"))
+      JsonDocument doc;
+      deserializeJson(doc, msg);
+      if (doc.containsKey("Clear_Resposta"))
       {
         if (doc["Clear_Resposta"] == resposta)
         {
-          preferences.clear();
-          preferences.end();
+          clear();
+          end();
         }
       }
     }

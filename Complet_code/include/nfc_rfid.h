@@ -3,6 +3,8 @@ void atualiza_nfc();
 
 // Funcao para verificacao de duplicatas
 extern bool isDuplicateUID(unsigned long newUID);
+extern int i = 0;
+extern unsigned long newUID;
 
 // Funcao para limpar a memoria flash
 void clearMemoryIfAllowed();
