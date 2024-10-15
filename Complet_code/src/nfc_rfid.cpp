@@ -1,6 +1,6 @@
 #include <Wire.h>
 #include <Adafruit_PN532.h>
-#include "memory_flash.h"
+#include "memory.h"
 
 #define SDA_PIN 21
 #define SCL_PIN 22
@@ -20,19 +20,19 @@ void inicializa_nfc()
     if (!versiondata)
     {
         Serial.print("Não foi possível encontrar o PN53x");
-        while (1)
-            ;
+        while (1); 
     }
 
     nfc.SAMConfig();
     Serial.println("Esperando um cartão NFC...");
+    // biblioteca();
 }
 
 bool isDuplicateUID(unsigned long newUID)
 {
     for (int i = 0; i < maxUIDs; i++)
     {
-        unsigned long storedUID = save;
+        unsigned long storedUID = (unsigned long)save();
         if (storedUID == newUID)
         {
             return true;
@@ -47,7 +47,6 @@ void clearMemoryIfAllowed()
 
     while (!Serial.available())
     {
-        
     }
 
     String resposta = Serial.readStringUntil('\n');
@@ -58,7 +57,7 @@ void clearMemoryIfAllowed()
         Serial.println("Limpando a memória...");
         clear();
         end();
-        inicializa_biblioteca;
+        biblioteca;
         Serial.println("Memória foi limpa.");
     }
     else
@@ -67,7 +66,7 @@ void clearMemoryIfAllowed()
     }
 }
 
-void armazana_nvs(unsigned long newUID)
+void storeUID(unsigned long newUID)
 {
     bool memoriaCheia = true;
 
@@ -76,7 +75,7 @@ void armazana_nvs(unsigned long newUID)
         unsigned long storedUID = save();
         if (storedUID == 0)
         {
-            atualiza_nvs;
+            atualiza_nvs();
             Serial.print("UID armazenado na posição ");
             Serial.println(i);
             memoriaCheia = false;
@@ -118,7 +117,7 @@ void atualiza_nfc()
         else
         {
             Serial.println("Novo UID detectado.");
-            armazana_nvs(numericUID);
+            storeUID(numericUID);
         }
 
         delay(1000);

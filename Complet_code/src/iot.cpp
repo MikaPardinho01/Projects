@@ -11,7 +11,7 @@
 #include "atuadores.h"
 #include "entradas.h"
 #include "nfc_rfid.h"
-#include "memory_flash.h"
+#include "memory.h"
 
 // Definição dos tópicos de inscrição
 #define mqtt_topic1 "projeto_auto_factory"

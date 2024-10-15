@@ -2,15 +2,17 @@
 #include "nfc_rfid.h"
 
 Preferences preferences;
+int i;
 
-void inicializa_biblioteca()
+void biblioteca()
 {
     preferences.begin("UIDs", false);
 }
 
-void atualiza_nvs()
+int atualiza_nvs()
 {
     preferences.putULong(String(i).c_str(), newUID);
+    // return newUID;
 }
 
 void clear()
@@ -23,7 +25,8 @@ void end()
     preferences.end();
 }
 
-void save()
+int save()
 {
     preferences.getULong(String(i).c_str(), 0);
+    // return i;
 }

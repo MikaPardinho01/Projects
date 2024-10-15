@@ -15,8 +15,9 @@
 unsigned long time_anterior = 1000;
 unsigned long time_definido = 0;
 
-const char Palavra[4] = "Nao";
+unsigned long newUID;
 const int resposta = 0;
+const int resposts = 0;
 
 void inicializa_json()
 {
@@ -28,7 +29,10 @@ void inicializa_json()
     {
         time_anterior = millis();
         doc["timeStamp"] = timeStamp();
-        doc["Token"] = resposta;
+        doc["Token"] = resposts;
+        doc["Resposta"] = resposta;
+        doc["UID Cadastrado"] = newUID;
+        doc["Posicao Cadastrada na memoria"] = i;
         mensagemEmFila = true;
     }
     if (botao_externo_pressionado())
