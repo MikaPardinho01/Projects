@@ -134,18 +134,18 @@ void tratar_msg(char *topic, String msg)
       }
       posiciona_servo(angulo_servo);
     }
-    else if (strcmp(topic, mqtt_topic1) == 0)
-    {
-      JsonDocument doc;
-      deserializeJson(doc, msg);
-      if (doc.containsKey("Clear_Resposta"))
-      {
-        if (doc["Clear_Resposta"] == resposta)
-        {
-          clear();
-          end();
-        }
-      }
-    }
+    // else if (strcmp(topic, mqtt_topic1) == 0)
+    // {
+    //   JsonDocument doc;
+    //   deserializeJson(doc, msg);
+    //   if (doc.containsKey("Clear_Resposta"))
+    //   {
+    //     if (doc["Clear_Resposta"] == resposta)
+    //     {
+    //       clear();
+    //       end();
+    //     }
+    //   }
+    // }
   }
 }

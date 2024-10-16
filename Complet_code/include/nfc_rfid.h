@@ -1,13 +1,16 @@
+//Inicializa todas as bibliotecas
 void inicializa_nfc();
-void atualiza_nfc();
 
-// Funcao para verificacao de duplicatas
-extern bool isDuplicateUID(unsigned long newUID);
-extern int i;
-extern unsigned long newUID;
+// Função para verificar se o UID é duplicado 
+bool isDuplicateUID(unsigned long newUID);
 
-// Funcao para limpar a memoria flash
+// Função para limpar a memória flash se o usuário der permissão
 void clearMemoryIfAllowed();
 
-//Funcao para armazenar os dados na memoria flash
+// Função para armazenar o UID no NVS (memória flash)
 void storeUID(unsigned long newUID);
+
+// Função para ler o UID do NVS (memória flash)
+void atualiza_nfc();
+
+extern unsigned long numericUID;

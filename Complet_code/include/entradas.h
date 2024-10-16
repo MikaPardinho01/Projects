@@ -30,4 +30,16 @@ bool botao_servo_pressionado();
 */
 bool botao_servo_solto();
 
+/*
+@brief Indica se o botão do nfc foi pressionado
+@return Verdadeiro caso for pressionado
+*/
+bool botao_pressionado_nfc();
+
+/*
+@brief Indica se o botão do nfc foi pressionado
+@return Verdadeiro caso for pressionado
+*/
+bool botao_nfc_solto();
+
 extern bool actionState;

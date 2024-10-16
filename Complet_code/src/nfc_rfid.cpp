@@ -1,13 +1,16 @@
 #include <Wire.h>
 #include <Adafruit_PN532.h>
-#include "memory.h"
+#include <Preferences.h>
+#include "entradas.h"
 
 #define SDA_PIN 21
 #define SCL_PIN 22
+unsigned long numericUID = 0;
 
 Adafruit_PN532 nfc(SDA_PIN, SCL_PIN);
-
-const int maxUIDs = 10;
+Preferences preferences;
+const int maxUIDs = 2;
+bool memoriaCheia = true;
 
 void inicializa_nfc()
 {
@@ -20,19 +23,22 @@ void inicializa_nfc()
     if (!versiondata)
     {
         Serial.print("Não foi possível encontrar o PN53x");
-        while (1); 
+        while (1)
+            ;
     }
 
     nfc.SAMConfig();
     Serial.println("Esperando um cartão NFC...");
-    // biblioteca();
+
+    // Inicia o NVS
+    preferences.begin("UIDs", false);
 }
 
 bool isDuplicateUID(unsigned long newUID)
 {
     for (int i = 0; i < maxUIDs; i++)
     {
-        unsigned long storedUID = (unsigned long)save();
+        unsigned long storedUID = preferences.getULong(String(i).c_str(), 0); // Recupera UID da posição i
         if (storedUID == newUID)
         {
             return true;
@@ -43,39 +49,35 @@ bool isDuplicateUID(unsigned long newUID)
 
 void clearMemoryIfAllowed()
 {
-    Serial.println("Memória cheia! Deseja apagar todos os dados? (sim/não)");
-
-    while (!Serial.available())
+    if (memoriaCheia)
     {
-    }
+        Serial.println("Precione o botão NFC para continuar com a exclusao dos dados...");
+        if (botao_pressionado_nfc())
 
-    String resposta = Serial.readStringUntil('\n');
-    resposta.trim();
+        Serial.println("Botão pressionado. Limpando a memória...");
 
-    if (resposta.equalsIgnoreCase("sim"))
-    {
-        Serial.println("Limpando a memória...");
-        clear();
-        end();
-        biblioteca;
+        // Limpa a memória flash
+        preferences.clear();
+        preferences.end();
+
+        // Reinicia as preferências
+        preferences.begin("UIDs", false);
+
+        // Mensagem de confirmação
         Serial.println("Memória foi limpa.");
-    }
-    else
-    {
-        Serial.println("Memória mantida, nenhum dado foi excluído.");
+        memoriaCheia = false; // Redefinir o estado de memória cheia
     }
 }
 
 void storeUID(unsigned long newUID)
 {
-    bool memoriaCheia = true;
 
     for (int i = 0; i < maxUIDs; i++)
     {
-        unsigned long storedUID = save();
+        unsigned long storedUID = preferences.getULong(String(i).c_str(), 0);
         if (storedUID == 0)
         {
-            atualiza_nvs();
+            preferences.putULong(String(i).c_str(), newUID);
             Serial.print("UID armazenado na posição ");
             Serial.println(i);
             memoriaCheia = false;
@@ -85,7 +87,6 @@ void storeUID(unsigned long newUID)
 
     if (memoriaCheia)
     {
-        // Memoria cheia, deseja limpar?
         clearMemoryIfAllowed();
     }
 }
@@ -100,7 +101,7 @@ void atualiza_nfc()
 
     if (success)
     {
-        unsigned long numericUID = 0;
+        numericUID = 0;
 
         for (byte i = 0; i < uidLength; i++)
         {

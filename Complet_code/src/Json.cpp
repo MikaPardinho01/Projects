@@ -17,7 +17,6 @@ unsigned long time_definido = 0;
 
 unsigned long newUID;
 const int resposta = 0;
-const int resposts = 0;
 
 void inicializa_json()
 {
@@ -29,10 +28,8 @@ void inicializa_json()
     {
         time_anterior = millis();
         doc["timeStamp"] = timeStamp();
-        doc["Token"] = resposts;
-        doc["Resposta"] = resposta;
-        doc["UID Cadastrado"] = newUID;
-        doc["Posicao Cadastrada na memoria"] = i;
+        doc["Token"] = resposta;
+        doc["UID Cadastrado"] = numericUID;
         mensagemEmFila = true;
     }
     if (botao_externo_pressionado())
@@ -65,6 +62,7 @@ void inicializa_json()
     //     doc["Umidade"] = humidade;
     //     mensagemEmFila = true;
     // }
+    
 
     if (mensagemEmFila)
     {
