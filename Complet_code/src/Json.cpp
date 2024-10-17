@@ -15,7 +15,6 @@
 unsigned long time_anterior = 1000;
 unsigned long time_definido = 0;
 
-unsigned long newUID;
 const int resposta = 0;
 
 void inicializa_json()
@@ -29,7 +28,7 @@ void inicializa_json()
         time_anterior = millis();
         doc["timeStamp"] = timeStamp();
         doc["Token"] = resposta;
-        doc["UID Cadastrado"] = numericUID;
+        doc["UID Cadastrado"] = numericUID; 
         mensagemEmFila = true;
     }
     if (botao_externo_pressionado())
