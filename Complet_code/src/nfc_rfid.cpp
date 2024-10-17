@@ -6,11 +6,14 @@
 #define SDA_PIN 21
 #define SCL_PIN 22
 unsigned long numericUID = 0;
+int i_posicao = 0;
+
 
 Adafruit_PN532 nfc(SDA_PIN, SCL_PIN);
 Preferences preferences;
 const int maxUIDs = 2;
 bool memoriaCheia = true;
+bool duplicado;
 
 void inicializa_nfc()
 {
@@ -38,13 +41,13 @@ bool isDuplicateUID(unsigned long newUID)
 {
     for (int i = 0; i < maxUIDs; i++)
     {
-        unsigned long storedUID = preferences.getULong(String(i).c_str(), 0); // Recupera UID da posição i
+        unsigned long storedUID = preferences.getULong(String(i).c_str(), 0); 
         if (storedUID == newUID)
         {
-            return true;
+            return duplicado = true;
         }
     }
-    return false;
+    return duplicado = false;
 }
 
 void clearMemoryIfAllowed()
@@ -72,14 +75,14 @@ void clearMemoryIfAllowed()
 void storeUID(unsigned long newUID)
 {
 
-    for (int i = 0; i < maxUIDs; i++)
+    for (i_posicao = 0; i_posicao < maxUIDs; i_posicao++)
     {
-        unsigned long storedUID = preferences.getULong(String(i).c_str(), 0);
+        unsigned long storedUID = preferences.getULong(String(i_posicao).c_str(), 0);
         if (storedUID == 0)
         {
-            preferences.putULong(String(i).c_str(), newUID);
+            preferences.putULong(String(i_posicao).c_str(), newUID);
             Serial.print("UID armazenado na posição ");
-            Serial.println(i);
+            Serial.println(i_posicao);
             memoriaCheia = false;
             break;
         }

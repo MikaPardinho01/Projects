@@ -9,12 +9,13 @@
 #include "temperatura.h"
 #include "display.h"
 #include "nfc_rfid.h"
+#include "sensor.Gas.h"
+#include "motor.h"
 
 #define mqtt_topic1 "projeto_auto_factory"
 
-unsigned long time_anterior = 1000;
-unsigned long time_definido = 0;
-
+unsigned long time_anterior = 0;
+unsigned long time_definido = 1000;
 const int resposta = 0;
 
 void inicializa_json()
@@ -28,7 +29,13 @@ void inicializa_json()
         time_anterior = millis();
         doc["timeStamp"] = timeStamp();
         doc["Token"] = resposta;
-        doc["UID Cadastrado"] = numericUID; 
+        doc["UID Cadastrado: "] = numericUID;
+        doc["UID armazenado posicao: "] = i_posicao;
+        doc["UID detectado"] = duplicado;
+        doc["Estado"] = passoAtual;
+        doc["Temperatura"] = temperatura;
+        doc["Umidade"] = humidade;
+        doc["CO2"] = round(sensores_get_gas() * 100.0) / 100.0;
         mensagemEmFila = true;
     }
     if (botao_externo_pressionado())
@@ -51,18 +58,10 @@ void inicializa_json()
         doc["BotaoservoState"] = actionState;
         mensagemEmFila = true;
     }
-    // else if (lerTemperatura())
-    // {
-    //     doc["Temperatura"] = temperatura;
-    //     mensagemEmFila = true;
-    // }
-    // else if (lerUmidade())
-    // {
-    //     doc["Umidade"] = humidade;
-    //     mensagemEmFila = true;
-    // }
-    
-
+    else if(rotacao_motor_passo())
+    {
+        doc["Esteira"] = passoAtual;
+    }
     if (mensagemEmFila)
     {
         serializeJson(doc, json);

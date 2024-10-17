@@ -9,6 +9,8 @@
 #include "temperatura.h"
 #include "display.h"
 #include "nfc_rfid.h"
+#include "sensor.Gas.h"
+#include "motor.h"
 
 void setup()
 {
@@ -19,9 +21,11 @@ void setup()
     // atualiza_totem();
     inicializa_entradas();
     inicializa_servos();
-    // inicializa_temperatura();
+    inicializa_temperatura();
     inicializa_u8g2();
     inicializa_nfc();
+    sensores_init();
+    inicializa_motor();
     
 }
 
@@ -33,6 +37,7 @@ void loop()
     inicializa_json();
     atualiza_botoes(); 
     // inicializa_totem();
-    // setup_temperatura();
+    setup_temperatura();
     atualiza_nfc();
+    
 }

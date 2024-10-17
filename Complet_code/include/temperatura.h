@@ -1,7 +1,7 @@
-// void inicializa_temperatura();
-// void setup_temperatura();
-// float lerTemperatura(void);
-// float lerUmidade(void);
+void inicializa_temperatura();
+void setup_temperatura();
+float lerTemperatura(void);
+float lerUmidade(void);
 
-// extern float temperatura;
-// extern float humidade;
+extern float temperatura;
+extern float humidade;

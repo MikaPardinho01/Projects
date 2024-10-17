@@ -12,6 +12,7 @@
 #include "entradas.h"
 #include "nfc_rfid.h"
 #include "memory.h"
+#include "motor.h"
 
 // Definição dos tópicos de inscrição
 #define mqtt_topic1 "projeto_auto_factory"
@@ -135,17 +136,25 @@ void tratar_msg(char *topic, String msg)
       posiciona_servo(angulo_servo);
     }
     // else if (strcmp(topic, mqtt_topic1) == 0)
-    // {
-    //   JsonDocument doc;
-    //   deserializeJson(doc, msg);
-    //   if (doc.containsKey("Clear_Resposta"))
-    //   {
-    //     if (doc["Clear_Resposta"] == resposta)
-    //     {
-    //       clear();
-    //       end();
-    //     }
-    //   }
-    // }
+    JsonDocument doc;
+        deserializeJson(doc, msg);
+        bool RotacaoMotor = doc["EsteiraState"];
+
+        if (RotacaoMotor)
+        {
+            motorLigado = true;
+            Serial.println("Motor de passo ligado");
+        }
+        else
+        {
+            motorLigado = false;
+            digitalWrite(IN1, LOW);
+            digitalWrite(IN2, LOW);
+            digitalWrite(IN3, LOW);
+            digitalWrite(IN4, LOW);
+            Serial.println("Motor de passo desligado");
+        }
+    }
+
   }
-}
+

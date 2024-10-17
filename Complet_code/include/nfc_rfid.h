@@ -14,3 +14,5 @@ void storeUID(unsigned long newUID);
 void atualiza_nfc();
 
 extern unsigned long numericUID;
+extern int i_posicao;
+extern bool duplicado;
