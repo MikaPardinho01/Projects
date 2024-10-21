@@ -32,7 +32,7 @@ void inicializa_json()
         doc["UID Cadastrado: "] = numericUID;
         doc["UID armazenado posicao: "] = i_posicao;
         doc["UID detectado"] = duplicado;
-        doc["Estado"] = passoAtual;
+        // doc["Estado"] = passoAtual;
         doc["Temperatura"] = temperatura;
         doc["Umidade"] = humidade;
         doc["CO2"] = round(sensores_get_gas() * 100.0) / 100.0;
@@ -58,10 +58,10 @@ void inicializa_json()
         doc["BotaoservoState"] = actionState;
         mensagemEmFila = true;
     }
-    else if(rotacao_motor_passo())
-    {
-        doc["Esteira"] = passoAtual;
-    }
+    // else if(rotacao_motor_passo())
+    // {
+    //     doc["Esteira"] = passoAtual;
+    // }
     if (mensagemEmFila)
     {
         serializeJson(doc, json);

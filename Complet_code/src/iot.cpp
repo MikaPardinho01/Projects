@@ -136,24 +136,24 @@ void tratar_msg(char *topic, String msg)
       posiciona_servo(angulo_servo);
     }
     // else if (strcmp(topic, mqtt_topic1) == 0)
-    JsonDocument doc;
-        deserializeJson(doc, msg);
-        bool RotacaoMotor = doc["EsteiraState"];
+    // JsonDocument doc;
+    //     deserializeJson(doc, msg);
+    //     bool RotacaoMotor = doc["EsteiraState"];
 
-        if (RotacaoMotor)
-        {
-            motorLigado = true;
-            Serial.println("Motor de passo ligado");
-        }
-        else
-        {
-            motorLigado = false;
-            digitalWrite(IN1, LOW);
-            digitalWrite(IN2, LOW);
-            digitalWrite(IN3, LOW);
-            digitalWrite(IN4, LOW);
-            Serial.println("Motor de passo desligado");
-        }
+    //     if (RotacaoMotor)
+    //     {
+    //         motorLigado = true;
+    //         Serial.println("Motor de passo ligado");
+    //     }
+    //     else
+    //     {
+    //         motorLigado = false;
+    //         digitalWrite(IN1, LOW);
+    //         digitalWrite(IN2, LOW);
+    //         digitalWrite(IN3, LOW);
+    //         digitalWrite(IN4, LOW);
+    //         Serial.println("Motor de passo desligado");
+    //     }
     }
 
   }
