@@ -25,7 +25,7 @@ void setup()
     inicializa_u8g2();
     inicializa_nfc();
     sensores_init();
-    // inicializa_motor();
+    inicializa_motor();
     
 }
 

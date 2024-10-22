@@ -58,10 +58,6 @@ void inicializa_json()
         doc["BotaoservoState"] = actionState;
         mensagemEmFila = true;
     }
-    // else if(rotacao_motor_passo())
-    // {
-    //     doc["Esteira"] = passoAtual;
-    // }
     if (mensagemEmFila)
     {
         serializeJson(doc, json);
