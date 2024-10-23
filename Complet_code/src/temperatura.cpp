@@ -5,7 +5,7 @@
 #include "tempo.h"
 
 #define DHTTYPE DHT22
-#define DHTPIN 35
+#define DHTPIN 25
 
 float temperatura;
 float humidade;

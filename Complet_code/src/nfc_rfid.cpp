@@ -44,10 +44,10 @@ bool isDuplicateUID(unsigned long newUID)
         unsigned long storedUID = preferences.getULong(String(i).c_str(), 0); 
         if (storedUID == newUID)
         {
-            return duplicado = true;
+            return duplicado = printf("UID duplicado detectado na posição %d", i);
         }
     }
-    return duplicado = false;
+    return duplicado = printf("Novo UID detectado");
 }
 
 void clearMemoryIfAllowed()

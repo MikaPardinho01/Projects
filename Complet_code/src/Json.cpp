@@ -58,6 +58,11 @@ void inicializa_json()
         doc["BotaoservoState"] = actionState;
         mensagemEmFila = true;
     }
+    else if (alterna_motor())
+    {
+        doc["MotorState"] = motorLigado;
+        mensagemEmFila = true;
+    }
     if (mensagemEmFila)
     {
         serializeJson(doc, json);

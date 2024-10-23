@@ -13,9 +13,11 @@
 #include "nfc_rfid.h"
 #include "memory.h"
 #include "motor.h"
+#include "token.h"
 
 // Definição dos tópicos de inscrição
 #define mqtt_topic1 "projeto_auto_factory"
+#define mqtt_topic2 "ProjetoKaue/receba"
 
 // Definição do ID do cliente MQTT randomico
 const String cliente_id = "ESP32Client" + String(random(0xffff), HEX);
@@ -114,47 +116,49 @@ void inscricao_topicos()
 // Trata as mensagens recebidas
 void tratar_msg(char *topic, String msg)
 {
+  if (strcmp(topic, mqtt_topic2) == 0)
   {
-    if (strcmp(topic, mqtt_topic1) == 0)
+    JsonDocument doc;
+    deserializeJson(doc, msg);
+    if (doc.containsKey("BotaoservoState"))
     {
-      JsonDocument doc;
-      deserializeJson(doc, msg);
-      if (doc.containsKey("BotaoservoState"))
+      actionState == doc["BotaoservoState"];
+
+      if (actionState)
       {
-        actionState == doc["BotaoservoState"];
-
-        if (actionState)
-        {
-          angulo_servo = 180;
-        }
-
-        else
-        {
-          angulo_servo = 0;
-        }
+        angulo_servo = 180;
       }
-      posiciona_servo(angulo_servo);
-    }
-    // else if (strcmp(topic, mqtt_topic1) == 0)
-    // JsonDocument doc;
-    //     deserializeJson(doc, msg);
-    //     bool RotacaoMotor = doc["EsteiraState"];
 
-    //     if (RotacaoMotor)
-    //     {
-    //         motorLigado = true;
-    //         Serial.println("Motor de passo ligado");
-    //     }
-    //     else
-    //     {
-    //         motorLigado = false;
-    //         digitalWrite(IN1, LOW);
-    //         digitalWrite(IN2, LOW);
-    //         digitalWrite(IN3, LOW);
-    //         digitalWrite(IN4, LOW);
-    //         Serial.println("Motor de passo desligado");
-    //     }
+      else
+      {
+        angulo_servo = 0;
+      }
     }
-
+    posiciona_servo(angulo_servo);
   }
+  if (strcmp(topic, mqtt_topic1) == 0)
+  {
+    JsonDocument doc;
+    deserializeJson(doc, msg);
 
+    if (doc.containsKey("MudaSenha"))
+    {
+      unsigned long novoIntervalo = doc["MudaSenha"];
+      Intervalo_Normal = novoIntervalo;
+      Serial.println("----------------------");
+      Serial.print("\nIntervalo de tempo: ");
+      Serial.println(Intervalo_Normal / 1000);
+      // preferences.putULong("Intervalo", Intervalo_Normal); // Salvar o valor na memória
+    }
+
+    if (doc.containsKey("TempoExtra"))
+    {
+      unsigned long SenhaTravada = doc["TempoExtra"];
+      Tempo_extra = SenhaTravada;
+      Serial.print("\nTempo extra: ");
+      Serial.println(Tempo_extra / 1000);
+      Serial.println("----------------------");
+      // preferences.putULong("TempoExtra", Tempo_extra);
+    }
+  }
+}

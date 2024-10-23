@@ -11,6 +11,7 @@
 #include "nfc_rfid.h"
 #include "sensor.Gas.h"
 #include "motor.h"
+#include "token.h"
 
 void setup()
 {
@@ -26,7 +27,7 @@ void setup()
     inicializa_nfc();
     sensores_init();
     inicializa_motor();
-    
+    Inicializa_senha();
 }
 
 void loop()
