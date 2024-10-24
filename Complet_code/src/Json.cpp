@@ -56,6 +56,15 @@ void inicializa_json()
     {
         doc["PortaoState"] = angulo_servo;
         doc["BotaoservoState"] = actionState;
+        if (actionState)
+        { 
+            angulo = 180;
+        }
+        else 
+        {
+            angulo = 0;
+        }
+        posiciona_servo(angulo);
         mensagemEmFila = true;
     }
     else if (alterna_motor())
