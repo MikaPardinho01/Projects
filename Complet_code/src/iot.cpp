@@ -122,11 +122,12 @@ void tratar_msg(char *topic, String msg)
     deserializeJson(doc, msg);
     if (doc.containsKey("BotaoservoState"))
     {
-      actionState == doc["BotaoservoState"];
+      actionState = doc["BotaoservoState"];
 
       if (actionState)
       {
         angulo_servo = 180;
+        
       }
 
       else
