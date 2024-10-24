@@ -116,7 +116,7 @@ void inscricao_topicos()
 // Trata as mensagens recebidas
 void tratar_msg(char *topic, String msg)
 {
-  if (strcmp(topic, mqtt_topic2) == 0)
+  if (strcmp(topic, mqtt_topic1) == 0)
   {
     JsonDocument doc;
     deserializeJson(doc, msg);
