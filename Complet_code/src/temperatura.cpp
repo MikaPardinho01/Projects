@@ -22,15 +22,15 @@ void inicializa_temperatura()
     dht.begin();
 }
 
-void setup_temperatura()
-{
-    if (millis() - tempo_anterior >= tempo_intervalo)
-    {
-        Serial.println("Temperatura:" + String(lerTemperatura()) + "ºC");
-        Serial.println("Umidade:" + String(lerUmidade()) + "%");
-        tempo_anterior = millis();
-    }
-}
+// void setup_temperatura()
+// {
+//     if (millis() - tempo_anterior >= tempo_intervalo)
+//     {
+//         tempo_anterior = millis();
+//         Serial.println("Temperatura:" + String(lerTemperatura()) + "ºC");
+//         Serial.println("Umidade:" + String(lerUmidade()) + "%");    
+//     }
+// }
 
 float lerTemperatura()
 {

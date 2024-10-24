@@ -1,16 +1,13 @@
 #include <Arduino.h>
-#include <U8g2lib.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
-#include "temperatura.h"
 
-#define SCREEN_WIDTH 128 
-#define SCREEN_HEIGHT 64 
-#define SCREEN_ADDRESS 0x3C 
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define SCREEN_ADDRESS 0x3C
 #define OLED_RESET -1
 
-U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE);
 Adafruit_SSD1306 oled(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 const unsigned char Untitled[] PROGMEM = {
@@ -55,29 +52,14 @@ const unsigned char Untitled[] PROGMEM = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00};
 
-void inicializa_u8g2()
+void inicializa_oled()
 {
-    u8g2.begin();
+    oled.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS);
 }
 
-// void display_temperatura()
-// {
-//     u8g2.drawRFrame(3, 3, 122, 27, 5);
-//     u8g2.drawRFrame(3, 34, 122, 27, 5);
-//     u8g2.setFont(u8g2_font_unifont_t_weather);
-//     u8g2.drawGlyph(5, 23, 0x31);
-//     u8g2.drawGlyph(5, 53, 0x32);
-//     u8g2.setFont(u8g2_font_lubBI12_te);
-//     u8g2.drawStr(30, 23, String(lerTemperatura(), 1).c_str());
-//     u8g2.drawStr(70, 23, "*C");
-//     u8g2.drawStr(30, 53, String(lerUmidade(), 0).c_str());
-//     u8g2.drawStr(60, 53, "%");
-// }
-
-
-void totem_localizacao()
+void atualiza_oled()
 {
     oled.clearDisplay();
-    oled.drawBitmap(0, 0,Untitled , 128, 64, WHITE);
+    oled.drawBitmap(0, 0, Untitled, 128, 64, WHITE);
     oled.display();
 }

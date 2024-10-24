@@ -127,17 +127,14 @@ void tratar_msg(char *topic, String msg)
       if (actionState)
       {
         angulo_servo = 180;
-        Serial.println("Servo movido a 180 graus");
-        
       }
 
       else
       {
         angulo_servo = 0;
-        Serial.println("Servo movido a 0 graus");
       }
+      posiciona_servo(angulo_servo);
     }
-    posiciona_servo(angulo_servo);
   }
   if (strcmp(topic, mqtt_topic2) == 0)
   {
