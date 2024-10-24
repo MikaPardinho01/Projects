@@ -116,27 +116,29 @@ void inscricao_topicos()
 // Trata as mensagens recebidas
 void tratar_msg(char *topic, String msg)
 {
-  if (strcmp(topic, mqtt_topic2) == 0)
+  if (strcmp(topic, mqtt_topic1) == 0)
   {
     JsonDocument doc;
     deserializeJson(doc, msg);
     if (doc.containsKey("BotaoservoState"))
     {
-      actionState == doc["BotaoservoState"];
+      actionState = doc["BotaoservoState"];
 
       if (actionState)
       {
         angulo_servo = 180;
+        Serial.println("Servo ligado");
       }
 
       else
       {
         angulo_servo = 0;
+        Serial.println("Servo desligado");
       }
+      posiciona_servo(angulo_servo);
     }
-    posiciona_servo(angulo_servo);
   }
-  if (strcmp(topic, mqtt_topic1) == 0)
+  if (strcmp(topic, mqtt_topic2) == 0)
   {
     JsonDocument doc;
     deserializeJson(doc, msg);

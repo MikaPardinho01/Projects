@@ -13,10 +13,10 @@
 #include "motor.h"
 
 #define mqtt_topic1 "projeto_auto_factory"
+#define mqtt_topic2 "ProjetoKaue/receba"
 
 unsigned long time_anterior = 0;
-unsigned long time_definido = 1000;
-const int resposta = 0;
+const unsigned long time_definido = 1000;
 
 void inicializa_json()
 {
@@ -28,17 +28,16 @@ void inicializa_json()
     {
         time_anterior = millis();
         doc["timeStamp"] = timeStamp();
-        doc["Token"] = resposta;
-        doc["UID Cadastrado: "] = numericUID;
-        doc["UID armazenado posicao: "] = i_posicao;
-        doc["UID detectado"] = duplicado;
-        // doc["Estado"] = passoAtual;
+        doc["UID_Cadastrado: "] = numericUID;
+        doc["UID_armazenado_posicao: "] = i_posicao;
+        doc["UID_detectado"] = duplicado;
         doc["Temperatura"] = temperatura;
         doc["Umidade"] = humidade;
         doc["CO2"] = round(sensores_get_gas() * 100.0) / 100.0;
         mensagemEmFila = true;
     }
-    if (botao_externo_pressionado())
+
+    else if (botao_externo_pressionado())
     {
         LuzCentral = !LuzCentral;
         doc["LedState"] = LuzCentral;
@@ -56,13 +55,22 @@ void inicializa_json()
     {
         doc["PortaoState"] = angulo_servo;
         doc["BotaoservoState"] = actionState;
+        if (actionState)
+        {
+            angulo_servo = 180;
+        }
+        else
+        {
+            angulo_servo = 0;
+        }
+        posiciona_servo(angulo_servo);
         mensagemEmFila = true;
     }
-    else if (alterna_motor())
-    {
-        doc["MotorState"] = motorLigado;
-        mensagemEmFila = true;
-    }
+    // else if (alterna_motor())
+    // {
+    //     doc["MotorState"] = motorLigado;
+    //     mensagemEmFila = true;
+    // }
     if (mensagemEmFila)
     {
         serializeJson(doc, json);
