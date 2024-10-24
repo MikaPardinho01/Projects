@@ -127,13 +127,11 @@ void tratar_msg(char *topic, String msg)
       if (actionState)
       {
         angulo_servo = 180;
-        Serial.println("Servo ligado");
       }
 
       else
       {
         angulo_servo = 0;
-        Serial.println("Servo desligado");
       }
       posiciona_servo(angulo_servo);
     }
