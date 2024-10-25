@@ -4,4 +4,3 @@ bool alterna_motor();
 
 extern bool motorLigado;
 
-
