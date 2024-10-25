@@ -19,16 +19,15 @@ void setup()
     setup_wifi();
     setup_time();
     inicializa_saidas();
-    inicializa_oled();
+    // atualiza_totem();
     inicializa_entradas();
     inicializa_servos();
     inicializa_temperatura();
-    inicializa_oled();
+    inicializa_u8g2();
     inicializa_nfc();
     sensores_init();
     inicializa_motor();
     Inicializa_senha();
-    atualiza_nfc();
 }
 
 void loop()
@@ -37,7 +36,9 @@ void loop()
     atualiza_saidas();
     atualiza_sinilizacao();
     inicializa_json();
-    atualiza_botoes();
-    lerTemperatura();
-    lerUmidade();
+    atualiza_botoes(); 
+    // inicializa_totem();
+    setup_temperatura();
+    atualiza_nfc();
+    
 }
