@@ -4,10 +4,10 @@
 #include "saidas.h"
 
 // Definição dos pinos dos botões
-#define BOTAO_EXTERNO_PIN 4
-#define BOTAO_SERVO 14
+#define BOTAO_EXTERNO_PIN 0
+#define BOTAO_SERVO 4
 // #define BOTAO_CONTROLE 4
-#define BOTAO_NFC 0
+#define BOTAO_NFC 14
 
 // Criação dos objetos para debouncing
 

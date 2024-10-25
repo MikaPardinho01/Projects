@@ -1,81 +1,164 @@
 #include <Arduino.h>
+#include <WiFi.h>
+#include <PubSubClient.h>
 #include <ArduinoJson.h>
-#include "json.h"
+#include <TimeLib.h>
+#include <WiFiClientSecure.h>
 #include "iot.h"
-#include "tempo.h"
+#include "senhas.h"
 #include "saidas.h"
-#include "entradas.h"
+#include "json.h"
 #include "atuadores.h"
-#include "temperatura.h"
-#include "display.h"
+#include "entradas.h"
 #include "nfc_rfid.h"
-#include "sensor.Gas.h"
+#include "memory.h"
 #include "motor.h"
+#include "token.h"
 
+// Definição dos tópicos de inscrição
 #define mqtt_topic1 "projeto_auto_factory"
+#define mqtt_topic2 "ProjetoKaue/receba"
 
-unsigned long time_anterior = 0;
-unsigned long time_definido = 1000;
-const int resposta = 0;
+// Definição do ID do cliente MQTT randomico
+const String cliente_id = "ESP32Client" + String(random(0xffff), HEX);
 
-void inicializa_json()
+// Definicao para o token
+const int Tokens = 1803;
+String resposta = "Sim";
+
+// Protótipos das funções
+void tratar_msg(char *topic, String msg);
+void callback(char *topic, byte *payload, unsigned int length);
+void reconecta_mqtt();
+void inscricao_topicos();
+
+// Definição dos dados de conexão
+
+WiFiClientSecure espClient;
+PubSubClient client(AWS_IOT_ENDPOINT, mqtt_port, callback, espClient);
+
+// Inicia a conexão WiFi
+void setup_wifi()
 {
-    JsonDocument doc;
-    String json;
-    bool mensagemEmFila = false;
+    Serial.println();
+    Serial.print("Conectando-se a Rede WiFi ");
+    Serial.print(ssid);
+    WiFi.begin(ssid, password);
+    while (WiFi.status() != WL_CONNECTED)
+    {
+        delay(500);
+        Serial.print(".");
+    }
+    Serial.println();
+    Serial.print("Conectado ao WiFi com sucesso com IP: ");
+    Serial.println(WiFi.localIP());
 
-    if (millis() - time_anterior >= time_definido)
+    espClient.setCACert(AWS_CERT_CA);
+    espClient.setCertificate(AWS_CERT_CRT);
+    espClient.setPrivateKey(AWS_CERT_PRIVATE);
+}
+
+// Atualiza a conexão MQTT
+void atualiza_mqtt()
+{
+    client.loop();
+    if (!client.connected())
     {
-        time_anterior = millis();
-        doc["timeStamp"] = timeStamp();
-        doc["Token"] = resposta;
-        doc["UID Cadastrado: "] = numericUID;
-        doc["UID armazenado posicao: "] = i_posicao;
-        doc["UID detectado"] = duplicado;
-        // doc["Estado"] = passoAtual;
-        doc["Temperatura"] = temperatura;
-        doc["Umidade"] = humidade;
-        doc["CO2"] = round(sensores_get_gas() * 100.0) / 100.0;
-        mensagemEmFila = true;
+        reconecta_mqtt();
     }
-    if (botao_externo_pressionado())
+}
+
+// Função de callback chamada quando uma mensagem é recebida
+void callback(char *topic, byte *payload, unsigned int length)
+{
+    String msg = "";
+    for (int i = 0; i < length; i++)
     {
-        LuzCentral = !LuzCentral;
-        doc["LedState"] = LuzCentral;
-        doc["BotaoState"] = true;
-        doc["timeStamp"] = timeStamp();
-        mensagemEmFila = true;
+        msg += (char)payload[i];
     }
-    else if (botao_externo_solto())
+
+    tratar_msg(topic, msg);
+}
+
+// Função de reconexão ao Broker MQTT
+void reconecta_mqtt()
+{
+    while (!client.connected())
     {
-        doc["BotaoState"] = false;
-        doc["timeStamp"] = timeStamp();
-        mensagemEmFila = true;
-    }
-    else if (botao_servo_pressionado())
-    {
-        doc["PortaoState"] = angulo_servo;
-        doc["BotaoservoState"] = actionState;
-        if (actionState)
-        { 
-            angulo = 180;
-        }
-        else 
+        Serial.print("Tentando se conectar ao Broker MQTT: ");
+        Serial.println(AWS_IOT_ENDPOINT);
+        if (client.connect(THINGNAME))
         {
-            angulo = 0;
+            Serial.println("Conectado ao Broker MQTT");
+            inscricao_topicos();
         }
-        posiciona_servo(angulo);
-        mensagemEmFila = true;
+        else
+        {
+            Serial.println("Falha ao conectar ao Broker.");
+            Serial.println("Havera nova tentativa de conexao em 2 segundos");
+            delay(2000);
+        }
     }
-    else if (alterna_motor())
+}
+
+// Publica uma mensagem no tópico MQTT
+void publica_mqtt(String topico, String msg)
+{
+    client.publish(topico.c_str(), msg.c_str());
+}
+
+// Inscreve nos tópicos MQTT
+void inscricao_topicos()
+{
+    client.subscribe(mqtt_topic1); // LED 2
+}
+
+// Trata as mensagens recebidas
+void tratar_msg(char *topic, String msg)
+{
+    if (strcmp(topic, mqtt_topic1) == 0)
     {
-        doc["MotorState"] = motorLigado;
-        mensagemEmFila = true;
+        JsonDocument doc;
+        deserializeJson(doc, msg);
+        if (doc.containsKey("BotaoservoState"))
+        {
+            actionState = doc["BotaoservoState"];
+
+            if (actionState)
+            {
+                angulo_servo = 180;
+            }
+
+            else
+            {
+                angulo_servo = 0;
+            }
+            posiciona_servo(angulo_servo);
+        }
     }
-    if (mensagemEmFila)
+    if (strcmp(topic, mqtt_topic2) == 0)
     {
-        serializeJson(doc, json);
-        publica_mqtt(mqtt_topic1, json);
-        mensagemEmFila = false;
+        JsonDocument doc;
+        deserializeJson(doc, msg);
+
+        if (doc.containsKey("MudaSenha"))
+        {
+            unsigned long novoIntervalo = doc["MudaSenha"];
+            Intervalo_Normal = novoIntervalo;
+            Serial.println("----------------------");
+            Serial.print("\nIntervalo de tempo: ");
+            Serial.println(Intervalo_Normal / 1000);
+            // preferences.putULong("Intervalo", Intervalo_Normal); // Salvar o valor na memória
+        }
+
+        if (doc.containsKey("TempoExtra"))
+        {
+            unsigned long SenhaTravada = doc["TempoExtra"];
+            Tempo_extra = SenhaTravada;
+            Serial.print("\nTempo extra: ");
+            Serial.println(Tempo_extra / 1000);
+            Serial.println("----------------------");
+            // preferences.putULong("TempoExtra", Tempo_extra);
+        }
     }
 }

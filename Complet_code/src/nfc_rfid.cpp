@@ -5,6 +5,9 @@
 
 #define SDA_PIN 21
 #define SCL_PIN 22
+
+unsigned long anter = 0;
+unsigned long time_def = 1000;
 unsigned long numericUID = 0;
 int i_posicao = 0;
 
@@ -96,6 +99,11 @@ void storeUID(unsigned long newUID)
 
 void atualiza_nfc()
 {
+    if (millis() - anter >= time_def)
+    {
+        anter = millis();
+        Serial.println("UID: " + String(numericUID));
+    }
     uint8_t success;
     uint8_t uid[] = {0, 0, 0, 0, 0, 0, 0};
     uint8_t uidLength;
@@ -123,7 +131,5 @@ void atualiza_nfc()
             Serial.println("Novo UID detectado.");
             storeUID(numericUID);
         }
-
-        delay(1000);
     }
 }
