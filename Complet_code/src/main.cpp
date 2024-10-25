@@ -18,16 +18,15 @@ void setup()
     Serial.begin(9600);
     setup_wifi();
     setup_time();
-    inicializa_saidas();
-    // atualiza_totem();
     inicializa_entradas();
     inicializa_servos();
     inicializa_temperatura();
-    inicializa_u8g2();
     inicializa_nfc();
     sensores_init();
     inicializa_motor();
     Inicializa_senha();
+    inicializa_display();
+    
 }
 
 void loop()
@@ -36,9 +35,7 @@ void loop()
     atualiza_saidas();
     atualiza_sinilizacao();
     inicializa_json();
-    atualiza_botoes(); 
-    // inicializa_totem();
+    atualiza_botoes();
     setup_temperatura();
     atualiza_nfc();
-    
 }

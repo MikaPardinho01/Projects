@@ -1,17 +1,17 @@
 #include <Wire.h>
 #include <Adafruit_PN532.h>
 #include <Preferences.h>
-#include "entradas.h"
 
 #define SDA_PIN 21
 #define SCL_PIN 22
 unsigned long numericUID = 0;
 int i_posicao = 0;
-
+unsigned long anter = 0;
+unsigned long def = 1000;
 
 Adafruit_PN532 nfc(SDA_PIN, SCL_PIN);
 Preferences preferences;
-const int maxUIDs = 2;
+const int maxUIDs = 3;
 bool memoriaCheia = true;
 bool duplicado;
 
@@ -54,10 +54,7 @@ void clearMemoryIfAllowed()
 {
     if (memoriaCheia)
     {
-        Serial.println("Precione o botão NFC para continuar com a exclusao dos dados...");
-        if (botao_pressionado_nfc())
-
-        Serial.println("Botão pressionado. Limpando a memória...");
+        Serial.println("Memória cheia. Limpando a memória...");
 
         // Limpa a memória flash
         preferences.clear();
@@ -96,6 +93,10 @@ void storeUID(unsigned long newUID)
 
 void atualiza_nfc()
 {
+    if (millis() - anter >= def)
+    {
+        anter = millis();
+    
     uint8_t success;
     uint8_t uid[] = {0, 0, 0, 0, 0, 0, 0};
     uint8_t uidLength;
@@ -124,6 +125,6 @@ void atualiza_nfc()
             storeUID(numericUID);
         }
 
-        delay(1000);
+       }
     }
 }

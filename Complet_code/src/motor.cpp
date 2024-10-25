@@ -55,6 +55,7 @@ bool atualiza_motor()
       return motorLigado = printf("Motor desligado");
     }
   }
+  return motorLigado;
 }
 
 bool alterna_motor()

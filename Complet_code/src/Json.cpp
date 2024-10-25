@@ -28,28 +28,24 @@ void inicializa_json()
     {
         time_anterior = millis();
         doc["timeStamp"] = timeStamp();
-        doc["Token"] = resposta;
-        doc["UID Cadastrado: "] = numericUID;
-        doc["UID armazenado posicao: "] = i_posicao;
-        doc["UID detectado"] = duplicado;
-        // doc["Estado"] = passoAtual;
+        doc["UIDCadastrado"] = numericUID;
+        doc["UIDarmazenadoposicao"] = i_posicao;
+        doc["UIDDetectado"] = duplicado;
         doc["Temperatura"] = temperatura;
         doc["Umidade"] = humidade;
         doc["CO2"] = round(sensores_get_gas() * 100.0) / 100.0;
         mensagemEmFila = true;
     }
-    if (botao_externo_pressionado())
+   else if (botao_externo_pressionado())
     {
         LuzCentral = !LuzCentral;
         doc["LedState"] = LuzCentral;
         doc["BotaoState"] = true;
-        doc["timeStamp"] = timeStamp();
         mensagemEmFila = true;
     }
     else if (botao_externo_solto())
     {
         doc["BotaoState"] = false;
-        doc["timeStamp"] = timeStamp();
         mensagemEmFila = true;
     }
     else if (botao_servo_pressionado())
@@ -58,18 +54,14 @@ void inicializa_json()
         doc["BotaoservoState"] = actionState;
         if (actionState)
         { 
-            angulo = 180;
+            angulo_servo = 180;
+            Serial.println("Servo ligado");
         }
         else 
         {
-            angulo = 0;
+            angulo_servo = 0;
         }
-        posiciona_servo(angulo);
-        mensagemEmFila = true;
-    }
-    else if (alterna_motor())
-    {
-        doc["MotorState"] = motorLigado;
+        posiciona_servo(angulo_servo);
         mensagemEmFila = true;
     }
     if (mensagemEmFila)
