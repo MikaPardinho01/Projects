@@ -1,48 +1,64 @@
 #include <Arduino.h>
+
 #include <LiquidCrystal_I2C.h>
+
 #include <Bounce2.h>
 
-#define PIN_BOTAO 0
+LiquidCrystal_I2C lcd(0x27, 20, 4);
 
-Bounce botao = Bounce();
-LiquidCrystal_I2C lcd(0x27, 28, 4);
+Bounce Botaoboot = Bounce();
 
-bool acctive = false;
+byte caracter1[] = {
+
+    B10001,
+
+    B11011,
+
+    B10101,
+
+    B10001,
+
+    B10001,
+
+    B10001,
+
+    B10001,
+
+    B10001
+
+}
 
 void setup()
 {
-  lcd.init(); // Inicializa o LCD
-  lcd.backlight(); // inicializa a luz de fundo
-  lcd.setCursor(0, 0); // posiciona o cursor na coluna 0 e linha 0
-  lcd.print("Hello, World!"); // Escreve 
 
-  // Primeiro posiciona o cursor, depois o texto
-  lcd.setCursor(0, 1); 
-  lcd.print("Mika");
-  lcd.setCursor(0, 2); 
-  lcd.print("Senai");
-  lcd.setCursor(0, 3); 
-  lcd.print("2024");
-  delay(3000);  // aguarda 3 segundos (trocar por millis)
-  lcd.clear(); // limpa a tela
+  Botaoboot.attach(0, INPUT_PULLUP);
 
-  botao.attach(PIN_BOTAO, INPUT_PULLUP);
-  Serial.begin(9600);
+  lcd.init();
+
+  lcd.backlight();
+
+  lcd.print("Botao solto");
 }
 
 void loop()
 {
-  botao.update();
-  if (botao.fell()) 
+  Botaoboot.update();
+
+  if (Botaoboot.fell())
+
   {
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("Botao press");
+
+    lcd.setCursor(6, 0);
+
+    lcd.print("pressionado");
   }
-  else if (botao.rose())
+
+  else if (Botaoboot.rose())
+
   {
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("Botao nao press");
+
+    lcd.setCursor(6, 0);
+
+    lcd.print("solto       ");
   }
 }
