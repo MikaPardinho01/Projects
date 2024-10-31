@@ -26,7 +26,6 @@ void setup()
     inicializa_motor();
     Inicializa_senha();
     inicializa_display();
-    
 }
 
 void loop()

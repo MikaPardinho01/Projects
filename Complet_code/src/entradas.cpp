@@ -3,34 +3,29 @@
 #include "entradas.h"
 #include "saidas.h"
 
-// Definição dos pinos dos botões
-#define BOTAO_EXTERNO_PIN 14
-#define BOTAO_SERVO 4
-// #define BOTAO_CONTROLE 4
-
-// Criação dos objetos para debouncing
+const int BOTAO_EXTERNO_PIN = 14;
+const int BOTAO_SERVO = 4;
+const int BOTAO_PASSO = 0;
 
 Bounce botaoExternoluz = Bounce();
 Bounce botaoservo = Bounce();
-// Bounce botaoControle = Bounce();
+Bounce botaoPasso = Bounce();
 
 bool actionState = false;
-bool actionControll = false;
+bool buttonState = false;
 
-// Inicializa as entradas digitais
 void inicializa_entradas()
 {
     botaoExternoluz.attach(BOTAO_EXTERNO_PIN, INPUT_PULLUP);
     botaoservo.attach(BOTAO_SERVO, INPUT_PULLUP);
-    // botaoControle.attach(BOTAO_CONTROLE, INPUT_PULLUP);
+    botaoPasso.attach(BOTAO_PASSO, INPUT_PULLUP);
 }
 
-// Atualiza o estado dos botões
 void atualiza_botoes()
 {
     botaoExternoluz.update();
     botaoservo.update();
-    // botaoControle.update();
+    botaoPasso.update();
 }
 
 bool botao_externo_pressionado()
@@ -43,7 +38,6 @@ bool botao_externo_solto()
     return botaoExternoluz.rose();
 }
 
-
 bool botao_servo_pressionado()
 {
     if (botaoservo.fell())
@@ -54,17 +48,12 @@ bool botao_servo_pressionado()
     return botaoservo.fell();
 }
 
-// bool botao_servo_solto()
-// {
-//     return botaoservo.rose();
-// }
-
-// bool botao_controle_solto()
-// {
-//     if (botaoControle.fell())
-//     {
-//         actionControll = !actionControll;
-//     }
-//     return botaoControle.fell();
-// }
-
+bool botao_passo_pressionado()
+{
+    if (botaoPasso.fell())
+    {
+        buttonState = !buttonState;
+        Serial.println(buttonState ? "Passo ligado" : "Passo desligado");
+    }
+    return botaoPasso.fell();
+}

@@ -55,13 +55,27 @@ void inicializa_json()
         if (actionState)
         { 
             angulo_servo = 180;
-            Serial.println("Servo ligado");
         }
         else 
         {
             angulo_servo = 0;
         }
         posiciona_servo(angulo_servo);
+        mensagemEmFila = true;
+    }
+    else if (botao_passo_pressionado())
+    {
+        doc["EsteiraState"] = buttonState;
+        if (buttonState)
+        { 
+            motorLigado = "Esteira Ligada";
+            Serial.println("Passo ligado");
+        }
+        else 
+        {
+            motorLigado = "Esteira Desligada";
+            Serial.println("Passo desligado");
+        }
         mensagemEmFila = true;
     }
     if (mensagemEmFila)

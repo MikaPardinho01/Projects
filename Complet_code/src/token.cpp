@@ -22,7 +22,8 @@ int gera_senha()
     unsigned long tempo_atual = millis();
     if (tempo_atual - tempo_anterior_token >= troca_Token)
     {
-        if (tempo_anterior_token != Intervalo_Normal) troca_Token = Intervalo_Normal;
+        if (tempo_anterior_token != Intervalo_Normal)
+            troca_Token = Intervalo_Normal;
         tempo_anterior_token = tempo_atual;
         randNumber = random(1000, 10000);
         Serial.print("\n");

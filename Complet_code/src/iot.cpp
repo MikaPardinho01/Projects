@@ -110,7 +110,7 @@ void publica_mqtt(String topico, String msg)
 // Inscreve nos tópicos MQTT
 void inscricao_topicos()
 {
-  client.subscribe(mqtt_topic1); // LED 2
+  client.subscribe(mqtt_topic1);
 }
 
 // Trata as mensagens recebidas
@@ -127,7 +127,6 @@ void tratar_msg(char *topic, String msg)
       if (actionState)
       {
         angulo_servo = 180;
-        Serial.println("Servo ligado");
       }
       else
       {
@@ -135,31 +134,48 @@ void tratar_msg(char *topic, String msg)
       }
       posiciona_servo(angulo_servo);
     }
-    
   }
-  if (strcmp(topic, mqtt_topic2) == 0)
+  if (strcmp(topic, mqtt_topic1) == 0)
   {
     JsonDocument doc;
     deserializeJson(doc, msg);
-
-    if (doc.containsKey("MudaSenha"))
+    if (doc.containsKey("EsteiraState"))
     {
-      unsigned long novoIntervalo = doc["MudaSenha"];
-      Intervalo_Normal = novoIntervalo;
-      Serial.println("----------------------");
-      Serial.print("\nIntervalo de tempo: ");
-      Serial.println(Intervalo_Normal / 1000);
-      // preferences.putULong("Intervalo", Intervalo_Normal); // Salvar o valor na memória
-    }
+      buttonState = doc["EsteiraState"];
 
-    if (doc.containsKey("TempoExtra"))
-    {
-      unsigned long SenhaTravada = doc["TempoExtra"];
-      Tempo_extra = SenhaTravada;
-      Serial.print("\nTempo extra: ");
-      Serial.println(Tempo_extra / 1000);
-      Serial.println("----------------------");
-      // preferences.putULong("TempoExtra", Tempo_extra);
+      if (buttonState)
+      {
+        motorLigado = true;
+      }
+      else
+      {
+        motorLigado = false;
+      }
     }
   }
+  // if (strcmp(topic, mqtt_topic2) == 0)
+  // {
+  //   JsonDocument doc;
+  //   deserializeJson(doc, msg);
+
+  //   if (doc.containsKey("MudaSenha"))
+  //   {
+  //     unsigned long novoIntervalo = doc["MudaSenha"];
+  //     Intervalo_Normal = novoIntervalo;
+  //     Serial.println("----------------------");
+  //     Serial.print("\nIntervalo de tempo: ");
+  //     Serial.println(Intervalo_Normal / 1000);
+  //     // preferences.putULong("Intervalo", Intervalo_Normal); // Salvar o valor na memória
+  //   }
+
+  //   if (doc.containsKey("TempoExtra"))
+  //   {
+  //     unsigned long SenhaTravada = doc["TempoExtra"];
+  //     Tempo_extra = SenhaTravada;
+  //     Serial.print("\nTempo extra: ");
+  //     Serial.println(Tempo_extra / 1000);
+  //     Serial.println("----------------------");
+  //     // preferences.putULong("TempoExtra", Tempo_extra);
+  //   }
+  // }
 }

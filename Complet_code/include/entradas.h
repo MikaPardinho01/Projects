@@ -1,45 +1,9 @@
 
-
-//Inicia as entradas digitais
 void inicializa_entradas();
-
-//Atualiza o estado do botão
 void atualiza_botoes();
-
-/*
-@brief Indica se o botão externo foi pressionado
-@return Verdadeiro caso for pressionado
-*/
 bool botao_externo_pressionado();
-
-/*
-@brief Indica se o botão externo foi solto
-@return verdadeiro caso for solto
-*/
 bool botao_externo_solto();
-
-/*
-@brief Indica se o botão do servo foi pressionado
-@return Verdadeiro caso for pressionado
-*/
 bool botao_servo_pressionado();
-
-/*
-@brief Indica se o botão do servo foi solto
-@return verdadeiro caso for solto
-*/
-bool botao_servo_solto();
-
-/*
-@brief Indica se o botão do nfc foi pressionado
-@return Verdadeiro caso for pressionado
-*/
-bool botao_pressionado_nfc();
-
-/*
-@brief Indica se o botão do nfc foi pressionado
-@return Verdadeiro caso for pressionado
-*/
-bool botao_nfc_solto();
-
+bool botao_passo_pressionado();
 extern bool actionState;
+extern bool buttonState;

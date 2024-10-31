@@ -1,6 +1,5 @@
 void inicializa_motor();
-bool atualiza_motor();
-bool alterna_motor();
+void atualiza_motor();
+void alterna_motor();
 
 extern bool motorLigado;
-
