@@ -141,16 +141,9 @@ void tratar_msg(char *topic, String msg)
     deserializeJson(doc, msg);
     if (doc.containsKey("EsteiraState"))
     {
-      buttonState = doc["EsteiraState"];
+      motorLigado = doc["EsteiraState"];
 
-      if (buttonState)
-      {
-        motorLigado = true;
-      }
-      else
-      {
-        motorLigado = false;
-      }
+
     }
   }
   // if (strcmp(topic, mqtt_topic2) == 0)

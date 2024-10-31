@@ -50,10 +50,10 @@ bool botao_servo_pressionado()
 
 bool botao_passo_pressionado()
 {
-    if (botaoPasso.fell())
-    {
-        buttonState = !buttonState;
-        Serial.println(buttonState ? "Passo ligado" : "Passo desligado");
-    }
     return botaoPasso.fell();
+}
+
+bool botao_passo_solto()
+{
+    return botaoPasso.rose();
 }

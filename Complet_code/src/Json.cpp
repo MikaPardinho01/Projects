@@ -28,9 +28,9 @@ void inicializa_json()
     {
         time_anterior = millis();
         doc["timeStamp"] = timeStamp();
-        doc["UIDCadastrado"] = numericUID;
-        doc["UIDarmazenadoposicao"] = i_posicao;
-        doc["UIDDetectado"] = duplicado;
+        // doc["UIDCadastrado"] = numericUID;
+        // doc["UIDarmazenadoposicao"] = i_posicao;
+        // doc["UIDDetectado"] = duplicado;
         doc["Temperatura"] = temperatura;
         doc["Umidade"] = humidade;
         doc["CO2"] = round(sensores_get_gas() * 100.0) / 100.0;
@@ -65,17 +65,14 @@ void inicializa_json()
     }
     else if (botao_passo_pressionado())
     {
+        buttonState = !buttonState;
         doc["EsteiraState"] = buttonState;
-        if (buttonState)
-        { 
-            motorLigado = "Esteira Ligada";
-            Serial.println("Passo ligado");
-        }
-        else 
-        {
-            motorLigado = "Esteira Desligada";
-            Serial.println("Passo desligado");
-        }
+        mensagemEmFila = true;
+    }
+    else if (botao_passo_solto())
+    {
+        buttonState = !buttonState;
+        doc["EsteiraState"] = buttonState;
         mensagemEmFila = true;
     }
     if (mensagemEmFila)

@@ -1,18 +1,17 @@
 #include <Arduino.h>
+#include "Display.h"
 
-// put function declarations here:
-int myFunction(int, int);
+int contador = 100;
 
-void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+void setup()
+{
+  inicializaLCD();
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+void loop()
+{
+  temporizador(3, contador, 100);
+  if (contador > 0)contador --;
+  else contador = 100;
+  delay(1000);
 }

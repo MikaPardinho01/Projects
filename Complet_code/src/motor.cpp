@@ -19,7 +19,6 @@ bool motorLigado = false;
 
 void inicializa_motor() {
   myStepper.setSpeed(5);
-  Serial.println("Motor desligado");
 }
 void atualiza_motor() {
   unsigned long currentMillis = millis();

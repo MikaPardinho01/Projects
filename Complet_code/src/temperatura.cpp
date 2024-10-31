@@ -18,7 +18,6 @@ DHT dht(DHTPIN, DHTTYPE);
 
 void inicializa_temperatura()
 {
-    Serial.begin(9600);
     dht.begin();
 }
 
