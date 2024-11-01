@@ -34,6 +34,7 @@ void atualiza_motor() {
     }
   }
 }
+
 void alterna_motor() {
   motorLigado = !motorLigado; 
   if (motorLigado) {

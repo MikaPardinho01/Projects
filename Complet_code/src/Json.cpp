@@ -65,14 +65,12 @@ void inicializa_json()
     }
     else if (botao_passo_pressionado())
     {
-        buttonState = !buttonState;
-        doc["EsteiraState"] = buttonState;
-        mensagemEmFila = true;
-    }
-    else if (botao_passo_solto())
-    {
-        buttonState = !buttonState;
-        doc["EsteiraState"] = buttonState;
+        doc["BotaoesteiraState"] = buttonState;
+        if (buttonState)
+        {
+            motorLigado = !motorLigado;
+            doc["MotorState"] = motorLigado;
+        }
         mensagemEmFila = true;
     }
     if (mensagemEmFila)
