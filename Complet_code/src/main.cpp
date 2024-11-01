@@ -15,7 +15,7 @@
 
 void setup()
 {
-    Serial.begin(9600);
+    Serial.begin(115200);
     setup_wifi();
     setup_time();
     inicializa_entradas();

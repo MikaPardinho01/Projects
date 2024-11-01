@@ -143,7 +143,14 @@ void tratar_msg(char *topic, String msg)
     {
       motorLigado = doc["EsteiraState"];
 
-
+      if (motorLigado)
+      {
+        Serial.println("Motor ligado");
+      }
+      else
+      {
+        Serial.println("Motor desligado");
+      }
     }
   }
   // if (strcmp(topic, mqtt_topic2) == 0)

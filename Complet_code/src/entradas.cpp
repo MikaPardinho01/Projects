@@ -43,16 +43,19 @@ bool botao_servo_pressionado()
     if (botaoservo.fell())
     {
         actionState = !actionState;
-        Serial.println(actionState ? "Servo ligado" : "Servo desligado");
+        // Serial.println(actionState ? "Servo ligado" : "Servo desligado");
     }
     return botaoservo.fell();
 }
 
 bool botao_passo_pressionado()
 {
-    if (botaoPasso.fell())
-    {
-        buttonState = !buttonState;
-    }
+    Serial.println("botao");
     return botaoPasso.fell();
+}
+
+bool botao_passo_solto()
+{
+    Serial.println("bb");
+    return botaoPasso.rose();
 }
