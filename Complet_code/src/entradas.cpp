@@ -50,12 +50,10 @@ bool botao_servo_pressionado()
 
 bool botao_passo_pressionado()
 {
-    Serial.println("botao");
     return botaoPasso.fell();
 }
 
 bool botao_passo_solto()
 {
-    Serial.println("bb");
     return botaoPasso.rose();
 }
