@@ -153,29 +153,29 @@ void tratar_msg(char *topic, String msg)
       }
     }
   }
-  // if (strcmp(topic, mqtt_topic2) == 0)
-  // {
-  //   JsonDocument doc;
-  //   deserializeJson(doc, msg);
+  if (strcmp(topic, mqtt_topic2) == 0)
+  {
+    JsonDocument doc;
+    deserializeJson(doc, msg);
 
-  //   if (doc.containsKey("MudaSenha"))
-  //   {
-  //     unsigned long novoIntervalo = doc["MudaSenha"];
-  //     Intervalo_Normal = novoIntervalo;
-  //     Serial.println("----------------------");
-  //     Serial.print("\nIntervalo de tempo: ");
-  //     Serial.println(Intervalo_Normal / 1000);
-  //     // preferences.putULong("Intervalo", Intervalo_Normal); // Salvar o valor na memória
-  //   }
+    if (doc.containsKey("MudaSenha"))
+    {
+      unsigned long novoIntervalo = doc["MudaSenha"];
+      Intervalo_Normal = novoIntervalo;
+      Serial.println("----------------------");
+      Serial.print("\nIntervalo de tempo: ");
+      Serial.println(Intervalo_Normal / 1000);
+      // preferences.putULong("Intervalo", Intervalo_Normal); // Salvar o valor na memória
+    }
 
-  //   if (doc.containsKey("TempoExtra"))
-  //   {
-  //     unsigned long SenhaTravada = doc["TempoExtra"];
-  //     Tempo_extra = SenhaTravada;
-  //     Serial.print("\nTempo extra: ");
-  //     Serial.println(Tempo_extra / 1000);
-  //     Serial.println("----------------------");
-  //     // preferences.putULong("TempoExtra", Tempo_extra);
-  //   }
-  // }
+    if (doc.containsKey("TempoExtra"))
+    {
+      unsigned long SenhaTravada = doc["TempoExtra"];
+      Tempo_extra = SenhaTravada;
+      Serial.print("\nTempo extra: ");
+      Serial.println(Tempo_extra / 1000);
+      Serial.println("----------------------");
+      // preferences.putULong("TempoExtra", Tempo_extra);
+    }
+  }
 }

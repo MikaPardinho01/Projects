@@ -83,4 +83,5 @@ void inicializa_json()
         publica_mqtt(mqtt_topic1, json);
         mensagemEmFila = false;
     }
+    
 }
