@@ -26,11 +26,12 @@ void inicializa_json()
 
     if (millis() - time_anterior >= time_definido)
     {
+        mensagem();
         time_anterior = millis();
         doc["timeStamp"] = timeStamp();
-        // doc["UIDCadastrado"] = numericUID;
-        // doc["UIDarmazenadoposicao"] = i_posicao;
-        // doc["UIDDetectado"] = duplicado;
+        doc["UIDCadastrado"] = numericUID;
+        doc["UIDarmazenadoposicao"] = i_posicao;
+        doc["UIDDetectado"] = pos;
         doc["Temperatura"] = temperatura;
         doc["Umidade"] = humidade;
         doc["CO2"] = round(sensores_get_gas() * 100.0) / 100.0;

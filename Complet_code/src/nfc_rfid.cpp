@@ -1,130 +1,137 @@
-// #include <Wire.h>
-// #include <Adafruit_PN532.h>
-// #include <Preferences.h>
+#include <Wire.h>
+#include <Adafruit_PN532.h>
+#include <Preferences.h>
 
-// #define SDA_PIN 21
-// #define SCL_PIN 22
-// unsigned long numericUID = 0;
-// int i_posicao = 0;
-// unsigned long anter = 0;
-// unsigned long def = 1000;
+#define SDA_PIN 21
+#define SCL_PIN 22
 
-// Adafruit_PN532 nfc(SDA_PIN, SCL_PIN);
-// Preferences preferences;
-// const int maxUIDs = 3;
-// bool memoriaCheia = true;
-// bool duplicado;
+unsigned long numericUID = 0;
+unsigned long anter = 0;
+unsigned long def = 1000;
 
-// void inicializa_nfc()
-// {
-//     Serial.begin(115200);
-//     Serial.println("Ola!");
+Adafruit_PN532 nfc(SDA_PIN, SCL_PIN);
+Preferences preferences;
+const int maxUIDs = 3;
+bool memoriaCheia = true;
+bool duplicado;
+int i_posicao;
+String pos;
 
-//     nfc.begin();
+void inicializa_nfc()
+{
+    Serial.begin(115200);
+    nfc.begin();
 
-//     uint32_t versiondata = nfc.getFirmwareVersion();
-//     if (!versiondata)
-//     {
-//         Serial.print("Não foi possível encontrar o PN53x");
-//         while (1)
-//             ;
-//     }
+    uint32_t versiondata = nfc.getFirmwareVersion();
+    if (!versiondata)
+    {
+        Serial.print("Não foi possível encontrar o PN53x");
+        while (1)
+            ;
+    }
 
-//     nfc.SAMConfig();
-//     Serial.println("Esperando um cartão NFC...");
+    nfc.SAMConfig();
+    Serial.println("Esperando um cartão NFC...");
 
-//     // Inicia o NVS
-//     preferences.begin("UIDs", false);
-// }
+    preferences.begin("UIDs", false);
+}
 
-// bool isDuplicateUID(unsigned long newUID)
-// {
-//     for (int i = 0; i < maxUIDs; i++)
-//     {
-//         unsigned long storedUID = preferences.getULong(String(i).c_str(), 0); 
-//         if (storedUID == newUID)
-//         {
-//             return duplicado = printf("UID duplicado detectado na posição %d", i);
-//         }
-//     }
-//     return duplicado = printf("Novo UID detectado");
-// }
+bool isDuplicateUID(unsigned long newUID)
+{
+    for (i_posicao = 0; i_posicao < maxUIDs; i_posicao++)
+    {
+        unsigned long storedUID = preferences.getULong(String(i_posicao).c_str(), 0);
+        if (storedUID == newUID)
+        {
+            return duplicado = true;
+        }
+    }
+    return duplicado = false;
+}
 
-// void clearMemoryIfAllowed()
-// {
-//     if (memoriaCheia)
-//     {
-//         Serial.println("Memória cheia. Limpando a memória...");
+void mensagem()
+{
+    if (duplicado == true)
+    {
+        pos = "UID duplicado detectado na posição " + String(i_posicao) + "\n";
+    }
+    else if (duplicado == false)
+    {
+        pos = "Novo UID detectado na posição " + String(i_posicao) + "\n";
+    }
+}
 
-//         // Limpa a memória flash
-//         preferences.clear();
-//         preferences.end();
+void clearMemoryIfAllowed()
+{
+    if (memoriaCheia)
+    {
+        // Serial.println("Memória cheia. Limpando a memória...");
 
-//         // Reinicia as preferências
-//         preferences.begin("UIDs", false);
+        preferences.clear();
+        preferences.end();
 
-//         // Mensagem de confirmação
-//         Serial.println("Memória foi limpa.");
-//         memoriaCheia = false; // Redefinir o estado de memória cheia
-//     }
-// }
+        preferences.begin("UIDs", false);
 
-// void storeUID(unsigned long newUID)
-// {
+        // Serial.println("Memória foi limpa.");
+        memoriaCheia = false;
+    }
+}
 
-//     for (i_posicao = 0; i_posicao < maxUIDs; i_posicao++)
-//     {
-//         unsigned long storedUID = preferences.getULong(String(i_posicao).c_str(), 0);
-//         if (storedUID == 0)
-//         {
-//             preferences.putULong(String(i_posicao).c_str(), newUID);
-//             Serial.print("UID armazenado na posição ");
-//             Serial.println(i_posicao);
-//             memoriaCheia = false;
-//             break;
-//         }
-//     }
+// Função para armazenar o UID se não for duplicado
+bool storeUID(unsigned long newUID)
+{
+    for (i_posicao = 0; i_posicao < maxUIDs; i_posicao++)
+    {
+        unsigned long storedUID = preferences.getULong(String(i_posicao).c_str(), 0);
+        if (storedUID == 0)
+        {
+            preferences.putULong(String(i_posicao).c_str(), newUID);
+            Serial.printf("UID armazenado na posição %d\n", i_posicao);
+            memoriaCheia = false;
+            return true;
+        }
+    }
 
-//     if (memoriaCheia)
-//     {
-//         clearMemoryIfAllowed();
-//     }
-// }
+    // Se não encontrar uma posição livre, marca a memória como cheia
+    memoriaCheia = true;
+    clearMemoryIfAllowed();
+    return false;
+}
 
-// void atualiza_nfc()
-// {
-//     if (millis() - anter >= def)
-//     {
-//         anter = millis();
-    
-//     uint8_t success;
-//     uint8_t uid[] = {0, 0, 0, 0, 0, 0, 0};
-//     uint8_t uidLength;
+// Função para atualizar o status do NFC
+void atualiza_nfc()
+{
+    if (millis() - anter >= def)
+    {
+        anter = millis();
 
-//     success = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength);
+        uint8_t success;
+        uint8_t uid[] = {0, 0, 0, 0, 0, 0, 0};
+        uint8_t uidLength;
 
-//     if (success)
-//     {
-//         numericUID = 0;
+        success = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength);
 
-//         for (byte i = 0; i < uidLength; i++)
-//         {
-//             numericUID = numericUID * 256 + uid[i];
-//         }
+        if (success)
+        {
+            numericUID = 0;
 
-//         Serial.print("UID: ");
-//         Serial.println(numericUID);
+            for (byte i = 0; i < uidLength; i++)
+            {
+                numericUID = numericUID * 256 + uid[i];
+            }
 
-//         if (isDuplicateUID(numericUID))
-//         {
-//             Serial.println("UID duplicado detectado!");
-//         }
-//         else
-//         {
-//             Serial.println("Novo UID detectado.");
-//             storeUID(numericUID);
-//         }
+            Serial.print("UID: ");
+            Serial.println(numericUID);
 
-//        }
-//     }
-// }
+            if (isDuplicateUID(numericUID))
+            {
+                Serial.println("UID duplicado detectado!");
+            }
+            else
+            {
+                Serial.println("Novo UID detectado.");
+                storeUID(numericUID);
+            }
+        }
+    }
+}

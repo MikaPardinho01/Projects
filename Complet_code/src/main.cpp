@@ -21,7 +21,7 @@ void setup()
     inicializa_entradas();
     inicializa_servos();
     inicializa_temperatura();
-    // inicializa_nfc();
+    inicializa_nfc();
     sensores_init();
     inicializa_motor();
     // Inicializa_senha();
@@ -37,6 +37,6 @@ void loop()
     inicializa_json();
     atualiza_botoes();
     setup_temperatura();
-    // atualiza_nfc();
+    atualiza_nfc();
     atualiza_motor();
 }
