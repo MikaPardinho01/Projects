@@ -1,49 +1,46 @@
-#include <Arduino.h>
-#include "saidas.h"
-#include "tempo.h"
+#include <Adafruit_NeoPixel.h>
 
-#define Luz_central 32
-#define vermelho_pin01 25
-#define amarelo_pin01 33
-#define vermelho_pin02 26
-#define amarelo_pin02 27
+const int LED_PIN = 2;
+const int LED_COUNT = 2;
+unsigned long interval = 500;
+unsigned long timer_anterior = 0;
+bool estado = false;
 
-unsigned long timer_anterior = 1000;
-unsigned long interval = 0;
-
-
-bool LuzCentral = LOW;
-bool vermelhoPin01 = LOW;
-bool vermelhoPin02 = LOW;
-bool amareloPin01 = LOW;
-bool amareloPin02 = LOW;
+Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 
 void inicializa_saidas()
 {
-  pinMode(Luz_central, OUTPUT);
-  pinMode(vermelho_pin01, OUTPUT);
-  pinMode(amarelo_pin01, OUTPUT);
-  pinMode(vermelho_pin02, OUTPUT);
-  pinMode(amarelo_pin02, OUTPUT);
+  strip.begin();
+  strip.show();
 }
 
 void atualiza_saidas()
 {
-  digitalWrite(Luz_central, LuzCentral);
-  digitalWrite(vermelho_pin01, vermelhoPin01);
-  digitalWrite(vermelho_pin02, vermelhoPin02);
-  digitalWrite(amarelo_pin01, amareloPin01);
-  digitalWrite(amarelo_pin02, amareloPin02);
-}
+  unsigned long tempo_atual = millis();
 
-void atualiza_sinilizacao()
-{
-  if (millis() - timer_anterior >= interval)
+  uint32_t yellow = strip.Color(255, 255, 0);
+  uint32_t red = strip.Color(255, 0, 0);
+  uint32_t off = strip.Color(0, 0, 0);
+
+  if (tempo_atual - timer_anterior >= interval)
   {
-    vermelhoPin01 = !vermelhoPin01;
-    vermelhoPin02 = !vermelhoPin02;
-    amareloPin01 = !amareloPin01;
-    amareloPin02 = !amareloPin02;
-    timer_anterior = millis();
+    timer_anterior = tempo_atual;
+    if (estado)
+    {
+      strip.setPixelColor(0, off);
+      strip.setPixelColor(1, red);
+
+      strip.show();
+      strip.setPixelColor(0, red);
+      strip.setPixelColor(1, off);
+      strip.show();
+
+      strip.setPixelColor(0, off);
+      strip.setPixelColor(1, yellow);
+      strip.show();
+    }
+
+    estado !=estado;
+    strip.show();
   }
 }

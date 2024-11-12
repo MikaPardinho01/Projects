@@ -3,7 +3,6 @@
 #include "tempo.h"
 
 int randNumber;
-
 unsigned long NovoTempoExtra = 0;
 unsigned long Intervalo_Troca = 0;
 unsigned long Intervalo_Normal = 10000;

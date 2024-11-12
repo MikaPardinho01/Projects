@@ -20,3 +20,4 @@ extern unsigned long numericUID;
 extern int i_posicao;
 extern bool duplicado;
 extern String pos;
+extern String mc;

@@ -32,18 +32,19 @@ void inicializa_json()
         doc["UIDCadastrado"] = numericUID;
         doc["UIDarmazenadoposicao"] = i_posicao;
         doc["UIDDetectado"] = pos;
+        doc["MemoriaCheia"] = mc;
         doc["Temperatura"] = temperatura;
         doc["Umidade"] = humidade;
         doc["CO2"] = round(sensores_get_gas() * 100.0) / 100.0;
         mensagemEmFila = true;
     }
-   else if (botao_externo_pressionado())
-    {
-        LuzCentral = !LuzCentral;
-        doc["LedState"] = LuzCentral;
-        doc["BotaoState"] = true;
-        mensagemEmFila = true;
-    }
+//    else if (botao_externo_pressionado())
+//     {
+//         LuzCentral = !LuzCentral;
+//         doc["LedState"] = LuzCentral;
+//         doc["BotaoState"] = true;
+//         mensagemEmFila = true;
+//     }
     else if (botao_externo_solto())
     {
         doc["BotaoState"] = false;

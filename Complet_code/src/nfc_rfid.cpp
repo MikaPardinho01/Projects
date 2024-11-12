@@ -16,6 +16,7 @@ bool memoriaCheia = true;
 bool duplicado;
 int i_posicao;
 String pos;
+String mc;
 
 void inicializa_nfc()
 {
@@ -59,25 +60,25 @@ void mensagem()
     {
         pos = "Novo UID detectado na posição " + String(i_posicao) + "\n";
     }
+    else if (memoriaCheia == true)
+    {
+        mc = "Memoria cheia. Limpando a memória...\n";
+    }
 }
 
 void clearMemoryIfAllowed()
 {
     if (memoriaCheia)
     {
-        // Serial.println("Memória cheia. Limpando a memória...");
-
         preferences.clear();
         preferences.end();
 
         preferences.begin("UIDs", false);
 
-        // Serial.println("Memória foi limpa.");
         memoriaCheia = false;
     }
 }
 
-// Função para armazenar o UID se não for duplicado
 bool storeUID(unsigned long newUID)
 {
     for (i_posicao = 0; i_posicao < maxUIDs; i_posicao++)
@@ -91,8 +92,6 @@ bool storeUID(unsigned long newUID)
             return true;
         }
     }
-
-    // Se não encontrar uma posição livre, marca a memória como cheia
     memoriaCheia = true;
     clearMemoryIfAllowed();
     return false;
