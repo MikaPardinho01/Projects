@@ -27,16 +27,19 @@ void setup()
     Inicializa_senha();
     inicializa_display();
     inicializa_saidas();
+    
+    
 }
 
 void loop()
 {
     atualiza_mqtt();
     atualiza_saidas();
-    inicializa_json();
     atualiza_botoes();
     setup_temperatura();
-    atualiza_nfc();
     atualiza_motor();
     atualiza_saidas();
+    atualiza_nfc();
+    inicializa_json();
+
 }

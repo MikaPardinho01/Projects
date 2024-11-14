@@ -22,14 +22,16 @@ unsigned long time_definido = 1000;
 const int resposta = 0;
 
 void inicializa_json()
-{
+{   
+    
+    
     JsonDocument doc;
     String json;
     bool mensagemEmFila = false;
 
     if (millis() - time_anterior >= time_definido)
     {
-        mensagem();
+        //mensagem();
         time_anterior = millis();
         doc["timeStamp"] = timeStamp();
         doc["MudaSenha"] = mudasenha;
@@ -88,7 +90,11 @@ void inicializa_json()
     {
         serializeJson(doc, json);
         publica_mqtt(mqtt_topic1, json);
+        Serial.println("Publicado Messagem: ");
+        Serial.println(json);
         mensagemEmFila = false;
     }
 }
+
+
 

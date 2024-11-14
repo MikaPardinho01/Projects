@@ -6,7 +6,7 @@
 #define SCL_PIN 22
 
 unsigned long numericUID = 0;
-unsigned long anter = 0;
+unsigned long anterior_tempo_nfc = 0;
 unsigned long def = 1000;
 
 Adafruit_PN532 nfc(SDA_PIN, SCL_PIN);
@@ -27,8 +27,7 @@ void inicializa_nfc()
     if (!versiondata)
     {
         Serial.print("Não foi possível encontrar o PN53x");
-        while (1)
-            ;
+        while (1);
     }
 
     nfc.SAMConfig();
@@ -76,7 +75,7 @@ void clearMemoryIfAllowed()
         preferences.begin("UIDs", false);
 
         memoriaCheia = false;
-    }
+     }
 }
 
 bool storeUID(unsigned long newUID)
@@ -100,23 +99,24 @@ bool storeUID(unsigned long newUID)
 // Função para atualizar o status do NFC
 void atualiza_nfc()
 {
-    if (millis() - anter >= def)
+    if (millis() - anterior_tempo_nfc >= def)
     {
-        anter = millis();
+        anterior_tempo_nfc = millis();
+        
+        byte success;
+        byte uid[] = {0, 0, 0, 0, 0, 0, 0};
+        byte uidLength;
 
-        uint8_t success;
-        uint8_t uid[] = {0, 0, 0, 0, 0, 0, 0};
-        uint8_t uidLength;
-
-        success = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength);
-
+        success = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength, 100);
+        
         if (success)
         {
             numericUID = 0;
-
+            
             for (byte i = 0; i < uidLength; i++)
             {
                 numericUID = numericUID * 256 + uid[i];
+                Serial.print(uid[i], HEX);
             }
 
             Serial.print("UID: ");
