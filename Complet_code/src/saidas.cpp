@@ -1,46 +1,65 @@
+#include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
 
-const int LED_PIN = 2;
-const int LED_COUNT = 2;
-unsigned long interval = 500;
-unsigned long timer_anterior = 0;
-bool estado = false;
 
-Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
+const int Led_central = 6;
+const int led_sinal = 4;
+const int num_sinal = 2;
+const int NUM_LEDS = 6; 
+const int BRIGHTNESS = 255;
 
-void inicializa_saidas()
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, Led_central, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip_sinal = Adafruit_NeoPixel(num_sinal, led_sinal, NEO_GRB + NEO_KHZ800);
+
+unsigned long previous = 0;
+bool alterando = true;
+
+void inicializa_leds()
 {
   strip.begin();
+  strip.setBrightness(BRIGHTNESS);
+  strip_sinal.begin();
+  strip_sinal.setBrightness(255);
+  strip_sinal.setPixelColor(0, strip_sinal.Color(255, 0, 0)); 
+  strip_sinal.show();
+}
+
+void atualiza_sinais()
+{
+  unsigned long current = millis();
+  if (current - previous >= 500)
+  {
+    previous = current;
+
+    if (alterando)
+    {
+      strip_sinal.setPixelColor(0, strip_sinal.Color(255, 255, 0)); 
+      strip_sinal.setPixelColor(1, strip_sinal.Color(255, 0, 0));   
+    }
+    else
+    {
+      strip_sinal.setPixelColor(0, strip_sinal.Color(255, 0, 0));   
+      strip_sinal.setPixelColor(1, strip_sinal.Color(255, 255, 0)); 
+    }
+    strip_sinal.show(); 
+    alterando = !alterando; 
+  }
+}
+
+void setColors(uint32_t color1, uint32_t color2)
+{
+  strip.setPixelColor(0, color1);
+  strip.setPixelColor(1, color2);
   strip.show();
 }
 
-void atualiza_saidas()
+
+void setWhiteColor()
 {
-  unsigned long tempo_atual = millis();
-
-  uint32_t yellow = strip.Color(255, 255, 0);
-  uint32_t red = strip.Color(255, 0, 0);
-  uint32_t off = strip.Color(0, 0, 0);
-
-  if (tempo_atual - timer_anterior >= interval)
+  for (int i = 0; i < NUM_LEDS; i++)
   {
-    timer_anterior = tempo_atual;
-    if (estado)
-    {
-      strip.setPixelColor(0, off);
-      strip.setPixelColor(1, red);
-
-      strip.show();
-      strip.setPixelColor(0, red);
-      strip.setPixelColor(1, off);
-      strip.show();
-
-      strip.setPixelColor(0, off);
-      strip.setPixelColor(1, yellow);
-      strip.show();
-    }
-
-    estado !=estado;
-    strip.show();
+    strip.setPixelColor(i, strip.Color(255, 255, 255)); 
   }
+  strip.show();
 }
+

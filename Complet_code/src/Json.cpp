@@ -45,18 +45,6 @@ void inicializa_json()
         doc["CO2"] = round(sensores_get_gas() * 100.0) / 100.0;
         mensagemEmFila = true;
     }
-    //    else if (botao_externo_pressionado())
-    //     {
-    //         LuzCentral = !LuzCentral;
-    //         doc["LedState"] = LuzCentral;
-    //         doc["BotaoState"] = true;
-    //         mensagemEmFila = true;
-    //     }
-    else if (botao_externo_solto())
-    {
-        doc["BotaoState"] = false;
-        mensagemEmFila = true;
-    }
     else if (botao_servo_pressionado())
     {
         doc["PortaoState"] = angulo_servo;

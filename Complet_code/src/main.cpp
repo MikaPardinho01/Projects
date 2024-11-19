@@ -26,20 +26,17 @@ void setup()
     inicializa_motor();
     Inicializa_senha();
     inicializa_display();
-    inicializa_saidas();
-    
-    
+    inicializa_leds();
+    setWhiteColor();
 }
 
 void loop()
 {
     atualiza_mqtt();
-    atualiza_saidas();
     atualiza_botoes();
     setup_temperatura();
     atualiza_motor();
-    atualiza_saidas();
     atualiza_nfc();
     inicializa_json();
-
+    atualiza_sinais();
 }
