@@ -38,7 +38,7 @@ void tempo_extra()
         tempo_anterior_token = millis();
         troca_Token = Tempo_extra;
         Serial.print("\n");
-        Serial.printf("Senha estendida por %d segundos", Tempo_extra / 1000);
+        Serial.printf("Senha estendida por %d Segundo's", Tempo_extra / 1000);
         Serial.print("\n");
     }
 }
