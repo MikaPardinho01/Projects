@@ -126,7 +126,7 @@ void tratar_msg(char *topic, String msg)
 
       if (actionState)
       {
-        angulo_servo = 180;
+        angulo_servo = 90;
       }
       else
       {

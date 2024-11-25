@@ -1,7 +1,7 @@
 #include <ESP32Servo.h>
 #include "atuadores.h"
 
-#define SERVO_PIN 14
+#define SERVO_PIN 4
 int angulo_servo = 0;
 
 Servo servoMotor; 

@@ -26,8 +26,8 @@ void setup_temperatura()
     if (millis() - tempo_anterior >= tempo_intervalo)
     {
         tempo_anterior = millis();
-        Serial.println("Temperatura:" + String(lerTemperatura()) + "ºC");
-        Serial.println("Umidade:" + String(lerUmidade()) + "%");    
+        // Serial.println("Temperatura:" + String(lerTemperatura()) + "ºC");
+        // Serial.println("Umidade:" + String(lerUmidade()) + "%");    
     }
 }
 

@@ -11,6 +11,7 @@ unsigned long def = 1000;
 
 Adafruit_PN532 nfc(SDA_PIN, SCL_PIN);
 Preferences preferences;
+
 const int maxUIDs = 3;
 bool memoriaCheia = true;
 bool duplicado;
@@ -32,7 +33,6 @@ void inicializa_nfc()
 
     nfc.SAMConfig();
     Serial.println("Esperando um cartão NFC...");
-
     preferences.begin("UIDs", false);
 }
 
@@ -40,6 +40,7 @@ bool isDuplicateUID(unsigned long newUID)
 {
     for (i_posicao = 0; i_posicao < maxUIDs; i_posicao++)
     {
+        Serial.println("03");
         unsigned long storedUID = preferences.getULong(String(i_posicao).c_str(), 0);
         if (storedUID == newUID)
         {
@@ -86,11 +87,13 @@ bool storeUID(unsigned long newUID)
         if (storedUID == 0)
         {
             preferences.putULong(String(i_posicao).c_str(), newUID);
+            preferences.end();
             Serial.printf("UID armazenado na posição %d\n", i_posicao);
             memoriaCheia = false;
             return true;
         }
     }
+    // preferences.end();
     memoriaCheia = true;
     clearMemoryIfAllowed();
     return false;
@@ -107,7 +110,7 @@ void atualiza_nfc()
         byte uid[] = {0, 0, 0, 0, 0, 0, 0};
         byte uidLength;
 
-        success = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength, 100);
+        success = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength, 500);
         
         if (success)
         {

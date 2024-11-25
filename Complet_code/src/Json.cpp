@@ -31,7 +31,7 @@ void inicializa_json()
 
     if (millis() - time_anterior >= time_definido)
     {
-        //mensagem();
+        mensagem();
         time_anterior = millis();
         doc["timeStamp"] = timeStamp();
         doc["MudaSenha"] = mudasenha;
@@ -51,7 +51,7 @@ void inicializa_json()
         doc["BotaoservoState"] = actionState;
         if (actionState)
         {
-            angulo_servo = 180;
+            angulo_servo = 90;
         }
         else
         {
