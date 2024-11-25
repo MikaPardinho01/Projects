@@ -23,8 +23,6 @@ const int resposta = 0;
 
 void inicializa_json()
 {   
-    
-    
     JsonDocument doc;
     String json;
     bool mensagemEmFila = false;
