@@ -26,7 +26,7 @@ byte caracter1[] = {
 
     B10001
 
-}
+};
 
 void setup()
 {
