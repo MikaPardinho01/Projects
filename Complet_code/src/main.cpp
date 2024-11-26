@@ -35,23 +35,20 @@ void setup()
     if(debug) Serial.println("Inicializando os sensores");
     inicializa_motor();
     if(debug) Serial.println("incializando o motor");
-    Inicializa_senha();
-    if(debug) Serial.println("incializando a senha");
+    // inicializa_token();
+   if(debug) Serial.println("incializando a senha");
     inicializa_display();
     if(debug) Serial.println("incializando o display");
-   // inicializa_leds();
-    // if(debug) Serial.println("Inicializando os leds");
-   // setWhiteColor();
-    // if(debug) Serial.println("Definindo a cor branca");
 }
 
 void loop()
 {
     atualiza_mqtt();
     atualiza_botoes();
+    // atualiza_token();
     setup_temperatura();
     atualiza_motor();
     atualiza_nfc();
     inicializa_json();
-    // atualiza_sinais();
+
 }

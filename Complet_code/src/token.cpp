@@ -1,44 +1,61 @@
-#include <Arduino.h>
-#include "token.h"
-#include "tempo.h"
+// #include <Arduino.h>
+// #include <LiquidCrystal_I2C.h>
+// #include "token.h"
 
-int randNumber;
-unsigned long NovoTempoExtra = 0;
-unsigned long Intervalo_Troca = 0;
-unsigned long Intervalo_Normal = 10000;
-unsigned long Tempo_extra = 30000;
-unsigned long tempo_anterior_token = 0;
-unsigned long troca_Token = 0;
+// LiquidCrystal_I2C lcd(0x27, 20, 4); 
 
-void Inicializa_senha()
-{
-    randomSeed(timeStamp());
-}
+// const unsigned long intervaloTroca = 90000; 
+// unsigned long tempoAnterior = 0;
 
-int gera_senha()
-{
-    Reset_user();
-    unsigned long tempo_atual = millis();
-    if (tempo_atual - tempo_anterior_token >= troca_Token)
-    {
-        if (tempo_anterior_token != Intervalo_Normal)
-        troca_Token = Intervalo_Normal;
-        tempo_anterior_token = tempo_atual;
-        randNumber = random(1000, 10000);
-        Serial.print("\n");
-        Serial.printf("Nova Senha: %d\n", randNumber);
-    }
-    return randNumber;
-}
+// int senhaAtual;
 
-void tempo_extra()
-{
-    if (troca_Token != Tempo_extra)
-    {
-        tempo_anterior_token = millis();
-        troca_Token = Tempo_extra;
-        Serial.print("\n");
-        Serial.printf("Senha estendida por %d Segundo's", Tempo_extra / 1000);
-        Serial.print("\n");
-    }
-}
+// void inicializa_token() 
+// {
+//     lcd.init();
+//     lcd.backlight();
+//     lcd.clear();
+//     lcd.setCursor(0, 0);
+//     lcd.print("Gerador de Senha");
+//     randomSeed(analogRead(0));
+
+//     senhaAtual = gerarSenha();
+//     mostrarSenha(senhaAtual);
+// }
+
+// void atualiza_token() 
+// {
+//     unsigned long tempoAtual = millis();
+
+//     if (tempoAtual - tempoAnterior >= intervaloTroca) {
+//         tempoAnterior = tempoAtual;
+//         senhaAtual = gerarSenha();
+//         mostrarSenha(senhaAtual);
+//     }
+
+//     mostrarTempoRestante(intervaloTroca - (millis() - tempoAnterior));
+// }
+
+// int gerarSenha() 
+// {
+//     int senha = random(1000, 10000); 
+//     Serial.print("Nova senha gerada: ");
+//     Serial.println(senha);
+//     return senha;
+// }
+
+// void mostrarSenha(int senha) 
+// {
+//     lcd.clear();
+//     lcd.setCursor(0, 0);
+//     lcd.print("Senha Atual:");
+//     lcd.setCursor(0, 1);
+//     lcd.print(senha);
+// }
+
+// void mostrarTempoRestante(unsigned long tempoRestante)
+// {
+//     lcd.setCursor(0, 2);
+//     lcd.print("Troca em: ");
+//     lcd.print(tempoRestante / 1000);
+//     lcd.print("s ");
+// }

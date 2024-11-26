@@ -10,8 +10,8 @@
 float temperatura;
 float humidade;
 
-unsigned long tempo_anterior = 6000;
-unsigned long tempo_intervalo = 0;
+unsigned long tempo_anterior = 0;
+unsigned long tempo_intervalo = 1000;
 
 
 DHT dht(DHTPIN, DHTTYPE);
@@ -26,8 +26,8 @@ void setup_temperatura()
     if (millis() - tempo_anterior >= tempo_intervalo)
     {
         tempo_anterior = millis();
-        // Serial.println("Temperatura:" + String(lerTemperatura()) + "ºC");
-        // Serial.println("Umidade:" + String(lerUmidade()) + "%");    
+        Serial.println("Temperatura:" + String(lerTemperatura()) + "ºC");
+        Serial.println("Umidade:" + String(lerUmidade()) + "%");    
     }
 }
 

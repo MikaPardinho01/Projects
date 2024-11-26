@@ -15,8 +15,6 @@
 
 #define mqtt_topic1 "projeto_auto_factory"
 
-int mudasenha = Intervalo_Normal;
-int TempoExtraSenha = Tempo_extra;
 unsigned long time_anterior = 0;
 unsigned long time_definido = 1000;
 const int resposta = 0;
@@ -32,8 +30,6 @@ void inicializa_json()
         mensagem();
         time_anterior = millis();
         doc["timeStamp"] = timeStamp();
-        doc["MudaSenha"] = mudasenha;
-        doc["TempoExtra"] = TempoExtraSenha;
         doc["UIDCadastrado"] = numericUID;
         doc["UIDarmazenadoposicao"] = i_posicao;
         doc["UIDDetectado"] = pos;

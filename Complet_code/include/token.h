@@ -1,19 +1,13 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
-extern int randNumber;
-
 extern unsigned long Intervalo_Troca;
-extern unsigned long NovoTempoExtra;
-extern unsigned long Intervalo_Normal;
-extern unsigned long Tempo_extra;
-extern unsigned long tempo_anterior_token;
-extern unsigned long troca_Token;
+extern unsigned long tempoAnterior;
 
-void Inicializa_senha();
-
-int gera_senha();
-void tempo_extra();
-void Reset_user();
+void inicializa_token();
+void atualiza_token();
+extern int gerarSenha();
+extern void mostrarSenha(int senha);
+extern void mostrarTempoRestante(unsigned long tempoRestante);
 
 #endif
