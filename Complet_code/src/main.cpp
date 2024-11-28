@@ -18,27 +18,38 @@
 void setup()
 {
     Serial.begin(115200);
-    if(debug) Serial.println("inicializando a Serial");
+    if (debug)
+        Serial.println("inicializando a Serial");
     setup_wifi();
-    if(debug) Serial.println("Inicializando o WIFI");
+    if (debug)
+        Serial.println("Inicializando o WIFI");
     setup_time();
-    if(debug) Serial.println("Iniciaizando função de tempo");
+    if (debug)
+        Serial.println("Iniciaizando função de tempo");
+    inicializa_token();
+    if (debug)
+        Serial.println("incializando a senha");
     inicializa_entradas();
-    if(debug) Serial.println("Inicializando as entradas");
+    if (debug)
+        Serial.println("Inicializando as entradas");
     inicializa_servos();
-    if(debug) Serial.println("Inicializando os servos");
+    if (debug)
+        Serial.println("Inicializando os servos");
     inicializa_temperatura();
-    if(debug) Serial.println("icializando a temperatura");
+    if (debug)
+        Serial.println("icializando a temperatura");
     inicializa_nfc();
-    if(debug) Serial.println("Inicializando o NFC");
+    if (debug)
+        Serial.println("Inicializando o NFC");
     sensores_init();
-    if(debug) Serial.println("Inicializando os sensores");
+    if (debug)
+        Serial.println("Inicializando os sensores");
     inicializa_motor();
-    if(debug) Serial.println("incializando o motor");
-    // inicializa_token();
-   if(debug) Serial.println("incializando a senha");
+    if (debug)
+        Serial.println("incializando o motor");
     inicializa_display();
-    if(debug) Serial.println("incializando o display");
+    if (debug)
+        Serial.println("incializando o display");
 }
 
 void loop()
@@ -50,5 +61,4 @@ void loop()
     atualiza_motor();
     atualiza_nfc();
     inicializa_json();
-
 }
