@@ -20,7 +20,7 @@ unsigned long time_definido = 1000;
 const int resposta = 0;
 
 void inicializa_json()
-{   
+{
     JsonDocument doc;
     String json;
     bool mensagemEmFila = false;
@@ -54,18 +54,29 @@ void inicializa_json()
         posiciona_servo(angulo_servo);
         mensagemEmFila = true;
     }
-    else if (botao_passo_pressionado())
+    else if (botao_motor_pressionado())
     {
-        Serial.println("botao pressionado");
-        buttonState = !buttonState;
-        doc["EsteiraState"] = buttonState;
-        mensagemEmFila = true;
-    }
-    else if (botao_passo_solto())
-    {
-        Serial.println("botao pressionado");
-        buttonState = !buttonState;
-        doc["EsteiraState"] = buttonState;
+        doc["motorState"] = angulo_motor;
+        doc["BotaomotorState"] = motorPowerState;
+        if (motorPowerState > 3)
+        {
+            switch (motorPowerState)
+            {
+            case 0:
+                analogWrite(motorPin, 0);
+                break;
+            case 1:
+                analogWrite(motorPin, 85);
+                break;
+            case 2:
+                analogWrite(motorPin, 100);
+                break;
+            case 3:
+                analogWrite(motorPin, 150);
+                break;
+            }
+        }
+        atualiza_motor(angulo_motor);
         mensagemEmFila = true;
     }
     if (mensagemEmFila)
@@ -77,6 +88,3 @@ void inicializa_json()
         mensagemEmFila = false;
     }
 }
-
-
-

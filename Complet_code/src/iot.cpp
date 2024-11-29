@@ -142,44 +142,24 @@ void tratar_msg(char *topic, String msg)
     if (doc.containsKey("motorState"))
     {
       motorPowerState = doc["motorState"];
-
-      motorPowerState++;
       if (motorPowerState > 3)
+       motorPowerState++;
       {
-        motorPowerState = 0;
-      }
-      switch (motorPowerState)
-      {
-      case 0:
-        analogWrite(motorPin, 0);
-        break;
-      case 1:
-        analogWrite(motorPin, 85);
-        break;
-      case 2:
-        analogWrite(motorPin, 170);
-        break;
-      case 3:
-        analogWrite(motorPin, 255);
-        break;
-      }
-    }
-  }
-  if (strcmp(topic, mqtt_topic1) == 0)
-  {
-    JsonDocument doc;
-    deserializeJson(doc, msg);
-    if (doc.containsKey("EsteiraState"))
-    {
-      motorLigado = doc["EsteiraState"];
-
-      if (motorLigado)
-      {
-        Serial.println("Motor ligado");
-      }
-      else
-      {
-        Serial.println("Motor desligado");
+        switch (motorPowerState)
+        {
+        case 0:
+          analogWrite(motorPin, 0);
+          break;
+        case 1:
+          analogWrite(motorPin, 85);
+          break;
+        case 2:
+          analogWrite(motorPin, 170);
+          break;
+        case 3:
+          analogWrite(motorPin, 255);
+          break;
+        }
       }
     }
   }

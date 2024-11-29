@@ -55,10 +55,10 @@ void setup()
 void loop()
 {
     atualiza_mqtt();
+    atualiza_token();
     atualiza_botoes();
-    // atualiza_token();
     setup_temperatura();
-    atualiza_motor();
+    // atualiza_motor();
     atualiza_nfc();
     inicializa_json();
 }
