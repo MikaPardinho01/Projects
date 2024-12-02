@@ -1,65 +1,60 @@
-// #include <Arduino.h>
-// #include <Adafruit_NeoPixel.h>
+#include <FastLED.h>
 
+// Configurações dos LEDs
+#define LED_PIN     6    // Pino onde a fita de LED está conectada
+#define NUM_LEDS    60   // Número de LEDs na fita
+#define BUTTON_PIN  7    // Pino onde o botão está conectado
+#define BRIGHTNESS  255  // Brilho máximo (0-255)
 
-// const int Led_central = 6;
-// const int led_sinal = 7;
-// const int num_sinal = 2;
-// const int NUM_LEDS = 6; 
-// const int BRIGHTNESS = 255;
+// Declaração dos LEDs
+CRGB leds[NUM_LEDS];
 
-// Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, Led_central, NEO_GRB + NEO_KHZ800);
-// Adafruit_NeoPixel strip_sinal = Adafruit_NeoPixel(num_sinal, led_sinal, NEO_GRB + NEO_KHZ800);
+// Variáveis de controle
+bool ledsOn = false;       // Estado atual dos LEDs (ligado ou desligado)
+bool lastButtonState = LOW; // Último estado do botão
+unsigned long lastDebounceTime = 0; // Para evitar ruído no botão
+unsigned long debounceDelay = 50;   // Tempo de debounce em milissegundos
 
-// unsigned long previous = 0;
-// bool alterando = true;
+void setup() {
+  pinMode(BUTTON_PIN, INPUT_PULLUP); // Configura o botão como entrada com pull-up interno
+  FastLED.addLeds<WS2811, LED_PIN, GRB>(leds, NUM_LEDS);
+  FastLED.setBrightness(BRIGHTNESS);
 
-// void inicializa_leds()
-// {
-//   strip.begin();
-//   strip.setBrightness(BRIGHTNESS);
-//   strip_sinal.begin();
-//   strip_sinal.setBrightness(255);
-//   strip_sinal.setPixelColor(0, strip_sinal.Color(255, 0, 0)); 
-//   strip_sinal.show();
-// }
+  // Inicializa todos os LEDs desligados
+  FastLED.clear();
+  FastLED.show();
+}
 
-// void atualiza_sinais()
-// {
-//   unsigned long current = millis();
-//   if (current - previous >= 500)
-//   {
-//     previous = current;
+void loop() {
+  // Lê o estado atual do botão
+  bool reading = digitalRead(BUTTON_PIN);
 
-//     if (alterando)
-//     {
-//       strip_sinal.setPixelColor(0, strip_sinal.Color(255, 255, 0)); 
-//       strip_sinal.setPixelColor(1, strip_sinal.Color(255, 0, 0));   
-//     }
-//     else
-//     {
-//       strip_sinal.setPixelColor(0, strip_sinal.Color(255, 0, 0));   
-//       strip_sinal.setPixelColor(1, strip_sinal.Color(255, 255, 0)); 
-//     }
-//     strip_sinal.show(); 
-//     alterando = !alterando; 
-//   }
-// }
+  // Verifica se houve uma mudança no botão
+  if (reading != lastButtonState) {
+    lastDebounceTime = millis(); // Reinicia o temporizador de debounce
+  }
 
-// void setColors(uint32_t color1, uint32_t color2)
-// {
-//   strip.setPixelColor(0, color1);
-//   strip.setPixelColor(1, color2);
-//   strip.show();
-// }
+  // Se o tempo de debounce passou, atualiza o estado
+  if ((millis() - lastDebounceTime) > debounceDelay) {
+    // Verifica se o botão foi pressionado
+    if (reading == LOW && lastButtonState == HIGH) {
+      ledsOn = !ledsOn; // Alterna o estado dos LEDs
+      updateLEDs();     // Atualiza os LEDs
+    }
+  }
 
+  // Atualiza o último estado do botão
+  lastButtonState = reading;
+}
 
-// void setWhiteColor()
-// {
-//   for (int i = 0; i < NUM_LEDS; i++)
-//   {
-//     strip.setPixelColor(i, strip.Color(255, 255, 255)); 
-//   }
-//   strip.show();
-// }
-
+// Função para atualizar os LEDs
+void updateLEDs() {
+  if (ledsOn) {
+    // Liga os LEDs com a cor branca
+    fill_solid(leds, NUM_LEDS, CRGB::White);
+  } else {
+    // Desliga todos os LEDs
+    FastLED.clear();
+  }
+  FastLED.show();
+}
