@@ -79,6 +79,20 @@ void inicializa_json()
         atualiza_motor(angulo_motor);
         mensagemEmFila = true;
     }
+    else if (botao_led_pressionado())
+    {
+        doc["LedState"] = ledPowerState;
+        doc["BotaoledState"] = ledPowerState;
+        if (ledPowerState)
+        {
+            atualiza_branco();
+        }
+        else
+        {
+            atualiza_apagado();
+        }
+        mensagemEmFila = true;
+    }
     if (mensagemEmFila)
     {
         serializeJson(doc, json);

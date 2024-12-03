@@ -163,4 +163,21 @@ void tratar_msg(char *topic, String msg)
       }
     }
   }
+  if (strcmp(topic, mqtt_topic1) == 0)
+  {
+    JsonDocument doc;
+    deserializeJson(doc, msg);
+    if (doc.containsKey("ledState"))
+    {
+      ledPowerState = doc["ledState"];
+      if (ledPowerState)
+      {
+        atualiza_branco();
+      }
+      else
+      {
+        atualiza_apagado();
+      }
+    }
+  }
 }

@@ -50,6 +50,12 @@ void setup()
     inicializa_display();
     if (debug)
         Serial.println("incializando o display");
+    inicializa_leds();
+    if (debug)
+        Serial.println("incializando os leds");
+    inicializa_leds_color();
+    if (debug)
+        Serial.println("incializando os leds coloridos");
 }
 
 void loop()
@@ -58,10 +64,8 @@ void loop()
     atualiza_token();
     atualiza_botoes();
     setup_temperatura();
-    // atualiza_motor();
+    atualiza_motor();
     atualiza_nfc();
     inicializa_json();
+    atualiza_leds_color();
 }
-
-//teste
-

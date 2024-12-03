@@ -1,60 +1,76 @@
 #include <FastLED.h>
+#include "saidas.h"
 
-// Configurações dos LEDs
-#define LED_PIN     6    // Pino onde a fita de LED está conectada
-#define NUM_LEDS    60   // Número de LEDs na fita
-#define BUTTON_PIN  7    // Pino onde o botão está conectado
-#define BRIGHTNESS  255  // Brilho máximo (0-255)
+const int LED_PIN = 4;
+const int NUM_LEDS = 2;
+const int LED_PIN_COLOR = 18;
+const int NUM_LEDS_COLOR = 2;
 
-// Declaração dos LEDs
+#define BRIGHTNESS 255
+#define LED_TYPE WS2811
+#define COLOR_ORDER GRB
+
 CRGB leds[NUM_LEDS];
+CRGB leds_color[NUM_LEDS_COLOR];
 
-// Variáveis de controle
-bool ledsOn = false;       // Estado atual dos LEDs (ligado ou desligado)
-bool lastButtonState = LOW; // Último estado do botão
-unsigned long lastDebounceTime = 0; // Para evitar ruído no botão
-unsigned long debounceDelay = 50;   // Tempo de debounce em milissegundos
+unsigned long intervalo_led = 0;
+unsigned long anterior_tempo_led = 1000;
+bool isRed = true;
 
-void setup() {
-  pinMode(BUTTON_PIN, INPUT_PULLUP); // Configura o botão como entrada com pull-up interno
-  FastLED.addLeds<WS2811, LED_PIN, GRB>(leds, NUM_LEDS);
+void inicializa_leds()
+{
+  FastLED.addLeds<LED_TYPE, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS);
   FastLED.setBrightness(BRIGHTNESS);
+  atualiza_apagado();
+}
 
-  // Inicializa todos os LEDs desligados
-  FastLED.clear();
+void inicializa_leds_color()
+{
+  FastLED.addLeds<LED_TYPE, LED_PIN_COLOR, COLOR_ORDER>(leds_color, NUM_LEDS_COLOR);
+  FastLED.setBrightness(BRIGHTNESS);
+  for (int i = 0; i < NUM_LEDS_COLOR; i++)
+  {
+    leds_color[i] = CRGB::Red;
+  }
+  FastLED.show();
+}
+void atualiza_branco()
+{
+  for (int i = 0; i < NUM_LEDS; i++)
+  {
+    leds[i] = CRGB::White;
+  }
   FastLED.show();
 }
 
-void loop() {
-  // Lê o estado atual do botão
-  bool reading = digitalRead(BUTTON_PIN);
-
-  // Verifica se houve uma mudança no botão
-  if (reading != lastButtonState) {
-    lastDebounceTime = millis(); // Reinicia o temporizador de debounce
+void atualiza_apagado()
+{
+  for (int i = 0; i < NUM_LEDS; i++)
+  {
+    leds[i] = CRGB::Black;
   }
+  FastLED.show();
+}
 
-  // Se o tempo de debounce passou, atualiza o estado
-  if ((millis() - lastDebounceTime) > debounceDelay) {
-    // Verifica se o botão foi pressionado
-    if (reading == LOW && lastButtonState == HIGH) {
-      ledsOn = !ledsOn; // Alterna o estado dos LEDs
-      updateLEDs();     // Atualiza os LEDs
+void atualiza_leds_color()
+{
+  unsigned long currentMillis = millis();
+  if (currentMillis - intervalo_led >= anterior_tempo_led)
+  {
+    intervalo_led = currentMillis;
+    if (isRed)
+    {
+      leds_color[0] = CRGB::Red;
+      leds_color[1] = CRGB::Yellow;
     }
-  }
 
-  // Atualiza o último estado do botão
-  lastButtonState = reading;
-}
+    else
+    {
+      leds_color[0] = CRGB::Yellow;
+      leds_color[1] = CRGB::Red;
+    }
 
-// Função para atualizar os LEDs
-void updateLEDs() {
-  if (ledsOn) {
-    // Liga os LEDs com a cor branca
-    fill_solid(leds, NUM_LEDS, CRGB::White);
-  } else {
-    // Desliga todos os LEDs
-    FastLED.clear();
+    isRed = !isRed;
+    FastLED.show();
   }
-  FastLED.show();
 }

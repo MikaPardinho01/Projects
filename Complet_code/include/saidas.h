@@ -1,4 +1,5 @@
-// void inicializa_leds();
-// void atualiza_sinais();
-// void setColors(uint32_t color1, uint32_t color2);
-// void setWhiteColor();
+void inicializa_leds();
+void inicializa_leds_color();
+extern void atualiza_branco();
+extern void atualiza_apagado ();
+void atualiza_leds_color();
