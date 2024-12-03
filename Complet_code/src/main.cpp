@@ -62,3 +62,6 @@ void loop()
     atualiza_nfc();
     inicializa_json();
 }
+
+//teste
+
