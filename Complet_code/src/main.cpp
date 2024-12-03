@@ -38,7 +38,7 @@ void setup()
     inicializa_temperatura();
     if (debug)
         Serial.println("icializando a temperatura");
-    inicializa_nfc();
+    // inicializa_nfc();
     if (debug)
         Serial.println("Inicializando o NFC");
     sensores_init();
