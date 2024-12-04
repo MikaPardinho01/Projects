@@ -4,7 +4,7 @@
 const int LED_PIN = 4;
 const int NUM_LEDS = 2;
 const int LED_PIN_COLOR = 18;
-const int NUM_LEDS_COLOR = 2;
+const int NUM_LEDS_COLOR = 12;
 
 #define BRIGHTNESS 255
 #define LED_TYPE WS2811

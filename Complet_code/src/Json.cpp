@@ -41,17 +41,17 @@ void inicializa_json()
     }
     else if (botao_servo_pressionado())
     {
-        doc["PortaoState"] = angulo_servo;
+        doc["PortaoState"] = angulo_estoque;
         doc["BotaoservoState"] = actionState;
         if (actionState)
         {
-            angulo_servo = 90;
+            angulo_estoque = 90;
         }
         else
         {
-            angulo_servo = 0;
+            angulo_estoque = 0;
         }
-        posiciona_servo(angulo_servo);
+        posiciona_servo_estoque(angulo_estoque);
         mensagemEmFila = true;
     }
     else if (botao_motor_pressionado())

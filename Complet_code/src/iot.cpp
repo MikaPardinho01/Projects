@@ -17,14 +17,13 @@
 
 // Definição dos tópicos de inscrição
 #define mqtt_topic1 "projeto_auto_factory"
-#define mqtt_topic2 "ProjetoKaue/receba"
+
+#define USUARIO_PADRAO "!@#$%^&*()xyz"
 
 // Definição do ID do cliente MQTT randomico
 const String cliente_id = "ESP32Client" + String(random(0xffff), HEX);
 
-// Definicao para o token
-const int Tokens = 1803;
-String resposta = "Sim";
+String usuarioAutorizado = USUARIO_PADRAO;
 
 // Protótipos das funções
 void tratar_msg(char *topic, String msg);
@@ -116,6 +115,36 @@ void inscricao_topicos()
 // Trata as mensagens recebidas
 void tratar_msg(char *topic, String msg)
 {
+    //   int senha = randomiza_senha();
+
+    // JsonDocument doc;
+    // deserializeJson(doc, msg);
+    // if (doc.containsKey("token"))
+    // {
+    //   if (doc["token"] == senha)
+    //   {
+    //     if (doc.containsKey("user"))
+    //     {
+    //       String user = doc["user"];
+
+    //       if (usuarioAutorizado == USUARIO_PADRAO) 
+    //         usuarioAutorizado = user; 
+
+    //       if (usuarioAutorizado == user) 
+    //       {
+    //         mostrarTempoRestante(); 
+
+    //         //! ******** USUARIO AUTORIZADO APARTIR DAQUI ***********/
+    //         // if (doc.containsKey("LedState"))
+    //         // {
+    //         //   LedBuiltInState = doc["LedState"];
+    //         // }
+
+    //         //! ******** USUARIO AUTORIZADO ATÉ AQUI ***********/
+    //       }
+    //     }
+    //   }
+    // }
   if (strcmp(topic, mqtt_topic1) == 0)
   {
     JsonDocument doc;
@@ -126,17 +155,35 @@ void tratar_msg(char *topic, String msg)
 
       if (actionState)
       {
-        angulo_servo = 90;
+        angulo_estoque = 90;
       }
       else
       {
-        angulo_servo = 0;
+        angulo_estoque = 0;
       }
-      posiciona_servo(angulo_servo);
+      posiciona_servo_estoque(angulo_estoque);
     }
   }
   if (strcmp(topic, mqtt_topic1) == 0)
   {
+    JsonDocument doc;
+    deserializeJson(doc, msg);
+    if (doc.containsKey("PortaoState"))
+    {
+      servoPowerState = doc["PortaoState"];
+
+      if (servoPowerState)
+      {
+        angulo_despache = 90;
+      }
+      else
+      {
+        angulo_despache = 0;
+      }
+      posiciona_servo_despache(angulo_despache);
+    }
+  }
+  if (strcmp(topic, mqtt_topic1) == 0) {
     JsonDocument doc;
     deserializeJson(doc, msg);
     if (doc.containsKey("motorState"))
