@@ -2,6 +2,7 @@
 #include "motor.h"
 
 #define CANALPWM 0
+#define botaoPin 0
 
 const int motorPin = 21;
 int angulo_motor = 0;
