@@ -41,7 +41,7 @@ void inicializa_json()
     }
     else if (botao_servo_pressionado())
     {
-        doc["PortaoState"] = angulo_estoque;
+        doc["BotaoservoState"] = angulo_estoque;
         doc["BotaoservoState"] = actionState;
         if (actionState)
         {
@@ -52,6 +52,21 @@ void inicializa_json()
             angulo_estoque = 0;
         }
         posiciona_servo_estoque(angulo_estoque);
+        mensagemEmFila = true;
+    }
+    else if (botao_servo_estoque_pressionado())
+    {
+        doc["PortaoState"]  = angulo_despache;
+        doc["PortaoState"] = servoPowerState;
+        if(servoPowerState)
+        {
+            angulo_despache = 90;
+        } 
+        else 
+        {
+            angulo_despache = 0;
+        }
+        posiciona_servo_despache(angulo_despache);
         mensagemEmFila = true;
     }
     else if (botao_motor_pressionado())
