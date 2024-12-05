@@ -2,6 +2,7 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+#include <qrcode.h>
 #include "temperatura.h"
 
 #define SCREEN_WIDTH 128 
@@ -9,10 +10,14 @@
 #define SCREEN_ADDRESS 0x3C 
 #define OLED_RESET -1
 
+QRCode qrcode;
 Adafruit_SSD1306 oled(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
+uint8_t qrcodeData[128];
+const int qrSize = 64; 
+const char *qrText = "https://example.com";
+
 const unsigned char mapa02 [] PROGMEM = {
-	// 'mapa02', 128x64px
 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 
@@ -79,13 +84,33 @@ const unsigned char mapa02 [] PROGMEM = {
 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
 };
 
-void inicializa_display()
-{
+void inicializa_display() {
     oled.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS);
-}
-void totem_display()
-{
     oled.clearDisplay();
-    oled.drawBitmap(0, 0,mapa02 , 128, 64, WHITE);
     oled.display();
 }
+
+void exibir_bitmap() {
+    oled.clearDisplay();
+    oled.drawBitmap(0, 0, mapa02, 128, 64, WHITE);
+    oled.display();
+}
+
+void exibir_qrcode(const char *texto) {
+    oled.clearDisplay();
+    qrcode_initText(&qrcode, qrcodeData, qrSize / 4, ECC_LOW, texto);
+
+    for (uint8_t y = 0; y < qrcode.size; y++) {
+        for (uint8_t x = 0; x < qrcode.size; x++) {
+            int posX = (SCREEN_WIDTH - qrSize) / 2 + x * (qrSize / qrcode.size);
+            int posY = (SCREEN_HEIGHT - qrSize) / 2 + y * (qrSize / qrcode.size);
+            if (qrcode_getModule(&qrcode, x, y)) {
+                oled.fillRect(posX, posY, qrSize / qrcode.size, qrSize / qrcode.size, WHITE);
+            } else {
+                oled.fillRect(posX, posY, qrSize / qrcode.size, qrSize / qrcode.size, BLACK);
+            }
+        }
+    }
+    oled.display();
+}
+

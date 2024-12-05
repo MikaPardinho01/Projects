@@ -42,3 +42,5 @@ float lerUmidade()
     humidade = dht.readHumidity();
     return humidade;
 }
+
+
