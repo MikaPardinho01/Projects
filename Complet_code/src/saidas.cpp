@@ -1,4 +1,6 @@
+#include <Arduino.h>
 #include <FastLED.h>
+#include "saidas.h"
 
 const int LED_PIN = 4;       
 const int NUM_LEDS_TOTAL = 12; 

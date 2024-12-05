@@ -38,7 +38,7 @@ void setup()
     inicializa_temperatura();
     if (debug)
         Serial.println("icializando a temperatura");
-    inicializa_nfc();
+    // inicializa_nfc();
     if (debug)
         Serial.println("Inicializando o NFC");
     sensores_init();
@@ -47,7 +47,7 @@ void setup()
     inicializa_motor();
     if (debug)
         Serial.println("incializando o motor");
-    inicializa_display();
+    inicializa_oled();
     if (debug)
         Serial.println("incializando o display");
     inicializa_leds();
@@ -65,7 +65,8 @@ void loop()
     atualiza_botoes();
     setup_temperatura();
     // atualiza_motor();
-    atualiza_nfc();
+    // atualiza_nfc();
     inicializa_json();
     atualiza_leds_color();
+    atualiza_oled();
 }

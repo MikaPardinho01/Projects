@@ -43,6 +43,15 @@ bool botao_servo_pressionado()
     return botaoservo.fell();
 }
 
+bool botao_servo_estoque_pressionado()
+{
+    if (botaoServoEstoque.fell())
+    {
+        servoPowerState = !servoPowerState;
+    }
+    return botaoServoEstoque.fell();
+}
+
 bool botao_motor_pressionado()
 {
     if (botaoMotor.fell())
@@ -61,11 +70,4 @@ bool botao_led_pressionado()
     return botaoLed.fell();
 }
 
-bool botao_servo_estoque_pressionado()
-{
-    if (botaoServoEstoque.fell())
-    {
-        servoPowerState = !servoPowerState;
-    }
-    return botaoServoEstoque.fell();
-}
+

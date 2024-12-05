@@ -1,3 +1,2 @@
-void totem_display();
-void inicializa_display();
-
+void inicializa_oled();
+void atualiza_oled();
