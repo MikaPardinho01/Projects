@@ -52,6 +52,7 @@ void inicializa_json()
             angulo_estoque = 0;
         }
         posiciona_servo_estoque(angulo_estoque);
+        Serial.println(angulo_estoque);
         mensagemEmFila = true;
     }
     else if (botao_servo_estoque_pressionado())
@@ -60,10 +61,12 @@ void inicializa_json()
         doc["PortaoState"] = servoPowerState;
         if(servoPowerState)
         {
+            Serial.println("pressionado despache");
             angulo_despache = 90;
         } 
         else 
         {
+            Serial.println("nao pressionado despache");
             angulo_despache = 0;
         }
         posiciona_servo_despache(angulo_despache);
@@ -100,11 +103,11 @@ void inicializa_json()
         doc["BotaoledState"] = ledPowerState;
         if (ledPowerState)
         {
-            atualiza_branco();
+            atualiza_leds_branco();
         }
         else
         {
-            atualiza_apagado();
+            atualiza_leds_apagado();
         }
         mensagemEmFila = true;
     }

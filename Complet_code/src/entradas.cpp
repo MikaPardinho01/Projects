@@ -3,10 +3,10 @@
 #include "entradas.h"
 #include "saidas.h"
 
-const int BOTAO_LED = 0;
+const int BOTAO_LED = 2;
 const int BOTAO_SERVO = 23;
-const int BOTAO_SERVO_ESTOQUE = 21;
-const int BOTAO_MOTOR = 22;
+const int BOTAO_SERVO_ESTOQUE = 15;
+const int BOTAO_MOTOR = 18;
 
 Bounce botaoServoEstoque = Bounce();
 Bounce botaoLed = Bounce();

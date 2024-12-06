@@ -145,44 +145,48 @@ void tratar_msg(char *topic, String msg)
     //     }
     //   }
     // }
-  if (strcmp(topic, mqtt_topic1) == 0)
-  {
-    JsonDocument doc;
-    deserializeJson(doc, msg);
-    if (doc.containsKey("BotaoservoState"))
-    {
-      actionState = doc["BotaoservoState"];
+  // if (strcmp(topic, mqtt_topic1) == 0)
+  // {
+  //   JsonDocument doc;
+  //   deserializeJson(doc, msg);
+  //   if (doc.containsKey("BotaoservoState"))
+  //   {
+  //     actionState = doc["BotaoservoState"];
 
-      if (actionState)
-      {
-        angulo_estoque = 90;
-      }
-      else
-      {
-        angulo_estoque = 0;
-      }
-      posiciona_servo_estoque(angulo_estoque);
-    }
-  }
-  if (strcmp(topic, mqtt_topic1) == 0)
-  {
-    JsonDocument doc;
-    deserializeJson(doc, msg);
-    if (doc.containsKey("PortaoState"))
-    {
-      servoPowerState = doc["PortaoState"];
+  //     if (actionState)
+  //     {
+  //     //   angulo_estoque = 90;
+  //     //   Serial.println("Servo ligado estoque");
+  //     // }
+  //     // else
+  //     // {
+  //     //   angulo_estoque = 0;
+  //     //   Serial.println("Servo desligado estoque");
+  //     // }
+  //     // posiciona_servo_estoque(angulo_estoque);
+  //   }
+  // }
+  // if (strcmp(topic, mqtt_topic1) == 0)
+  // {
+  //   JsonDocument doc;
+  //   deserializeJson(doc, msg);
+  //   if (doc.containsKey("PortaoState"))
+  //   {
+  //     servoPowerState = doc["PortaoState"];
 
-      if (servoPowerState)
-      {
-        angulo_despache = 90;
-      }
-      else
-      {
-        angulo_despache = 0;
-      }
-      posiciona_servo_despache(angulo_despache);
-    }
-  }
+  //     if (servoPowerState)
+  //     {
+  //       angulo_despache = 90;
+  //       Serial.println("Servo ligado despache");
+  //     }
+  //     else
+  //     {
+  //       angulo_despache = 0;
+  //       Serial.println("Servo desligado despache");
+  //     }
+  //     posiciona_servo_despache(angulo_despache);
+  //   }
+  // }
   if (strcmp(topic, mqtt_topic1) == 0) {
     JsonDocument doc;
     deserializeJson(doc, msg);
@@ -219,11 +223,11 @@ void tratar_msg(char *topic, String msg)
       ledPowerState = doc["ledState"];
       if (ledPowerState)
       {
-        atualiza_branco();
+        atualiza_leds_branco();
       }
       else
       {
-        atualiza_apagado();
+        atualiza_leds_apagado();
       }
     }
   }

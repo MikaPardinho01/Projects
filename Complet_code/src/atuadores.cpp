@@ -1,8 +1,9 @@
 #include <ESP32Servo.h>
 #include "atuadores.h"
 
-const int SERVO_PIN = 33;
+const int SERVO_PIN = 26;
 const int servoPin = 33;
+
 int angulo_despache = 0;
 int angulo_estoque = 0;
 

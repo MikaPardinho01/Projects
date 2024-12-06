@@ -53,9 +53,6 @@ void setup()
     inicializa_leds();
     if (debug)
         Serial.println("incializando os leds");
-    inicializa_leds_color();
-    if (debug)
-        Serial.println("incializando os leds coloridos");
 }
 
 void loop()
@@ -67,6 +64,6 @@ void loop()
     // atualiza_motor();
     // atualiza_nfc();
     inicializa_json();
-    atualiza_leds_color();
+    alterna_cores();
     atualiza_oled();
 }
