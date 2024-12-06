@@ -58,7 +58,7 @@ void loop()
     atualiza_token();
     atualiza_botoes();
     setup_temperatura();
-    // atualiza_motor();
+    atualiza_motor();
     atualiza_nfc();
     inicializa_json();
 }

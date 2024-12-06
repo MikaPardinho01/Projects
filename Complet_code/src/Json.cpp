@@ -54,31 +54,31 @@ void inicializa_json()
         posiciona_servo(angulo_servo);
         mensagemEmFila = true;
     }
-    else if (botao_motor_pressionado())
-    {
-        doc["motorState"] = angulo_motor;
-        doc["BotaomotorState"] = motorPowerState;
-        if (motorPowerState > 3)
-        {
-            switch (motorPowerState)
-            {
-            case 0:
-                analogWrite(motorPin, 0);
-                break;
-            case 1:
-                analogWrite(motorPin, 85);
-                break;
-            case 2:
-                analogWrite(motorPin, 100);
-                break;
-            case 3:
-                analogWrite(motorPin, 150);
-                break;
-            }
-        }
-        atualiza_motor(angulo_motor);
-        mensagemEmFila = true;
-    }
+    // else if (botao_motor_pressionado())
+    // {
+    //     doc["motorState"] = angulo_motor;
+    //     doc["BotaomotorState"] = motorPowerState;
+    //     if (motorPowerState > 3)
+    //     {
+    //         switch (motorPowerState)
+    //         {
+    //         case 0:
+    //             analogWrite(motorPin, 0);
+    //             break;
+    //         case 1:
+    //             analogWrite(motorPin, 85);
+    //             break;
+    //         case 2:
+    //             analogWrite(motorPin, 100);
+    //             break;
+    //         case 3:
+    //             analogWrite(motorPin, 150);
+    //             break;
+    //         }
+    //     }
+    //     atualiza_motor();
+    //     mensagemEmFila = true;
+    // }
     if (mensagemEmFila)
     {
         serializeJson(doc, json);
