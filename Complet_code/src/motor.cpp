@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <SPI.h>
 #include <FS.h>
+
+//teste
 #include "SPIFFS.h"
 
 #define MOTOR_PIN 5  // Pino onde o motor está conectado
