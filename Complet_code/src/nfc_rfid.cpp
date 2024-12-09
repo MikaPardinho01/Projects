@@ -22,7 +22,7 @@ String mc;
 void inicializa_nfc()
 {
     Serial.begin(115200);
-    nfc.begin();
+    Wire.begin(SDA_PIN, SCL_PIN);
 
     uint32_t versiondata = nfc.getFirmwareVersion();
     if (!versiondata)
