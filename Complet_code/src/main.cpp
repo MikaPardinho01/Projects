@@ -41,3 +41,4 @@ void loop()
     lerTemperatura();
     lerUmidade();
 }
+ 
