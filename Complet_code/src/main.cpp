@@ -36,8 +36,8 @@ void setup()
         Serial.println("Inicializando o NFC");
         sensores_init();
         Serial.println("Inicializando os sensores");
-        inicializa_motor();
-        Serial.println("incializando o motor");
+        inicializa_motor_dc();
+        Serial.println("incializando o motor dc");
         inicializa_oled();
         Serial.println("incializando o display");
         inicializa_leds();
