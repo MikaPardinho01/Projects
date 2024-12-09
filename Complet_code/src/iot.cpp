@@ -183,33 +183,24 @@ void tratar_msg(char *topic, String msg)
       posiciona_servo_despache(angulo_despache);
     }
   }
-  // if (strcmp(topic, mqtt_topic1) == 0) {
-  //   JsonDocument doc;
-  //   deserializeJson(doc, msg);
-  //   if (doc.containsKey("motorState"))
-  //   {
-  //     motorPowerState = doc["motorState"];
-  //     if (motorPowerState > 3)
-  //      motorPowerState++;
-  //     {
-  //       switch (motorPowerState)
-  //       {
-  //       case 0:
-  //         analogWrite(motorPin, 0);
-  //         break;
-  //       case 1:
-  //         analogWrite(motorPin, 85);
-  //         break;
-  //       case 2:
-  //         analogWrite(motorPin, 170);
-  //         break;
-  //       case 3:
-  //         analogWrite(motorPin, 255);
-  //         break;
-  //       }
-  //     }
-  //   }
-  // }
+  if (strcmp(topic, mqtt_topic1) == 0) {
+    JsonDocument doc;
+    deserializeJson(doc, msg);
+    if (doc.containsKey("motorState"))
+    {
+      motorPowerState = doc["motorState"];
+
+      if (motorPowerState)
+      {
+        motoroff();
+      }
+      else
+      {
+        motoron();
+      }
+    }
+  }
+
   if (strcmp(topic, mqtt_topic1) == 0)
   {
     JsonDocument doc;

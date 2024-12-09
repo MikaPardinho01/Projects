@@ -1,92 +1,90 @@
 #include <Arduino.h>
-#include <SPI.h>
-#include <FS.h>
+#include "motor.h"
 
-#include "SPIFFS.h"
-
-const int  MOTOR_PIN = 14
-;  // Pino onde o motor está conectado
-#define BUTTON_PIN 0  // Pino onde o botão está conectado
-
-void MotorSetup();
-void Motorloop();
-void motorOn();
-void motorOff();
+const int MOTOR_PIN = 14; 
+const int BUTTON_PIN = 0;  
 
 #define CANALPWM 1
-#define PWM_FREQ 1000    // Frequência PWM
-#define PWM_RESOLUTION 8 // Resolução do PWM (8 bits)
+#define PWM_FREQ 1000  
+#define PWM_RESOLUTION 8 
 
-bool motorState = false;      // Estado atual do motor (false = desligado, true = ligado)
-bool buttonLastState = LOW;  // Armazena o estado anterior do botão
+bool motorState = false;   
 
-void setup()
+int currentDutyCycle = 0; 
+int targetDutyCycle = 0;  
+unsigned long previousMillis = 0; 
+const long interval = 30;
+
+void inicializa_motor_dc()
 {
-  Serial.begin(115200);
-  MotorSetup();
-}
-
-void loop()
-{
-  Motorloop();
-}
-
-void MotorSetup()
-{
-    // Configura o pino do motor como saída
     pinMode(MOTOR_PIN, OUTPUT);
-
-    // Configura o pino do botão como entrada com pull-up
-    pinMode(BUTTON_PIN, INPUT_PULLUP);
-
-    // Configura o canal PWM
     ledcSetup(CANALPWM, PWM_FREQ, PWM_RESOLUTION);
-
-    // Associa o pino do motor ao canal PWM
     ledcAttachPin(MOTOR_PIN, CANALPWM);
-
-    // Inicializa o motor desligado
     motorOff();
 }
 
-void Motorloop()
+void atualiza_motor_dc()
 {
-    // Leitura do estado atual do botão
-    bool buttonState = digitalRead(BUTTON_PIN);
+  Motorloop();
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousMillis >= interval)
+  {
+    previousMillis = currentMillis;
 
-    // Verifica transição de HIGH para LOW (botão pressionado)
-    if (buttonLastState == HIGH && buttonState == LOW)
+    if (currentDutyCycle != targetDutyCycle)
     {
-        // Alterna o estado do motor
-        if (motorState)
-        {
-            motorOff(); // Desliga o motor
-            Serial.println("Motor desligado / Botao apertado");
-        }
-        else
-        {
-            motorOn(); // Liga o motor
-            Serial.println("Motor Ligado / Botao apertado");
-        }
-
-        // Alterna o estado da variável motorState
-        motorState = !motorState;
+      if (currentDutyCycle < targetDutyCycle)
+      {
+        currentDutyCycle += 5; 
+        if (currentDutyCycle > targetDutyCycle) currentDutyCycle = targetDutyCycle;  
+      }
+      else if (currentDutyCycle > targetDutyCycle)
+      {
+        currentDutyCycle -= 5; 
+        if (currentDutyCycle < targetDutyCycle) currentDutyCycle = targetDutyCycle;  
+      }
+      ledcWrite(CANALPWM, currentDutyCycle);
     }
-
-    // Atualiza o estado anterior do botão
-    buttonLastState = buttonState;
+  }
 }
 
-// Função para ligar o motor DC
+
+// void Motorloop()
+// {
+//     // Leitura do estado atual do botão
+//     bool buttonState = digitalRead(BUTTON_PIN);
+
+//     // Verifica transição de HIGH para LOW (botão pressionado)
+//     if (buttonLastState == HIGH && buttonState == LOW)
+//     {
+//         // Alterna o estado do motor
+//         if (motorState)
+//         {
+//             motorOff(); // Desliga o motor gradualmente
+//             Serial.println("Motor desligado / Botao apertado");
+//         }
+//         else
+//         {
+//             motorOn(); // Liga o motor gradualmente
+//             Serial.println("Motor Ligado / Botao apertado");
+//         }
+
+//         // Alterna o estado da variável motorState
+//         motorState = !motorState;
+//     }
+
+//     // Atualiza o estado anterior do botão
+//     buttonLastState = buttonState;
+// }
+
 void motorOn()
 {
-    ledcWrite(CANALPWM, 150); // Liga o motor com 50% de duty cycle (PWM 128)
+    targetDutyCycle = 130;  
     Serial.println("Motor ligado");
 }
 
-// Função para desligar o motor DC
 void motorOff()
 {
-    ledcWrite(CANALPWM, 0); // Desliga o motor (PWM 0)
+    targetDutyCycle = 0;  
     Serial.println("Motor desligado");
 }

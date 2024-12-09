@@ -8,10 +8,10 @@ const int BOTAO_SERVO_DESPACHE = 5;
 const int BOTAO_SERVO_ESTOQUE = 23;
 const int BOTAO_MOTOR = 18;
 
+Bounce botaoservoDespache = Bounce();
 Bounce botaoServoEstoque = Bounce();
 Bounce botaoLed = Bounce();
 Bounce botaoMotor = Bounce();
-Bounce botaoservoDespache = Bounce();
 
 bool servoPowerState = false;
 bool ledPowerState = false;
@@ -52,7 +52,7 @@ bool botao_servo_estoque_pressionado()
     return botaoServoEstoque.fell();
 }
 
-bool botao_motor_pressionado()
+bool botao_motor_dc_pressionado()
 {
     if (botaoMotor.fell())
     {
