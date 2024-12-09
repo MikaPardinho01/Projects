@@ -18,7 +18,7 @@ class BancoDeDados
                 'mysql:host=%s;dbname=%s', DB_HOST, DB_DATABASE
             ), DB_USER, DB_PASSWORD);
         } catch (\PDOException $e) {
-            var_dump('Erro ao conectar no banco de dados');
+            var_dump('Erro ao conectar no banco de dados: ' . $e->getMessage());
         }
 
         return $this->conexao;
