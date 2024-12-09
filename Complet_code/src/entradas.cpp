@@ -6,7 +6,7 @@
 const int BOTAO_LED = 2;
 const int BOTAO_SERVO_DESPACHE = 5;
 const int BOTAO_SERVO_ESTOQUE = 23;
-const int BOTAO_MOTOR = 18;
+const int BOTAO_MOTOR = 0;
 
 Bounce botaoservoDespache = Bounce();
 Bounce botaoServoEstoque = Bounce();
