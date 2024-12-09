@@ -1,7 +1,7 @@
 
 void inicializa_entradas();
 void atualiza_botoes();
-bool botao_servo_pressionado();
+bool botao_servo_despache_pressionado();
 bool botao_motor_pressionado();
 bool botao_led_pressionado();
 bool botao_servo_estoque_pressionado();

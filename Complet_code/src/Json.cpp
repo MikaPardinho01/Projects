@@ -25,8 +25,7 @@ void inicializa_json()
     String json;
     bool mensagemEmFila = false;
 
-    if (millis() - time_anterior >= time_definido)
-    {
+    if (millis() - time_anterior >= time_definido) {
         mensagem();
         time_anterior = millis();
         doc["timeStamp"] = timeStamp();
@@ -38,12 +37,16 @@ void inicializa_json()
         doc["Umidade"] = humidade;
         doc["CO2"] = round(sensores_get_gas() * 100.0) / 100.0;
         mensagemEmFila = true;
-    }
-    else if (botao_servo_pressionado())
-    {
+        Serial.print("oii           ");
+    }  else if (botao_servo_estoque_pressionado()) {
+        inicializa_servos();
         doc["PortaoEstoque"] = angulo_estoque;
-        doc["BotaoservoState"] = actionState;
-        if (actionState)
+        doc["BotaoservoState"] = servoPowerState;
+
+        Serial.print(servoPowerState);
+
+        if (servoPowerState)
+        
         {
             angulo_estoque = 90;
         }
@@ -54,12 +57,12 @@ void inicializa_json()
         posiciona_servo_estoque(angulo_estoque);
         Serial.println(angulo_estoque);
         mensagemEmFila = true;
-    }
-    else if (botao_servo_estoque_pressionado())
-    {
+    } else if (botao_servo_despache_pressionado()) {
+        inicializa_servos();
+        return;
         doc["PortaoDespache"]  = angulo_despache;
-        doc["PortaoState"] = servoPowerState;
-        if(servoPowerState)
+        doc["PortaoState"] = actionState;
+        if(actionState)
         {
             Serial.println("pressionado despache");
             angulo_despache = 90;
@@ -71,8 +74,7 @@ void inicializa_json()
         }
         posiciona_servo_despache(angulo_despache);
         mensagemEmFila = true;
-    }
-    // else if (botao_motor_pressionado())
+    } // else if (botao_motor_pressionado())
     // {
     //     doc["motorState"] = angulo_motor;
     //     doc["BotaomotorState"] = motorPowerState;
@@ -97,8 +99,7 @@ void inicializa_json()
     //     atualiza_motor(angulo_motor);
     //     mensagemEmFila = true;
     // }
-    else if (botao_led_pressionado())
-    {
+    else if (botao_led_pressionado()) {
         doc["LedState"] = ledPowerState;
         doc["BotaoledState"] = ledPowerState;
         if (ledPowerState)
@@ -111,6 +112,7 @@ void inicializa_json()
         }
         mensagemEmFila = true;
     }
+    
     if (mensagemEmFila)
     {
         serializeJson(doc, json);

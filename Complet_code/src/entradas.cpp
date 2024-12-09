@@ -5,7 +5,7 @@
 
 const int BOTAO_LED = 2;
 const int BOTAO_SERVO = 23;
-const int BOTAO_SERVO_ESTOQUE = 15;
+const int BOTAO_SERVO_ESTOQUE = 0;
 const int BOTAO_MOTOR = 18;
 
 Bounce botaoServoEstoque = Bounce();
@@ -34,7 +34,7 @@ void atualiza_botoes()
     botaoservo.update();
 }
 
-bool botao_servo_pressionado()
+bool botao_servo_despache_pressionado()
 {
     if (botaoservo.fell())
     {
