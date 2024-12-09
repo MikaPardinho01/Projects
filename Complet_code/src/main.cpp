@@ -29,15 +29,15 @@ void setup()
         inicializa_entradas();
         Serial.println("Inicializando as entradas");
         //inicializa_servos();
-        Serial.println("Inicializando os servos");
+        // Serial.println("Inicializando os servos");
         inicializa_temperatura();
         Serial.println("icializando a temperatura");
         inicializa_nfc();
         Serial.println("Inicializando o NFC");
         sensores_init();
         Serial.println("Inicializando os sensores");
-        inicializa_motor();
-        Serial.println("incializando o motor");
+        inicializa_motor_dc();
+        Serial.println("incializando o motor dc");
         inicializa_oled();
         Serial.println("incializando o display");
         inicializa_leds();
@@ -51,7 +51,6 @@ void loop()
     atualiza_token();
     atualiza_botoes();
     setup_temperatura();
-    // atualiza_motor();
     atualiza_nfc();
     inicializa_json();
     alterna_cores();

@@ -1,6 +1,4 @@
-void inicializa_motor();
-void atualiza_motor(int posicao_motor);
-
-extern int angulo_motor;
-extern bool motorPowerState;
-extern const int motorPin;
+void inicializa_motor_dc(); 
+void atualiza_motor_dc();
+void motorOn(); 
+void motorOff();

@@ -4,14 +4,14 @@
 #include "saidas.h"
 
 const int BOTAO_LED = 2;
-const int BOTAO_SERVO = 23;
-const int BOTAO_SERVO_ESTOQUE = 0;
-const int BOTAO_MOTOR = 18;
+const int BOTAO_SERVO_DESPACHE = 5;
+const int BOTAO_SERVO_ESTOQUE = 23;
+const int BOTAO_MOTOR = 0;
 
+Bounce botaoservoDespache = Bounce();
 Bounce botaoServoEstoque = Bounce();
 Bounce botaoLed = Bounce();
 Bounce botaoMotor = Bounce();
-Bounce botaoservo = Bounce();
 
 bool servoPowerState = false;
 bool ledPowerState = false;
@@ -23,7 +23,7 @@ void inicializa_entradas()
     botaoServoEstoque.attach(BOTAO_SERVO_ESTOQUE, INPUT_PULLUP);
     botaoLed.attach(BOTAO_LED, INPUT_PULLUP);
     botaoMotor.attach(BOTAO_MOTOR, INPUT_PULLUP);
-    botaoservo.attach(BOTAO_SERVO, INPUT_PULLUP);
+    botaoservoDespache.attach(BOTAO_SERVO_DESPACHE, INPUT_PULLUP);
 }
 
 void atualiza_botoes()
@@ -31,16 +31,16 @@ void atualiza_botoes()
     botaoServoEstoque.update();
     botaoLed.update();
     botaoMotor.update();
-    botaoservo.update();
+    botaoservoDespache.update();
 }
 
 bool botao_servo_despache_pressionado()
 {
-    if (botaoservo.fell())
+    if (botaoservoDespache.fell())
     {
         actionState = !actionState;
     }
-    return botaoservo.fell();
+    return botaoservoDespache.fell();
 }
 
 bool botao_servo_estoque_pressionado()
@@ -52,7 +52,7 @@ bool botao_servo_estoque_pressionado()
     return botaoServoEstoque.fell();
 }
 
-bool botao_motor_pressionado()
+bool botao_motor_dc_pressionado()
 {
     if (botaoMotor.fell())
     {

@@ -2,7 +2,7 @@
 #include "atuadores.h"
 
 const int SERVO_PIN_ESTOQUE = 13;
-const int SERVO_PIN_DESPACHE = 33;
+const int SERVO_PIN_DESPACHE = 19;
 int angulo_despache = 0;
 int angulo_estoque = 0;
 
