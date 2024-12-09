@@ -37,7 +37,6 @@ void inicializa_json()
         doc["Umidade"] = humidade;
         doc["CO2"] = round(sensores_get_gas() * 100.0) / 100.0;
         mensagemEmFila = true;
-        Serial.print("oii           ");
     }  else if (botao_servo_estoque_pressionado()) {
         inicializa_servos();
         doc["PortaoEstoque"] = angulo_estoque;
