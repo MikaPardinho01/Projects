@@ -37,13 +37,11 @@ void inicializa_json()
         doc["Umidade"] = humidade;
         doc["CO2"] = round(sensores_get_gas() * 100.0) / 100.0;
         mensagemEmFila = true;
+
     }  else if (botao_servo_estoque_pressionado()) {
         inicializa_servos();
         doc["PortaoEstoque"] = angulo_estoque;
         doc["BotaoservoState"] = servoPowerState;
-
-        Serial.print(servoPowerState);
-
         if (servoPowerState)
         
         {
@@ -56,23 +54,22 @@ void inicializa_json()
         posiciona_servo_estoque(angulo_estoque);
         Serial.println(angulo_estoque);
         mensagemEmFila = true;
+
     } else if (botao_servo_despache_pressionado()) {
         inicializa_servos();
-        return;
         doc["PortaoDespache"]  = angulo_despache;
         doc["PortaoState"] = actionState;
         if(actionState)
         {
-            Serial.println("pressionado despache");
             angulo_despache = 90;
         } 
         else 
         {
-            Serial.println("nao pressionado despache");
             angulo_despache = 0;
         }
         posiciona_servo_despache(angulo_despache);
         mensagemEmFila = true;
+        
     } // else if (botao_motor_pressionado())
     // {
     //     doc["motorState"] = angulo_motor;
