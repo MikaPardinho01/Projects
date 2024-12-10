@@ -12,10 +12,11 @@ unsigned long def = 1000;
 Adafruit_PN532 nfc(SDA_PIN, SCL_PIN);
 Preferences preferences;
 
-const int maxUIDs = 3;
-bool memoriaCheia = true;
-bool duplicado;
-int i_posicao;
+const int maxUIDs = 2;
+bool memoriaCheia = false;
+bool duplicado = false;
+int i_posicao = 0;
+
 String pos;
 String mc;
 
@@ -28,7 +29,8 @@ void inicializa_nfc()
     if (!versiondata)
     {
         Serial.print("Não foi possível encontrar o PN53x");
-        while (1);
+        while (1)
+            ;
     }
 
     nfc.SAMConfig();
@@ -40,14 +42,16 @@ bool isDuplicateUID(unsigned long newUID)
 {
     for (i_posicao = 0; i_posicao < maxUIDs; i_posicao++)
     {
-        Serial.println("03");
         unsigned long storedUID = preferences.getULong(String(i_posicao).c_str(), 0);
         if (storedUID == newUID)
         {
+            // duplicado = true;
+            Serial.print("teste de nfc - verificando verdadeiro. . . . . . . . . . . . ..  . ");
             return duplicado = true;
         }
     }
     return duplicado = false;
+    Serial.print("teste de nfc - verificando falso. . . . . . . . . . . . ..  . ");
 }
 
 void mensagem()
@@ -60,62 +64,75 @@ void mensagem()
     {
         pos = "Novo UID detectado na posição " + String(i_posicao) + "\n";
     }
-    else if (memoriaCheia == true)
-    {
-        mc = "Memoria cheia. Limpando a memória...\n";
-    }
+    // else if (memoriaCheia == true)
+    // // {
+    // //     mc = "Memoria cheia. Limpando a memória..." + String(memoriaCheia) + "\n";
+    // // }
 }
 
 void clearMemoryIfAllowed()
 {
-    if (memoriaCheia)
-    {
-        preferences.clear();
-        preferences.end();
-
-        preferences.begin("UIDs", false);
-
-        memoriaCheia = false;
-     }
+    preferences.clear();
+    preferences.begin("UIDs", false);
+    memoriaCheia = false;
+    i_posicao = 0;
 }
 
 bool storeUID(unsigned long newUID)
 {
-    for (i_posicao = 0; i_posicao < maxUIDs; i_posicao++)
     {
-        unsigned long storedUID = preferences.getULong(String(i_posicao).c_str(), 0);
-        if (storedUID == 0)
+        if (isDuplicateUID(newUID))
         {
-            preferences.putULong(String(i_posicao).c_str(), newUID);
-            preferences.end();
-            Serial.printf("UID armazenado na posição %d\n", i_posicao);
-            memoriaCheia = false;
-            return true;
+            Serial.println("UID já armazenado (duplicado).");
+            return false;
         }
+
+        if (i_posicao >= maxUIDs - 1)
+        {
+            memoriaCheia = true;
+            clearMemoryIfAllowed(); 
+        }
+
+        i_posicao++;                                            
+        preferences.putULong(String(i_posicao).c_str(), newUID); 
+        Serial.printf("Novo UID armazenado na posição %d\n", i_posicao);
+
+        i_posicao++;
+        return true;
     }
-    // preferences.end();
-    memoriaCheia = true;
-    clearMemoryIfAllowed();
-    return false;
+    // for (i_posicao = 0; i_posicao <= maxUIDs; i_posicao++)
+    // {
+    //     unsigned long storedUID = preferences.getULong(String(i_posicao).c_str(), 0);
+    //     if (storedUID == 0)
+    //     {
+    //         preferences.putULong(String(i_posicao).c_str(), newUID);
+    //         preferences.end();
+    //         Serial.printf("UID armazenado na posição %d\n", i_posicao);
+    //         memoriaCheia = false;
+    //         return true;
+    //     }
+    // }
+    // memoriaCheia = true;
+    // clearMemoryIfAllowed();
+    // return false;
 }
 
-// Função para atualizar o status do NFC
 void atualiza_nfc()
 {
     if (millis() - anterior_tempo_nfc >= def)
     {
         anterior_tempo_nfc = millis();
-        
+
         byte success;
         byte uid[] = {0, 0, 0, 0, 0, 0, 0};
         byte uidLength;
 
         success = nfc.readPassiveTargetID(PN532_MIFARE_ISO14443A, uid, &uidLength, 500);
-        
+
         if (success)
         {
             numericUID = 0;
-            
+
             for (byte i = 0; i < uidLength; i++)
             {
                 numericUID = numericUID * 256 + uid[i];

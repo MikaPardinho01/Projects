@@ -1,5 +1,5 @@
-const char *ssid = "Francimar";
-const char *password = "01011435s";
+const char *ssid = "Geovane";
+const char *password = "geovane1994";
 const char *AWS_IOT_ENDPOINT = "aw0unp1tlh1j-ats.iot.us-east-1.amazonaws.com"; // adicionar o endpoint AWS
 const int mqtt_port = 8883; //porta do Broker MQTT
 

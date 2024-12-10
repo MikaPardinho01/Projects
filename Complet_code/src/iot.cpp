@@ -115,36 +115,36 @@ void inscricao_topicos()
 // Trata as mensagens recebidas
 void tratar_msg(char *topic, String msg)
 {
-    //   int senha = randomiza_senha();
+  //   int senha = randomiza_senha();
 
-    // JsonDocument doc;
-    // deserializeJson(doc, msg);
-    // if (doc.containsKey("token"))
-    // {
-    //   if (doc["token"] == senha)
-    //   {
-    //     if (doc.containsKey("user"))
-    //     {
-    //       String user = doc["user"];
+  // JsonDocument doc;
+  // deserializeJson(doc, msg);
+  // if (doc.containsKey("token"))
+  // {
+  //   if (doc["token"] == senha)
+  //   {
+  //     if (doc.containsKey("user"))
+  //     {
+  //       String user = doc["user"];
 
-    //       if (usuarioAutorizado == USUARIO_PADRAO) 
-    //         usuarioAutorizado = user; 
+  //       if (usuarioAutorizado == USUARIO_PADRAO)
+  //         usuarioAutorizado = user;
 
-    //       if (usuarioAutorizado == user) 
-    //       {
-    //         mostrarTempoRestante(); 
+  //       if (usuarioAutorizado == user)
+  //       {
+  //         mostrarTempoRestante();
 
-    //         //! ******** USUARIO AUTORIZADO APARTIR DAQUI ***********/
-    //         // if (doc.containsKey("LedState"))
-    //         // {
-    //         //   LedBuiltInState = doc["LedState"];
-    //         // }
+  //         //! ******** USUARIO AUTORIZADO APARTIR DAQUI ***********/
+  //         // if (doc.containsKey("LedState"))
+  //         // {
+  //         //   LedBuiltInState = doc["LedState"];
+  //         // }
 
-    //         //! ******** USUARIO AUTORIZADO ATÉ AQUI ***********/
-    //       }
-    //     }
-    //   }
-    // }
+  //         //! ******** USUARIO AUTORIZADO ATÉ AQUI ***********/
+  //       }
+  //     }
+  //   }
+  // }
   if (strcmp(topic, mqtt_topic1) == 0)
   {
     JsonDocument doc;
@@ -183,7 +183,8 @@ void tratar_msg(char *topic, String msg)
       posiciona_servo_despache(angulo_despache);
     }
   }
-  if (strcmp(topic, mqtt_topic1) == 0) {
+  if (strcmp(topic, mqtt_topic1) == 0)
+  {
     JsonDocument doc;
     deserializeJson(doc, msg);
     if (doc.containsKey("motorState"))
@@ -192,11 +193,12 @@ void tratar_msg(char *topic, String msg)
 
       if (motorPowerState)
       {
-        motoroff();
+
+        motorOn();
       }
       else
       {
-        motoron();
+        motorOff();
       }
     }
   }

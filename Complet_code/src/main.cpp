@@ -17,7 +17,8 @@
 
 void setup()
 {
-    if (debug) {
+    if (debug)
+    {
         Serial.begin(115200);
         Serial.println("inicializando a Serial");
         setup_wifi();
@@ -28,8 +29,8 @@ void setup()
         Serial.println("incializando a senha");
         inicializa_entradas();
         Serial.println("Inicializando as entradas");
-        //inicializa_servos();
-        // Serial.println("Inicializando os servos");
+        // inicializa_servos();
+        //  Serial.println("Inicializando os servos");
         inicializa_temperatura();
         Serial.println("icializando a temperatura");
         inicializa_nfc();
@@ -47,12 +48,18 @@ void setup()
 
 void loop()
 {
-    atualiza_mqtt();
-    atualiza_token();
-    atualiza_botoes();
-    setup_temperatura();
-    atualiza_nfc();
-    inicializa_json();
-    alterna_cores();
-    atualiza_oled();
+    try
+    {
+        atualiza_mqtt();
+        atualiza_token();
+        atualiza_botoes();
+        setup_temperatura();
+        atualiza_nfc();
+        inicializa_json();
+        alterna_cores();
+        atualiza_oled();
+        atualiza_motor_dc();
+    } catch (const char* msg_loop) {
+        Serial.println(msg_loop);
+    }
 }

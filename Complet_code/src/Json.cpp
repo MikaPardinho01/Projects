@@ -30,9 +30,8 @@ void inicializa_json()
         time_anterior = millis();
         doc["timeStamp"] = timeStamp();
         doc["UIDCadastrado"] = numericUID;
-        doc["UIDarmazenadoposicao"] = i_posicao;
         doc["UIDDetectado"] = pos;
-        doc["MemoriaCheia"] = mc;
+        // doc["MemoriaCheia"] = mc;
         doc["Temperatura"] = temperatura;
         doc["Umidade"] = humidade;
         doc["CO2"] = round(sensores_get_gas() * 100.0) / 100.0;
@@ -71,9 +70,10 @@ void inicializa_json()
         mensagemEmFila = true;
         
     } 
-     else if (botao_motor_pressionado())
+     else if (botao_motor_dc_pressionado())
     {
-        doc["MotorState"] = motorPowerState;
+        inicializa_motor_dc();
+        doc["MotorState"] = targetDutyCycle;
         doc["BotaomotorState"] = motorPowerState;
         if (motorPowerState)
         {
