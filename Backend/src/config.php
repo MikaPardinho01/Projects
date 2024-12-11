@@ -3,7 +3,7 @@
 /**
  * URL do servidor MYSQL, podendo ser localhost
  */
-const DB_HOST = 'localhost';
+const DB_HOST = '127.0.0.1';
 
 /**
  * Porta do servidor MYSQL, padrão é 3306
