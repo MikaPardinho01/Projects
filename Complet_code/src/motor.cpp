@@ -49,7 +49,7 @@ void atualiza_motor_dc()
 
 void motorOn()
 {
-    targetDutyCycle = 130;  // Define o valor final do duty cycle para ligar o motor
+    targetDutyCycle = 80;  // Define o valor final do duty cycle para ligar o motor
     Serial.println("Motor ligado");
 }
 
