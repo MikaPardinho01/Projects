@@ -23,4 +23,4 @@ const DB_USER = 'root';
 /**
  * Senha do banco de dados MYSQL
  */
-const DB_PASSWORD = '1234';
+const DB_PASSWORD = '';

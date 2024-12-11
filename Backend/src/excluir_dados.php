@@ -9,12 +9,9 @@ if (! empty($data)) {
     // Conectar ao banco de dados
     $db = (new BancoDeDados())->iniciarConexao();
 
-    $sql = "INSERT INTO produto (id_externo, modelo, preco, volume) VALUES (?,?,?,?)";
+    $sql = "DELETE from produto WHERE id_externo = ?";
     $stmt = $db->prepare($sql);
     $stmt->execute([
         $data->id_externo,
-        $data->modelo,
-        $data->preco,
-        $data->volume,
     ]);
 }

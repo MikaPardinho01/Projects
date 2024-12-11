@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `mika` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE  IF NOT EXISTS `mika` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `mika`;
 -- MySQL dump 10.13  Distrib 8.0.36, for Linux (x86_64)
 --
@@ -36,7 +36,7 @@ CREATE TABLE `compra` (
   PRIMARY KEY (`id`),
   KEY `fk_compra_1_idx` (`id_produto_fornecedor`),
   CONSTRAINT `fk_compra_1` FOREIGN KEY (`id_produto_fornecedor`) REFERENCES `produto_fornecedor` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `entrada` (
   KEY `fk_entrada_2_idx` (`id_compra`),
   CONSTRAINT `fk_entrada_1` FOREIGN KEY (`id_produto_fornecedor`) REFERENCES `produto_fornecedor` (`id`),
   CONSTRAINT `fk_entrada_2` FOREIGN KEY (`id_compra`) REFERENCES `compra` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,7 +98,7 @@ CREATE TABLE `fornecedor` (
   PRIMARY KEY (`id`),
   KEY `fk_fornecedor_1_idx` (`id_transpotadora`),
   CONSTRAINT `fk_fornecedor_1` FOREIGN KEY (`id_transpotadora`) REFERENCES `transportadora` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -123,7 +123,7 @@ CREATE TABLE `produto` (
   `preco` float NOT NULL,
   `volume` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,7 +151,7 @@ CREATE TABLE `produto_fornecedor` (
   KEY `fk_produto_fornecedor_2_idx` (`id_fornecedor`),
   CONSTRAINT `fk_produto_fornecedor_1` FOREIGN KEY (`id_produto`) REFERENCES `produto` (`id`),
   CONSTRAINT `fk_produto_fornecedor_2` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,7 +179,7 @@ CREATE TABLE `transportadora` (
   `cep` int DEFAULT NULL,
   `telefone` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

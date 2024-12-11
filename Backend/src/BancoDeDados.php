@@ -14,7 +14,7 @@ class BancoDeDados
      *
      * @return PDO|null Retorna a conexão PDO em caso de sucesso ou null em caso de falha.
      */
-    public function iniciarConexao()
+    public function iniciarConexao(): ?PDO
     {
         try {
             // Cria a conexão com o banco utilizando os dados de configuração

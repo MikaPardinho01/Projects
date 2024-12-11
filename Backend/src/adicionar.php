@@ -27,13 +27,13 @@
     </style>
 </head>
 <body>
-    <h1>Controle de Estoque</h1>
+    <h1>Produto</h1>
     <table id="tabela">
         <thead>
             <tr>
-                <th>UID</th>
-                <th>Descrição</th>
-                <th>Quantidade</th>
+                <th>Modelo</th>
+                <th>Preço</th>
+                <th>Volume</th>
             </tr>
         </thead>
         <tbody>
