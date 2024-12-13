@@ -12,6 +12,7 @@
 #include "sensor.Gas.h"
 #include "motor.h"
 #include "token.h"
+#include "conexao_api.h"
 
 #define debug 1
 
@@ -33,7 +34,7 @@ void setup()
         //  Serial.println("Inicializando os servos");
         inicializa_temperatura();
         Serial.println("icializando a temperatura");
-        // inicializa_nfc();
+        inicializa_nfc();
         Serial.println("Inicializando o NFC");
         sensores_init();
         Serial.println("Inicializando os sensores");
@@ -43,6 +44,10 @@ void setup()
         Serial.println("incializando o display");
         inicializa_leds();
         Serial.println("incializando os leds");
+        enviar_api();
+        Serial.println("incializando a api");
+        receber_api();
+        Serial.println("incializando a api");
     }
 }
 
@@ -54,7 +59,7 @@ void loop()
         atualiza_token();
         atualiza_botoes();
         setup_temperatura();
-        // atualiza_nfc();
+        atualiza_nfc();
         inicializa_json();
         alterna_cores();
         atualiza_oled();
